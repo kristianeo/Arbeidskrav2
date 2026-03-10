@@ -10,7 +10,7 @@ public class Users
     public string Username => _username;
     public string Password => _password;
     
-    private List<Users> _users;
+    private List<Listings> _listings;
 
     // private List<Users> _userList = []; rather code for each instance of Users class.....
     public Users(string username, string password)
@@ -24,6 +24,11 @@ public class Users
         string username = ValidEntryChecker.GetValidUsername();
         string password = ValidEntryChecker.GetValidPassword();
         return new Users(username, password);
+    }
+
+    public void AddListing(Listings listing)
+    {
+        _listings.Add(listing);
     }
 
     public override string ToString()

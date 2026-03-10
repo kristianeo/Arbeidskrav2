@@ -34,9 +34,23 @@ public class Listings
         { "Fair: ", "Noticeable wear, but still works" }
     };
 
-    public string Title => _title;
-    public string Description => _description;
-    public decimal Price => _price;
+    public string Title
+    {
+        get => _title;
+        set => _title = value;
+    }
+
+    public string Description
+    {
+        get => _description;
+        set => _description = value;
+    }
+
+    public decimal Price
+    {
+        get => _price;
+        set => _price = value;
+    }
 
     public Listings(Users seller, string title, string description, Categories category, string condition, decimal price)
     {

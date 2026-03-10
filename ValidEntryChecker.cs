@@ -46,6 +46,21 @@ public abstract class ValidEntryChecker
             Console.Write("Password can only consist of letters A-Z and must be 8-30 characters long. Try again: ");
         }
     }
+    
+    public static string GetValidString(int min, int max)
+    {
+        while (true)
+        {
+            string str = Console.ReadLine();
+
+            if (str.Any(char.IsAsciiLetterOrDigit) && str.Length >= min && str.Length <= max)
+            {
+                return str;
+            }
+            
+            Console.Write($"Text can only consist of letters A-Z and must be between {min} and {max} characters. Try again: ");
+        }
+    }
 
 
 }

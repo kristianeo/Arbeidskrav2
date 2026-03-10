@@ -17,7 +17,7 @@ public class ListingCreator
         }
         Console.Write("Please choose the condition of the item: ");
         int choice = ValidEntryChecker.GetValidInt(1, 4);
-        string condition = Listings._conditions.Keys.ElementAt(choice - 1) + Listings._conditions.Values.ElementAt(choice - 1);
+        string condition = Listings._conditions.Keys.ElementAt(choice - 1);
         
         int j = 1;
         foreach (Enum value in Enum.GetValues(typeof(Listings.Categories)))
