@@ -1,3 +1,5 @@
+using System.Security;
+
 namespace SecondHandMarket;
 
 public abstract class ValidEntryChecker
@@ -30,13 +32,12 @@ public abstract class ValidEntryChecker
             Console.Write("Username can only consist of letters A-Z and be 2-30 characters long. Try again: ");
         }
     }
-    
-    public static string GetValidPassword()
+    /*
+    public static SecureString GetValidPassword(SecureString password)
     {
         Console.Write("Password: ");
         while (true)
         {
-            string password = Console.ReadLine();
 
             if (password.Any(char.IsAsciiLetterOrDigit) && password is { Length: >= 8 and <= 30 })
             {
@@ -45,6 +46,51 @@ public abstract class ValidEntryChecker
             
             Console.Write("Password can only consist of letters A-Z and must be 8-30 characters long. Try again: ");
         }
+    }
+    */
+    
+    public static string GetValidString(int min, int max)
+    {
+        while (true)
+        {
+            string str = Console.ReadLine();
+
+            if (str.Any(char.IsAsciiLetterOrDigit) && str.Length >= min && str.Length <= max)
+            {
+                return str;
+            }
+            
+            Console.Write($"Text can only consist of letters A-Z and must be between {min} and {max} characters. Try again: ");
+        }
+    }
+    public static SecureString GetConsoleSecurePassword( )
+    {
+        Console.Write("Password: ");
+        SecureString pwd = new SecureString( );
+        while ( true )
+        {
+            ConsoleKeyInfo i = Console.ReadKey( true );
+            
+            if ( i.Key == ConsoleKey.Enter )
+            {
+                break;
+            }
+            if (i.Key == ConsoleKey.Backspace)
+            {
+                //Prevent an exception when you hit backspace with no characters on the array.
+                if (pwd.Length>0)
+                {
+                    pwd.RemoveAt(pwd.Length - 1);
+                    Console.Write("\b \b");
+                }
+            }
+            else
+            {
+                pwd.AppendChar( i.KeyChar );
+                Console.Write( "*" );
+            }
+        }
+        return pwd;
     }
 
 
