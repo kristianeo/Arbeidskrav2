@@ -2,7 +2,7 @@ namespace SecondHandMarket;
 
 public class ListingCreator
 {
-    public static Listings CreateListing(Users seller)
+    public static Listings CreateListing(Users seller) //TODO: Clean up?
     {
         Console.Write("Title of listing: ");
         string title = Console.ReadLine();

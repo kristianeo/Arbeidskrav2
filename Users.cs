@@ -1,19 +1,21 @@
 using System.Globalization;
+using System.Security;
+using SecondHandMarket.MainMenu;
 
 namespace SecondHandMarket;
 
 public class Users
 {
     private string _username;
-    private string _password;
+    private SecureString _password;
     
     public string Username => _username;
-    public string Password => _password;
+    public SecureString Password => _password;
     
     private List<Listings> _listings;
 
     // private List<Users> _userList = []; rather code for each instance of Users class.....
-    public Users(string username, string password)
+    public Users(string username, SecureString password)
     {
         _username = username;
         _password = password;
@@ -22,7 +24,9 @@ public class Users
     public static Users RegisterUser() //TODO: Add secure password thingy
     {
         string username = ValidEntryChecker.GetValidUsername();
-        string password = ValidEntryChecker.GetValidPassword();
+        SecureString password = Login.GetConsoleSecurePassword();
+        
+        //string password = ValidEntryChecker.GetValidPassword();
         return new Users(username, password);
     }
 

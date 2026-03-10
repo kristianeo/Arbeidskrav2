@@ -1,3 +1,5 @@
+using System.Security;
+
 namespace SecondHandMarket;
 
 public abstract class ValidEntryChecker
@@ -30,13 +32,12 @@ public abstract class ValidEntryChecker
             Console.Write("Username can only consist of letters A-Z and be 2-30 characters long. Try again: ");
         }
     }
-    
-    public static string GetValidPassword()
+    /*
+    public static SecureString GetValidPassword(SecureString password)
     {
         Console.Write("Password: ");
         while (true)
         {
-            string password = Console.ReadLine();
 
             if (password.Any(char.IsAsciiLetterOrDigit) && password is { Length: >= 8 and <= 30 })
             {
@@ -46,6 +47,7 @@ public abstract class ValidEntryChecker
             Console.Write("Password can only consist of letters A-Z and must be 8-30 characters long. Try again: ");
         }
     }
+    */
     
     public static string GetValidString(int min, int max)
     {
