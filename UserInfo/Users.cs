@@ -8,15 +8,15 @@ namespace SecondHandMarket;
 public class Users:IActiveUser
 {
     private string _username;
-    private SecureString _password;
+    private string _password;
     
     public string Username => _username;
-    public SecureString Password => _password;
-    
-    private List<Listings> _listings;
+    public string Password => _password;
+
+    private List<Listings> _listings = new List<Listings>();
 
     // private List<Users> _userList = []; rather code for each instance of Users class.....
-    public Users(string username, SecureString password)
+    public Users(string username, string password)
     {
         _username = username;
         _password = password;
@@ -25,9 +25,9 @@ public class Users:IActiveUser
     public static Users RegisterUser() //TODO: Add secure password thingy
     {
         string username = ValidEntryChecker.GetValidUsername();
-        SecureString password = ValidEntryChecker.GetConsoleSecurePassword();
+        //SecureString password = ValidEntryChecker.GetConsoleSecurePassword();
         
-        //string password = ValidEntryChecker.GetValidPassword();
+        string password = ValidEntryChecker.GetValidString(8, 30);
         return new Users(username, password);
     }
 

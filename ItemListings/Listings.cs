@@ -10,6 +10,8 @@ public class Listings
     private decimal _price;
     private Status _status;
 
+    public static List<Listings> ListingsList = new List<Listings>();
+
     private enum Status //TODO: Can be made an interface?
     {
         Available,
