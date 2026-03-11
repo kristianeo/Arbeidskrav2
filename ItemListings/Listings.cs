@@ -1,8 +1,10 @@
+using SecondHandMarket.MainMenu;
+
 namespace SecondHandMarket;
 
 public class Listings
 {
-    private Users _seller;
+    private IEnumerable<Users> _seller;
     private string _title;
     private string _description;
     private string _condition;
@@ -10,14 +12,16 @@ public class Listings
     private decimal _price;
     private Status _status;
 
-    public static List<Listings> ListingsList = new List<Listings>();
 
+
+    [Flags]
     private enum Status //TODO: Can be made an interface?
     {
         Available,
         Sold
     }
-
+    
+    [Flags]
     public enum Categories
     {
         BooksAndMedia,
@@ -54,7 +58,11 @@ public class Listings
         set => _price = value;
     }
 
-    public Listings(Users seller, string title, string description, Categories category, string condition, decimal price)
+    public Categories Category => _category;
+
+    public IEnumerable<Users> Seller => _seller;
+
+    public Listings(IEnumerable<Users> seller, string title, string description, Categories category, string condition, decimal price)
     {
         _seller = seller;
         _title = title;
@@ -64,6 +72,21 @@ public class Listings
         _price = price;
         _status = Status.Available;
     }
+
+    public Listings(Listings listing)
+    {
+        _seller = listing._seller;
+        _title = listing._title;
+        _description = listing._description;
+        _category = listing._category;
+        _condition = listing._condition;
+        _price = listing._price;
+        _status = listing._status;
+    }
+    
+
+
+
 
     public override string ToString()
     {
