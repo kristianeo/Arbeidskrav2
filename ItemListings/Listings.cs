@@ -88,7 +88,7 @@ public class Listings
 
 
 
-    public override string ToString()
+    public override string ToString() //TODO: seller shows up as system.string etc.....
     {
         return $"{_seller} - {_title} - {_description} - {_category} - {_condition} -  {_price}";
     }

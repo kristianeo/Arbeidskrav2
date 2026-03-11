@@ -15,7 +15,7 @@ class Program
         listingCollection.CreateListing(activeUser);
         
         foreach (Listings listing in listingCollection
-                     .FilterListingsBy(ListingFilters.CategoryFilter(Listings.Categories.Electronics))
+                     .FilterListingsBy(ListingFilters.Search())
                      .GetAll())
         {
             Console.WriteLine(listing.ToString());
