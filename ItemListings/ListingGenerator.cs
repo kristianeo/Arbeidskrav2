@@ -2,13 +2,9 @@ namespace SecondHandMarket;
 
 public class ListingGenerator
 {
-    public static Listings GenerateListing() //TODO: Clean up?
+    public static Listings GenerateListing(string username) //TODO: Clean up?
     {
-        var seller = Users._users.Select(x =>
-        {
-            x.IsActive();
-            return x;
-        });
+        string seller = username;
         
         Console.Write("Title of listing: ");
         string title = Console.ReadLine();

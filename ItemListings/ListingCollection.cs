@@ -4,17 +4,17 @@ namespace SecondHandMarket;
 
 public class ListingCollection
 {
-    private static List<Listings> _listings = new List<Listings>();
+    private List<Listings> _listings = new List<Listings>();
     private int _listingID;
 
-    public Listings CreateListing()
+    public Listings CreateListing(string username) //TODO: Fix username to be more smooth
     {
-        Listings listing = new Listings(ListingGenerator.GenerateListing());
+        Listings listing = new Listings(ListingGenerator.GenerateListing(username));
         _listings.Add(listing);
         return listing;
     }
     
-    public Listings DuplicateListing(Listings listing)
+    private Listings DuplicateListing(Listings listing)
     {
         _listings.Add(new Listings(listing));
         return listing;
@@ -22,7 +22,7 @@ public class ListingCollection
     public ListingCollection FilterListingsBy(ListingFilter filter)
     {
         ListingCollection results = new();
-        foreach (Listings listing in ListingCollection._listings)
+        foreach (Listings listing in _listings) 
         {
             if (filter.Invoke(listing))
             {

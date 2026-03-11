@@ -4,7 +4,7 @@ namespace SecondHandMarket;
 
 public class Listings
 {
-    private IEnumerable<Users> _seller;
+    private string _seller;
     private string _title;
     private string _description;
     private string _condition;
@@ -60,9 +60,9 @@ public class Listings
 
     public Categories Category => _category;
 
-    public IEnumerable<Users> Seller => _seller;
+    public string Seller => _seller;
 
-    public Listings(IEnumerable<Users> seller, string title, string description, Categories category, string condition, decimal price)
+    public Listings(string seller, string title, string description, Categories category, string condition, decimal price)
     {
         _seller = seller;
         _title = title;
@@ -90,6 +90,6 @@ public class Listings
 
     public override string ToString()
     {
-        return $"{_title} - {_description} - {_category} - {_condition} -  {_price}";
+        return $"{_seller} - {_title} - {_description} - {_category} - {_condition} -  {_price}";
     }
 }

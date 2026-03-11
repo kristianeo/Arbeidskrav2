@@ -4,9 +4,9 @@ public delegate bool ListingFilter(Listings listing);
 
 public class ListingFilters
 {
-    public static ListingFilter CategoryTicketFilter(Listings.Categories category)
+    public static ListingFilter CategoryFilter(Listings.Categories category)
     {
-        return (listing) => listing.Category == category;
+        return listing => listing.Category == category;
     }
     
 }
