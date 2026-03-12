@@ -90,6 +90,8 @@ public abstract class ValidEntryChecker
                 Console.Write( "*" );
             }
         }
+
+        Console.WriteLine("");
         return pwd;
     }
 

@@ -1,3 +1,5 @@
+using System.Security;
+
 namespace SecondHandMarket;
 
 public class UserCollection
@@ -7,7 +9,7 @@ public class UserCollection
     public Users RegisterUser() //TODO: Change back to secure password 
     {
         string username = ValidEntryChecker.GetValidUsername();
-        string password = ValidEntryChecker.GetValidString(8, 30);
+        SecureString password = ValidEntryChecker.GetConsoleSecurePassword();
         
         Users user = new Users(username, password);
         _usersList.Add(user);

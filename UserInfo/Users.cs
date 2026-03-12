@@ -8,12 +8,12 @@ namespace SecondHandMarket;
 public class Users:IActiveUser
 {
     private string _username;
-    private string _password;
+    private SecureString _password;
     
     public string Username => _username;
-    public string Password => _password;
+    public SecureString Password => _password;
 
-    public Users(string username, string password)
+    public Users(string username, SecureString password)
     {
         _username = username;
         _password = password;
