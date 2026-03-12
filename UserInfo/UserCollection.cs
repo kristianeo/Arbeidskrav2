@@ -1,25 +1,21 @@
 using System.Security;
-using SecondHandMarket.Database;
 
 namespace SecondHandMarket;
 
 public class UserCollection
 {
-    private List<User> _usersList = new List<User>();
+    private List<Users> _usersList = new List<Users>();
 
-    public User RegisterUser()
+    public Users RegisterUser() //TODO: Change back to secure password 
     {
         string username = ValidEntryChecker.GetValidUsername();
         SecureString password = ValidEntryChecker.GetConsoleSecurePassword();
-        User user = new User(username, password);
-        _usersList.Add(user);
         
+        Users user = new Users(username, password);
+        _usersList.Add(user);
         return user;
     }
-    /// <summary>
-    /// Deprecated
-    /// </summary>
-    /// <returns></returns>
+
     public string GetActiveUser()
     {
         IEnumerable<string> seller =

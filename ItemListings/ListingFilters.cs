@@ -11,7 +11,6 @@ public abstract class ListingFilters
 
     public static ListingFilter Search()
     {
-        Console.Write("Search: ");
         string userSearch = ValidEntryChecker.GetValidString(1, 200);
         return listing => listing.Title.ToLower().Contains(userSearch.ToLower()) 
                           || listing.Description.ToLower().Contains(userSearch.ToLower());

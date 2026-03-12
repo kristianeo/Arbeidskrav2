@@ -5,7 +5,7 @@ using SecondHandMarket.MainMenu;
 
 namespace SecondHandMarket;
 
-public class User:IActiveUser
+public class Users:IActiveUser
 {
     private string _username;
     private SecureString _password;
@@ -13,7 +13,7 @@ public class User:IActiveUser
     public string Username => _username;
     public SecureString Password => _password;
 
-    public User(string username, SecureString password)
+    public Users(string username, SecureString password)
     {
         _username = username;
         _password = password;

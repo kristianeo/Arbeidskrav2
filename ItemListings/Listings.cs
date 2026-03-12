@@ -12,8 +12,10 @@ public class Listings
     private decimal _price;
     private Status _status;
 
+
+
     [Flags]
-    public enum Status
+    private enum Status //TODO: Can be made an interface?
     {
         Available,
         Sold
@@ -32,10 +34,10 @@ public class Listings
 
     public static Dictionary<string, string> _conditions = new()
     {
-        { "New", "Unused, still in original packaging" },
-        { "Like New", "Used briefly, no visible wear" },
-        { "Good", "Some signs of use, fully functional" },
-        { "Fair", "Noticeable wear, but still works" }
+        { "New: ", "Unused, still in original packaging" },
+        { "Like New: ", "Used briefly, no visible wear" },
+        { "Good: ", "Some signs of use, fully functional" },
+        { "Fair: ", "Noticeable wear, but still works" }
     };
 
     public string Title
@@ -59,18 +61,6 @@ public class Listings
     public Categories Category => _category;
 
     public string Seller => _seller;
-
-    public string Condition
-    {
-        get => _condition;
-        set => _condition = value;
-    }
-
-    public Status CurrentStatus
-    {
-        get => _status;
-        set => _status = value;
-    }
 
     public Listings(string seller, string title, string description, Categories category, string condition, decimal price)
     {
