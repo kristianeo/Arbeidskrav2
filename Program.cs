@@ -1,13 +1,24 @@
-﻿namespace SecondHandMarket;
+﻿using SecondHandMarket.MainMenu;
+
+namespace SecondHandMarket;
 
 class Program
 {
     static void Main(string[] args)
     {
-        Users user = Users.RegisterUser();
-        Console.WriteLine(user.ToString());
-        Listings listings = ListingCreator.CreateListing(user);
-        user.AddListing(listings);
-        Console.WriteLine(listings.ToString());
+        ListingCollection listingCollection = new ListingCollection();
+        UserCollection userCollection = new UserCollection();
+
+        userCollection.RegisterUser();
+        string activeUser = userCollection.GetActiveUser();
+
+        listingCollection.CreateListing(activeUser);
+        
+        foreach (Listings listing in listingCollection
+                     .FilterListingsBy(ListingFilters.Search())
+                     .GetAll())
+        {
+            Console.WriteLine(listing.ToString());
+        }
     }
 }

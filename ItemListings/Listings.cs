@@ -1,8 +1,10 @@
+using SecondHandMarket.MainMenu;
+
 namespace SecondHandMarket;
 
 public class Listings
 {
-    private Users _seller;
+    private string _seller;
     private string _title;
     private string _description;
     private string _condition;
@@ -10,12 +12,16 @@ public class Listings
     private decimal _price;
     private Status _status;
 
+
+
+    [Flags]
     private enum Status //TODO: Can be made an interface?
     {
         Available,
         Sold
     }
-
+    
+    [Flags]
     public enum Categories
     {
         BooksAndMedia,
@@ -52,7 +58,11 @@ public class Listings
         set => _price = value;
     }
 
-    public Listings(Users seller, string title, string description, Categories category, string condition, decimal price)
+    public Categories Category => _category;
+
+    public string Seller => _seller;
+
+    public Listings(string seller, string title, string description, Categories category, string condition, decimal price)
     {
         _seller = seller;
         _title = title;
@@ -63,8 +73,23 @@ public class Listings
         _status = Status.Available;
     }
 
-    public override string ToString()
+    public Listings(Listings listing)
     {
-        return $"{_title} - {_description} - {_category} - {_condition} -  {_price}";
+        _seller = listing._seller;
+        _title = listing._title;
+        _description = listing._description;
+        _category = listing._category;
+        _condition = listing._condition;
+        _price = listing._price;
+        _status = listing._status;
+    }
+    
+
+
+
+
+    public override string ToString() //TODO: seller shows up as system.string etc.....
+    {
+        return $"{_seller} - {_title} - {_description} - {_category} - {_condition} -  {_price}";
     }
 }
