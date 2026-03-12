@@ -8,13 +8,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="07610259-9931-4b90-af39-8761e3acf184" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Database/InitSql.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Arbeidskrav2/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Arbeidskrav2/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Arbeidskrav2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Arbeidskrav2/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ItemListings/ListingFilters.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ItemListings/ListingFilters.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/InitSql.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Database/InitSql.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ItemListings/ListingCollection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ItemListings/ListingCollection.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ItemListings/Listings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ItemListings/Listings.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SecondHandMarket.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SecondHandMarket.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SecondHandMarketDB.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/SecondHandMarketDB.sqlite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserInfo/UserCollection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UserInfo/UserCollection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserInfo/Users.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UserInfo/User.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +156,7 @@
       <updated>1773065382833</updated>
       <workItem from="1773065384904" duration="15891000" />
       <workItem from="1773303716429" duration="4030000" />
-      <workItem from="1773311676278" duration="4155000" />
+      <workItem from="1773311676278" duration="16826000" />
     </task>
     <task id="LOCAL−00001" summary="Added register user">
       <option name="closed" value="true" />

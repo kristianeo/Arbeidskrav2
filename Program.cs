@@ -7,24 +7,14 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine(Environment.CurrentDirectory);
-
         InitSql init = new InitSql();
         ListingCollection listingCollection = new ListingCollection();
         UserCollection userCollection = new UserCollection();
-        
-        //init.CreateDatabase();
 
-        userCollection.RegisterUser();
-        string activeUser = userCollection.GetActiveUser();
-
-        listingCollection.CreateListing(activeUser);
+        string username = init.GetActiveUser();
+        Listings listing = listingCollection.CreateListing(username);
+        int userId = init.GetUserId(userCollection);
+        init.AddListingToDb(listing, userId);
         
-        foreach (Listings listing in listingCollection
-                     .FilterListingsBy(ListingFilters.Search())
-                     .GetAll())
-        {
-            Console.WriteLine(listing.ToString());
-        }
     }
 }
