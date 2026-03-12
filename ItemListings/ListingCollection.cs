@@ -11,6 +11,7 @@ public class ListingCollection
     {
         Listings listing = new Listings(ListingGenerator.GenerateListing(username));
         _listings.Add(listing);
+        Console.WriteLine("Listing created");
         return listing;
     }
     
