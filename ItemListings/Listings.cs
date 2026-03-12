@@ -12,8 +12,6 @@ public class Listings
     private decimal _price;
     private Status _status;
 
-
-
     [Flags]
     private enum Status //TODO: Can be made an interface?
     {
