@@ -10,8 +10,8 @@ class Program
         Init db = new Init();
         ListingCollection listingCollection = new ListingCollection();
         UserCollection userCollection = new UserCollection();
-
-        Login.UserLogout(db);
+        
+        Login.UserLogin(db);
 
         // string username = db.GetActiveUser();
         // Listings listing = listingCollection.CreateListing(username);

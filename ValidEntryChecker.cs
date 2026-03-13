@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Security;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
@@ -109,7 +110,8 @@ public abstract class ValidEntryChecker
                 Console.Write( "*" );
             }
         }
-        Console.WriteLine("");
+        
+        Console.WriteLine();
         return GetHashedPwd(pwd);
     }
 

@@ -12,11 +12,7 @@
       <change beforePath="$PROJECT_DIR$/Database/Init.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Init.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainMenu/Login.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MainMenu/Login.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SecondHandMarket.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SecondHandMarket.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SecondHandMarketDB.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/SecondHandMarketDB.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserInfo/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UserInfo/User.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserInfo/UserCollection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UserInfo/UserCollection.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ValidEntryChecker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ValidEntryChecker.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -158,7 +154,7 @@
       <workItem from="1773065384904" duration="15891000" />
       <workItem from="1773303716429" duration="4030000" />
       <workItem from="1773311676278" duration="16826000" />
-      <workItem from="1773398222393" duration="5880000" />
+      <workItem from="1773398222393" duration="7688000" />
     </task>
     <task id="LOCAL−00001" summary="Added register user">
       <option name="closed" value="true" />

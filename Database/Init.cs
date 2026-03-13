@@ -130,26 +130,27 @@ public class Init
     public bool CheckUserCredentials(string username, string password)
     {
         SQLiteConnection myConn = GetConnection();
-        string sql = "SELECT username FROM users WHERE username = 'input'";
+        string sql = $"SELECT username FROM users WHERE username = '{username}'";
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
-        var check = command.ExecuteScalar().ToString();
+        var check = command.ExecuteScalar();
 
-        if (username != check)
+        if (check == null)
         {
             Console.WriteLine("Invalid username");
             return false;
         }
         
-        sql = "SELECT password FROM users WHERE username = 'input'";
+        sql = $"SELECT password FROM users WHERE password = '{password}'";
         SQLiteCommand command2 = new SQLiteCommand(sql, myConn);
-        var check2 = command2.ExecuteScalar().ToString();
+        var check2 = command2.ExecuteScalar();
 
-        if (password != check2)
+        if (check2 == null)
         {
             Console.WriteLine("Invalid password");
             return false;
         }
-
+        
+        myConn.Close();
         return true;
     }
 
@@ -158,22 +159,24 @@ public class Init
         SQLiteConnection myConn = GetConnection();
         string sql = "SELECT username FROM users WHERE username = 'input'";
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
-        var check = command.ExecuteScalar().ToString();
+        var check = command.ExecuteScalar();
 
-        if (username == check)
+        if (check != null)
         {
             Console.WriteLine("The username is already taken.");
             return false;
         }
+        myConn.Close();
         return true;
     }
     
     public void SetUserAsActive(string username)
     {
         SQLiteConnection myConn = GetConnection();
-        string sql = "UPDATE users SET activeStatus = 1 WHERE username = 'input'";
+        string sql = $"UPDATE users SET activeStatus = 1 WHERE username = '{username}'";
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
+        myConn.Close();
     }
 
     public void SetUserAsInactive()
@@ -182,6 +185,7 @@ public class Init
         string sql = "UPDATE users SET activeStatus = 0";
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
+        myConn.Close();
     }
     
 }

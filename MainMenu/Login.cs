@@ -10,8 +10,7 @@ public class Login
         string username = ValidEntryChecker.GetValidUsername();
         string password = ValidEntryChecker.GetConsoleSecurePassword();
 
-        bool login = db.CheckUserCredentials(username, password);
-        if (login)
+        if (db.CheckUserCredentials(username, password))
         {
             db.SetUserAsActive(username);
         }
