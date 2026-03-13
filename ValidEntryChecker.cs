@@ -1,4 +1,7 @@
+using System.Globalization;
 using System.Security;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace SecondHandMarket;
 
@@ -63,10 +66,28 @@ public abstract class ValidEntryChecker
             Console.Write($"Text can only consist of letters A-Z and must be between {min} and {max} characters. Try again: ");
         }
     }
-    public static SecureString GetConsoleSecurePassword( )
+
+/// <summary>
+/// Encrypts password for storage in database. Returns the same encryption when the same password is entered again,
+/// to make it easier to compare to the database.
+/// </summary>
+/// <param name="pwd"></param>
+/// <returns>hashed password</returns>
+    private static string GetHashedPwd(string pwd)
+    {
+        string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+            password: pwd,
+            salt: [8],
+            prf: KeyDerivationPrf.HMACSHA256,
+            iterationCount: 100000,
+            numBytesRequested: 256 / 8));
+
+        return hashed;
+    }
+    public static string GetConsoleSecurePassword( )
     {
         Console.Write("Password: ");
-        SecureString pwd = new SecureString( );
+        string pwd = "";
         while ( true )
         {
             ConsoleKeyInfo i = Console.ReadKey( true );
@@ -77,22 +98,21 @@ public abstract class ValidEntryChecker
             }
             if (i.Key == ConsoleKey.Backspace)
             {
-                //Prevent an exception when you hit backspace with no characters on the array.
                 if (pwd.Length>0)
                 {
-                    pwd.RemoveAt(pwd.Length - 1);
+                    pwd.Remove(pwd.Length - 1);
                     Console.Write("\b \b");
                 }
             }
             else
             {
-                pwd.AppendChar( i.KeyChar );
+                pwd.Append( i.KeyChar );
                 Console.Write( "*" );
             }
         }
-
-        Console.WriteLine("");
-        return pwd;
+        
+        Console.WriteLine();
+        return GetHashedPwd(pwd);
     }
 
 

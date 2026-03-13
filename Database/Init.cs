@@ -1,3 +1,5 @@
+using System.Security;
+
 namespace SecondHandMarket.Database;
 using System.Data.SQLite;
 
@@ -81,7 +83,8 @@ public class Init
     {
         SQLiteConnection myConn = GetConnection();
 
-        string sql = "CREATE TABLE IF NOT EXISTS users(" +
+        string sql = "DROP TABLE IF EXISTS users;" +
+                     "CREATE TABLE IF NOT EXISTS users(" +
                      "userID INTEGER PRIMARY KEY NOT NULL," +
                      "username TEXT NOT NULL," +
                      "password TEXT NOT NULL," +
@@ -122,6 +125,67 @@ public class Init
         Console.WriteLine("Active user acquired.");
         
         return activeUser.ToString();
+    }
+
+    public bool CheckUserCredentials(string username, string password)
+    {
+        SQLiteConnection myConn = GetConnection();
+        string sql = $"SELECT username FROM users WHERE username = '{username}'";
+        SQLiteCommand command = new SQLiteCommand(sql, myConn);
+        var check = command.ExecuteScalar();
+
+        if (check == null)
+        {
+            Console.WriteLine("Invalid username");
+            return false;
+        }
+        
+        sql = $"SELECT password FROM users WHERE password = '{password}'";
+        SQLiteCommand command2 = new SQLiteCommand(sql, myConn);
+        var check2 = command2.ExecuteScalar();
+
+        if (check2 == null)
+        {
+            Console.WriteLine("Invalid password");
+            return false;
+        }
+        
+        myConn.Close();
+        return true;
+    }
+
+    public bool CheckIfAvailableUsername(string username)
+    {
+        SQLiteConnection myConn = GetConnection();
+        string sql = "SELECT username FROM users WHERE username = 'input'";
+        SQLiteCommand command = new SQLiteCommand(sql, myConn);
+        var check = command.ExecuteScalar();
+
+        if (check != null)
+        {
+            Console.WriteLine("The username is already taken.");
+            return false;
+        }
+        myConn.Close();
+        return true;
+    }
+    
+    public void SetUserAsActive(string username)
+    {
+        SQLiteConnection myConn = GetConnection();
+        string sql = $"UPDATE users SET activeStatus = 1 WHERE username = '{username}'";
+        SQLiteCommand command = new SQLiteCommand(sql, myConn);
+        command.ExecuteNonQuery();
+        myConn.Close();
+    }
+
+    public void SetUserAsInactive()
+    {
+        SQLiteConnection myConn = GetConnection();
+        string sql = "UPDATE users SET activeStatus = 0";
+        SQLiteCommand command = new SQLiteCommand(sql, myConn);
+        command.ExecuteNonQuery();
+        myConn.Close();
     }
     
 }
