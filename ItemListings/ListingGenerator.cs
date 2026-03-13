@@ -7,10 +7,10 @@ public class ListingGenerator
         string seller = username;
         
         Console.Write("Title of listing: ");
-        string title = Console.ReadLine();
+        string title = ValidEntryChecker.GetValidString(1, 20);
         
         Console.Write("Description of listing: ");
-        string description = Console.ReadLine();
+        string description = ValidEntryChecker.GetValidString(0, 200);
         
         int i = 1;
         foreach (KeyValuePair<string, string> kvp in Listings._conditions)
@@ -21,10 +21,10 @@ public class ListingGenerator
         int choice = ValidEntryChecker.GetValidInt(1, 4);
         string condition = Listings._conditions.Keys.ElementAt(choice - 1);
         
-        int j = 1;
+        i = 1;
         foreach (Enum value in Enum.GetValues(typeof(Listings.Categories)))
         {
-            Console.WriteLine($"{ j++ }. {value.ToString()}");
+            Console.WriteLine($"{ i++ }. {value.ToString()}");
         }
         Console.Write("Please choose the category of the item: ");
         int choice2 = ValidEntryChecker.GetValidInt(1, 6);

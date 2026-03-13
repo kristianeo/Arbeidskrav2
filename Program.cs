@@ -11,7 +11,6 @@ class Program
         ListingCollection listingCollection = new ListingCollection();
         UserCollection userCollection = new UserCollection();
         
-        Login.UserLogin(db);
 
         // string username = db.GetActiveUser();
         // Listings listing = listingCollection.CreateListing(username);
