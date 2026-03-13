@@ -7,10 +7,14 @@ public class UserCollection
 {
     private List<User> _usersList = new List<User>();
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns>New instance of User</returns>
     public User RegisterUser()
     {
         string username = ValidEntryChecker.GetValidUsername();
-        SecureString password = ValidEntryChecker.GetConsoleSecurePassword();
+        string password = ValidEntryChecker.GetConsoleSecurePassword();
         User user = new User(username, password);
         _usersList.Add(user);
         
