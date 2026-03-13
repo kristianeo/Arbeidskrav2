@@ -77,7 +77,7 @@ public abstract class ValidEntryChecker
     {
         string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
             password: pwd,
-            salt: [8],
+            salt: [8, 2, 3, 2, 5, 4, 7, 6, 4, 2, 8, 13, 68, 43, 56, 54, 32, 5, 76, 32, 54, 98, 65, 32, 54, 65],
             prf: KeyDerivationPrf.HMACSHA256,
             iterationCount: 100000,
             numBytesRequested: 256 / 8));
@@ -100,17 +100,19 @@ public abstract class ValidEntryChecker
             {
                 if (pwd.Length>0)
                 {
-                    pwd.Remove(pwd.Length - 1);
+                    pwd = pwd.Remove(pwd.Length-1);
                     Console.Write("\b \b");
                 }
             }
             else
             {
-                pwd.Append( i.KeyChar );
+                pwd += i.KeyChar;
                 Console.Write( "*" );
             }
         }
-        
+
+        Console.WriteLine(pwd);
+        Console.WriteLine(GetHashedPwd(pwd));
         Console.WriteLine();
         return GetHashedPwd(pwd);
     }
