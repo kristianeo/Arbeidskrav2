@@ -8,13 +8,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="07610259-9931-4b90-af39-8761e3acf184" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MainMenu/ListingCreator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Database/ListingsDb.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Arbeidskrav2/.idea/data_source_mapping.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Arbeidskrav2/.idea/data_source_mapping.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Arbeidskrav2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Arbeidskrav2/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Database/Init.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Init.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ItemListings/ListingGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ItemListings/ListingGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ItemListings/PremadeListings.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ItemListings/ListingEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ItemListings/ListingEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ItemListings/Listings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ItemListings/Listings.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainMenu/ListingCreator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MainMenu/ListingHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainMenu/UserCreator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MainMenu/UserHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SecondHandMarketDB.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/SecondHandMarketDB.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ValidEntryChecker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ValidEntryChecker.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +48,7 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8f6fb8c1a8d554b4614d5defca2cdcdc09788531cd083519dacf975386d28f/StaticsHelpers.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Database/ListingsDB.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ItemListings/ListingCollection.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MainMenu/ListingCreator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MainMenu/Login.cs" root0="FORCE_HIGHLIGHTING" />

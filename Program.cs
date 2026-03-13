@@ -22,7 +22,7 @@ class Program
         
         Login.UserLogin(db);
 
-        ListingCreator.CreateListing(db);
+        ListingHandler.CreateListing(db);
 
     }
 }

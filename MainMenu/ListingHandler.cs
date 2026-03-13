@@ -2,7 +2,7 @@ using SecondHandMarket.Database;
 
 namespace SecondHandMarket.MainMenu;
 
-public class ListingCreator
+public class ListingHandler
 {
     public static void CreateListing(Init db)
     {
@@ -11,4 +11,6 @@ public class ListingCreator
         int userId = db.GetUserId();
         db.AddListingToDb(listing, userId);
     }
+    
+    //TODO: Add function to show a list of listings belonging to active user 
 }

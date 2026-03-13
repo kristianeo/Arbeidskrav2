@@ -8,12 +8,10 @@ public class Init
     public void CreateDatabase()
     {
         SQLiteConnection.CreateFile("SecondHandMarketDB.sqlite");
-
     }
 
-    private SQLiteConnection GetConnection()
+    public SQLiteConnection GetConnection()
     {
-        
         SQLiteConnection myConn = new SQLiteConnection("Data Source=SecondHandMarketDB.sqlite;Version=3;");
         myConn.Open();
         return myConn;
@@ -37,7 +35,7 @@ public class Init
         
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
-
+        
         myConn.Close();
     }
 
@@ -152,7 +150,7 @@ public class Init
         return true;
     }
 
-    public bool CheckIfAvailableUsername(string username)
+    public bool CheckIfAvailableUsername(string username) //TODO: implement this!
     {
         SQLiteConnection myConn = GetConnection();
         string sql = "SELECT username FROM users WHERE username = 'input'";
@@ -185,5 +183,7 @@ public class Init
         command.ExecuteNonQuery();
         myConn.Close();
     }
+    
+    
     
 }
