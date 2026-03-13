@@ -30,7 +30,7 @@ public class ListingGenerator
         int choice2 = ValidEntryChecker.GetValidInt(1, 6);
         Listings.Categories category = (Listings.Categories)choice2 - 1;
         
-        Console.WriteLine("Please enter the price for the item: ");
+        Console.Write("Please enter the price for the item: ");
         int price = ValidEntryChecker.GetValidInt(1, 100000);
         
         return new Listings(seller, title, description, category, condition, price);

@@ -41,7 +41,7 @@ public class Init
         myConn.Close();
     }
 
-    public int GetUserId(UserCollection userCollection)
+    public int GetUserId()
     {
         SQLiteConnection myConn = GetConnection();
         string seller = GetActiveUser();
@@ -49,8 +49,6 @@ public class Init
         string sql = $"SELECT userID FROM users WHERE username = '{seller}'";
         
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
-
-        //int userId = Convert.ToInt32(command.ExecuteScalar());
 
         Console.WriteLine("User id acquired.");
         int result = Convert.ToInt32(command.ExecuteScalar());
