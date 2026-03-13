@@ -7,14 +7,14 @@ class Program
 {
     static void Main(string[] args)
     {
-        InitSql init = new InitSql();
+        Init db = new Init();
         ListingCollection listingCollection = new ListingCollection();
         UserCollection userCollection = new UserCollection();
 
-        string username = init.GetActiveUser();
+        string username = db.GetActiveUser();
         Listings listing = listingCollection.CreateListing(username);
-        int userId = init.GetUserId(userCollection);
-        init.AddListingToDb(listing, userId);
+        int userId = db.GetUserId(userCollection);
+        db.AddListingToDb(listing, userId);
         
     }
 }

@@ -1,17 +1,15 @@
 namespace SecondHandMarket.Database;
 using System.Data.SQLite;
 
-public class InitSql
+public class Init
 {
     public void CreateDatabase()
     {
         SQLiteConnection.CreateFile("SecondHandMarketDB.sqlite");
 
-        SQLiteConnection myConn = new SQLiteConnection("Data Source=SecondHandMarketDB.sqlite;Version=3;");
-
     }
 
-    public SQLiteConnection GetConnection()
+    private SQLiteConnection GetConnection()
     {
         
         SQLiteConnection myConn = new SQLiteConnection("Data Source=SecondHandMarketDB.sqlite;Version=3;");
