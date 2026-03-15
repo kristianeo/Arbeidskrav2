@@ -19,7 +19,7 @@ class Program
         // Login.UserLogout(db);
         // UserCreator.CreateUser(userCollection, db);
         // Login.UserLogout(db);
-        db.ShowListings();
+        db.ShowUserListings();
 
     }
 }

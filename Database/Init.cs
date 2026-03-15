@@ -211,4 +211,33 @@ public class Init
 
         myConn.Close();
     }
+    public void ShowUserListings()
+    {
+        int sellerID = GetUserId();
+        SQLiteConnection myConn = GetConnection();
+        string sql = "SELECT * FROM listings " +
+                     "JOIN users on listings.sellerID = users.userID " +
+                     $"WHERE sellerID = '{sellerID}'";
+
+        using SQLiteCommand readThis = new SQLiteCommand(sql, myConn);
+        using (SQLiteDataReader dataReader = readThis.ExecuteReader())
+        {
+            while (dataReader.Read())
+            {
+                int id = Convert.ToInt32(dataReader["listingID"]);
+                string? name = dataReader["username"].ToString();
+                string? title = dataReader["title"].ToString();
+                string? description = dataReader["description"].ToString();
+                string? category = dataReader["category"].ToString();
+                string? itemCondition = dataReader["itemCondition"].ToString();
+                string? availableStatus = dataReader["status"].ToString();
+                decimal price = Convert.ToDecimal(dataReader["price"]);
+
+                Console.WriteLine(
+                    $"{id} {name} {title} {description} {category} {itemCondition} {availableStatus} {price}");
+            }
+        }
+
+        myConn.Close();
+    }
 }
