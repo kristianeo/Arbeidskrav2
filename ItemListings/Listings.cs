@@ -97,12 +97,8 @@ public class Listings
         _price = listing._price;
         _status = listing._status;
     }
-    
 
-
-
-
-    public override string ToString() //TODO: seller shows up as system.string etc.....
+    public override string ToString()
     {
         return $"{_seller} - {_title} - {_description} - {_category} - {_condition} -  {_price}";
     }

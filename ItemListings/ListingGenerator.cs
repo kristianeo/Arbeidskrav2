@@ -15,9 +15,9 @@ public class ListingGenerator
         int i = 1;
         foreach (KeyValuePair<string, string> kvp in Listings._conditions)
         {
-            Console.WriteLine($"{ i++ }. { kvp.Key }{ kvp.Value }");
+            Console.WriteLine($"{ i++ }. { kvp.Key }: { kvp.Value }");
         }
-        Console.Write("Please choose the condition of the item: ");
+        Console.Write("Item condition: ");
         int choice = ValidEntryChecker.GetValidInt(1, 4);
         string condition = Listings._conditions.Keys.ElementAt(choice - 1);
         
@@ -26,11 +26,11 @@ public class ListingGenerator
         {
             Console.WriteLine($"{ i++ }. {value.ToString()}");
         }
-        Console.Write("Please choose the category of the item: ");
+        Console.Write("Item category: ");
         int choice2 = ValidEntryChecker.GetValidInt(1, 6);
         Listings.Categories category = (Listings.Categories)choice2 - 1;
         
-        Console.Write("Please enter the price for the item: ");
+        Console.Write("Price: ");
         int price = ValidEntryChecker.GetValidInt(1, 100000);
         
         return new Listings(seller, title, description, category, condition, price);

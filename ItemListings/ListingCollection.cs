@@ -1,3 +1,4 @@
+using SecondHandMarket.Database;
 using SecondHandMarket.MainMenu;
 
 namespace SecondHandMarket;
@@ -5,10 +6,11 @@ namespace SecondHandMarket;
 public class ListingCollection
 {
     private List<Listings> _listings = new List<Listings>();
-    private int _listingID;
+    private int _listingID; //TODO: do something with this?
 
-    public Listings CreateListing(string username) //TODO: Fix username to be more smooth
+    public Listings CreateListing(Init db)
     {
+        string username = db.GetActiveUser();
         Listings listing = new Listings(ListingGenerator.GenerateListing(username));
         _listings.Add(listing);
         Console.WriteLine("Listing created");
@@ -31,6 +33,14 @@ public class ListingCollection
             }
         }
         return results;
+    }
+
+    public void ShowListings()
+    {
+        foreach (Listings listings in _listings)
+        {
+            Console.WriteLine(listings.ToString());
+        }
     }
     public List<Listings> GetAll()
     {

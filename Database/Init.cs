@@ -32,10 +32,10 @@ public class Init
                      "price INT NOT NULL," +
                      "status TEXT NOT NULL," +
                      "FOREIGN KEY(sellerID) REFERENCES users(userID))";
-        
+
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
-        
+
         myConn.Close();
     }
 
@@ -45,7 +45,7 @@ public class Init
         string seller = GetActiveUser();
 
         string sql = $"SELECT userID FROM users WHERE username = '{seller}'";
-        
+
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
 
         Console.WriteLine("User id acquired.");
@@ -59,15 +59,16 @@ public class Init
     {
         SQLiteConnection myConn = GetConnection();
 
-        string sql = "INSERT INTO listings(sellerID, title, description, category, itemCondition, price, status) VALUES (" +
-                     $"'{userId}'," +
-                     $"'{listing.Title}'," +
-                     $"'{listing.Description}'," +
-                     $"'{listing.Category}'," +
-                     $"'{listing.Condition}'," +
-                     $"'{listing.Price}'," +
-                     $"'{listing.CurrentStatus}')";
-        
+        string sql =
+            "INSERT INTO listings(sellerID, title, description, category, itemCondition, price, status) VALUES (" +
+            $"'{userId}'," +
+            $"'{listing.Title}'," +
+            $"'{listing.Description}'," +
+            $"'{listing.Category}'," +
+            $"'{listing.Condition}'," +
+            $"'{listing.Price}'," +
+            $"'{listing.CurrentStatus}')";
+
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
 
@@ -85,22 +86,22 @@ public class Init
                      "username TEXT NOT NULL," +
                      "password TEXT NOT NULL," +
                      "activeStatus BOOL NOT NULL)";
-        
+
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
-        
+
         myConn.Close();
     }
 
     public void AddUserToTable(User user)
     {
         SQLiteConnection myConn = GetConnection();
-        
+
         string sql = "INSERT INTO users(username, password, activeStatus) VALUES (" +
                      $"'{user.Username}'," +
                      $"'{user.Password}'," +
                      "'1')";
-        
+
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
 
@@ -108,18 +109,16 @@ public class Init
         Console.WriteLine($"{user.Username} added to table.");
     }
 
-    public string GetActiveUser()
+    public string GetActiveUser() //Doesnt work when there is no one logged in
     {
         SQLiteConnection myConn = GetConnection();
 
         string sql = "SELECT username FROM users WHERE activeStatus = 1";
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         var activeUser = command.ExecuteScalar();
-        
+
         myConn.Close();
 
-        Console.WriteLine("Active user acquired.");
-        
         return activeUser.ToString();
     }
 
@@ -135,7 +134,7 @@ public class Init
             Console.WriteLine("Invalid username");
             return false;
         }
-        
+
         sql = $"SELECT password FROM users WHERE password = '{password}'";
         SQLiteCommand command2 = new SQLiteCommand(sql, myConn);
         var check2 = command2.ExecuteScalar();
@@ -145,7 +144,7 @@ public class Init
             Console.WriteLine("Invalid password");
             return false;
         }
-        
+
         myConn.Close();
         return true;
     }
@@ -162,10 +161,11 @@ public class Init
             Console.WriteLine("The username is already taken.");
             return false;
         }
+
         myConn.Close();
         return true;
     }
-    
+
     public void SetUserAsActive(string username)
     {
         SQLiteConnection myConn = GetConnection();
@@ -183,7 +183,32 @@ public class Init
         command.ExecuteNonQuery();
         myConn.Close();
     }
-    
-    
-    
+
+    public void ShowListings()
+    {
+        SQLiteConnection myConn = GetConnection();
+        string sql = "SELECT * FROM listings " +
+                     "JOIN users on listings.sellerID = users.userID";
+
+        using SQLiteCommand readThis = new SQLiteCommand(sql, myConn);
+        using (SQLiteDataReader dataReader = readThis.ExecuteReader())
+        {
+            while (dataReader.Read())
+            {
+                int id = Convert.ToInt32(dataReader["listingID"]);
+                string? name = dataReader["username"].ToString();
+                string? title = dataReader["title"].ToString();
+                string? description = dataReader["description"].ToString();
+                string? category = dataReader["category"].ToString();
+                string? itemCondition = dataReader["itemCondition"].ToString();
+                string? availableStatus = dataReader["status"].ToString();
+                decimal price = Convert.ToDecimal(dataReader["price"]);
+
+                Console.WriteLine(
+                    $"{id} {name} {title} {description} {category} {itemCondition} {availableStatus} {price}");
+            }
+        }
+
+        myConn.Close();
+    }
 }

@@ -4,6 +4,7 @@ namespace SecondHandMarket.Database;
 
 public class ListingsDb:Init
 {
+    /*
     public static void InactivateListing(Init db)
     {
         SQLiteConnection myConn = db.GetConnection();
@@ -19,8 +20,10 @@ public class ListingsDb:Init
     public static int SelectListing(Init db)//TODO: Rather show a list of listings and chose from those
     {
         SQLiteConnection myConn = db.GetConnection();
-        string sql = $"SELECT listingID FROM listings "+
+        foreach (Listings listings in )
+        sql = $"SELECT listingID FROM listings "+
                      $"JOIN users ON users.userId = listings.sellerId " +
                      $"WHERE title = '{}' and users.activeStatus = 1";
     }
+    */
 }
