@@ -2,7 +2,7 @@ namespace SecondHandMarket.MainMenu;
 
 public delegate bool ListingFilter(Listings listing);
 
-public abstract class ListingFilters
+public abstract class ListingFilters //TODO: Create filters for db
 {
     public static ListingFilter CategoryFilter(Listings.Categories category)
     {

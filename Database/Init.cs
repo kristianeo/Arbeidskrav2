@@ -54,6 +54,23 @@ public class Init
         return result;
 
     }
+    public int GetSellerId() //TODO: Implement this 
+    {
+        SQLiteConnection myConn = GetConnection();
+        int user = GetUserId();
+
+        string sql = "SELECT sellerID FROM listings " +
+                     "JOIN users on listings.sellerID = users.userID " +
+                     $"WHERE sellerID = '{user}'";
+
+        SQLiteCommand command = new SQLiteCommand(sql, myConn);
+
+        Console.WriteLine("User id acquired.");
+        int result = Convert.ToInt32(command.ExecuteScalar());
+        myConn.Close();
+        return result;
+
+    }
 
     public void AddListingToDb(Listings listing, int userId)
     {
@@ -109,7 +126,7 @@ public class Init
         Console.WriteLine($"{user.Username} added to table.");
     }
 
-    public string GetActiveUser() //Doesnt work when there is no one logged in
+    public string GetActiveUser()
     {
         SQLiteConnection myConn = GetConnection();
 
@@ -118,8 +135,14 @@ public class Init
         var activeUser = command.ExecuteScalar();
 
         myConn.Close();
-
+        if (activeUser == null)
+        {
+            Console.WriteLine("You are not logged in.");
+            return "";
+        }
+        
         return activeUser.ToString();
+        
     }
 
     public bool CheckUserCredentials(string username, string password)
@@ -184,7 +207,7 @@ public class Init
         myConn.Close();
     }
 
-    public void ShowListings()
+    public void ShowListings() //TODO: change so it only shows other listings
     {
         SQLiteConnection myConn = GetConnection();
         string sql = "SELECT * FROM listings " +
@@ -239,5 +262,50 @@ public class Init
         }
 
         myConn.Close();
+    }
+    public bool ShowListingById(int listingId)
+    {
+        bool exists = false;
+        SQLiteConnection myConn = GetConnection();
+        string sql = "SELECT * FROM listings " +
+                     $"WHERE listingID = '{listingId}'";
+
+        using SQLiteCommand readThis = new SQLiteCommand(sql, myConn);
+        using (SQLiteDataReader dataReader = readThis.ExecuteReader())
+        {
+            while (dataReader.Read())
+            {
+                string? title = dataReader["title"].ToString();
+                string? description = dataReader["description"].ToString();
+                string? category = dataReader["category"].ToString();
+                string? itemCondition = dataReader["itemCondition"].ToString();
+                string? availableStatus = dataReader["status"].ToString();
+                decimal price = Convert.ToDecimal(dataReader["price"]);
+
+                Console.WriteLine(
+                    $"{title} {description} {category} {itemCondition} {availableStatus} {price}");
+                exists = true;
+            }
+        }
+
+        myConn.Close();
+        return exists;
+    }
+
+    public bool IsSeller(int listingId) //TODO: Double check this 
+    {
+        int userId =  GetUserId();
+        SQLiteConnection myConn = GetConnection();
+        string sql = $"SELECT sellerID FROM listings " +
+                     $"WHERE listingID = '{listingId}'";
+        SQLiteCommand command = new SQLiteCommand(sql, myConn);
+        var sellerId = Convert.ToInt32(command.ExecuteScalar());
+
+        if (userId == sellerId)
+        {
+            return true;
+        }
+        myConn.Close();
+        return false;
     }
 }
