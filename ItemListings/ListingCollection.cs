@@ -138,4 +138,18 @@ public class ListingCollection
         myConn.Close();
     }
 
+    public void BuyListing(Init db, int listingId)//TODO: Add thingy to save that this user bought this listing
+    {
+        //int buyer = db.GetUserId();
+        if (db.IsSeller(listingId))
+        {
+            Console.WriteLine("You cannot buy your own listing.");
+        }
+        SQLiteConnection myConn = db.GetConnection();
+        string sql = $"UPDATE listings SET status = 'Sold' WHERE listingID = '{listingId}'";
+        SQLiteCommand command = new SQLiteCommand(sql, myConn);
+        command.ExecuteNonQuery();
+        myConn.Close();
+    }
+
 }
