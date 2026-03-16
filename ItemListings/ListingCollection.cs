@@ -1,54 +1,12 @@
 using System.Data.SQLite;
 using SecondHandMarket.Database;
-using SecondHandMarket.MainMenu;
 
 namespace SecondHandMarket;
 
 public class ListingCollection
 {
-    private List<Listings> _listings = new List<Listings>();
-    private int _listingID; //TODO: do something with this?
-
-    public Listings CreateListing(Init db)
-    {
-        string username = db.GetActiveUser();
-        Listings listing = new Listings(ListingGenerator.GenerateListing(db));
-        _listings.Add(listing);
-        Console.WriteLine("Listing created");
-        return listing;
-    }
     
-    private Listings DuplicateListing(Listings listing)
-    {
-        _listings.Add(new Listings(listing));
-        return listing;
-    }
-    public ListingCollection FilterListingsBy(ListingFilter filter)
-    {
-        ListingCollection results = new();
-        foreach (Listings listing in _listings) 
-        {
-            if (filter.Invoke(listing))
-            {
-                results.DuplicateListing(listing);
-            }
-        }
-        return results;
-    }
-
-    public void ShowListings()
-    {
-        foreach (Listings listings in _listings)
-        {
-            Console.WriteLine(listings.ToString());
-        }
-    }
-    public List<Listings> GetAll()
-    {
-        return new List<Listings>(_listings);
-    }
-
-    public static Listings.Categories ChooseCategory()
+    public Listings.Categories ChooseCategory()
     {
         int i = 1;
         foreach (Enum value in Enum.GetValues(typeof(Listings.Categories)))
@@ -61,7 +19,7 @@ public class ListingCollection
         return (Listings.Categories)choice - 1;
     }
 
-    public static string ChooseItemCondition()
+    public string ChooseItemCondition()
     {
         int i = 1;
         foreach (KeyValuePair<string, string> kvp in Listings._conditions)
@@ -72,7 +30,7 @@ public class ListingCollection
         int choice = ValidEntryChecker.GetValidInt(1, 4);
         return Listings._conditions.Keys.ElementAt(choice - 1);
     }
-    public static (string, string) EditListing(Init db)
+    public (string, string) EditListing(Init db)
     {
         db.ShowUserListings();
         Console.Write("Please enter the ID of the listing you wish to edit: ");
@@ -121,7 +79,7 @@ public class ListingCollection
         }
         return (update, newData);
     }
-    public static void EditListingGeneric(Init db, int listingId)
+    public void EditListingGeneric(Init db, int listingId)
     {
         if (!db.IsSeller(listingId))
         {
@@ -161,6 +119,39 @@ public class ListingCollection
         SQLiteConnection myConn = db.GetConnection();
         string sql = $"DELETE FROM listings WHERE listingID = '{listingId}'" +
                      $"LIMIT 1;";
+        SQLiteCommand command = new SQLiteCommand(sql, myConn);
+        command.ExecuteNonQuery();
+        myConn.Close();
+    }
+    /// <summary>
+    /// Depricated
+    /// </summary>
+    /// <param name="db"></param>
+    /// <param name="listingId"></param>
+    public static void EditListingTitle(Init db, int listingId)
+    {
+        string newTitle = ValidEntryChecker.GetValidString(1, 20);
+        SQLiteConnection myConn = db.GetConnection();
+        string sql = $"UPDATE listings SET title = '{newTitle}' WHERE listingID = '{listingId}'";
+        SQLiteCommand command = new SQLiteCommand(sql, myConn);
+        command.ExecuteNonQuery();
+        myConn.Close();
+    }
+    /// <summary>
+    /// Depricated
+    /// </summary>
+    /// <param name="db"></param>
+    /// <param name="listingId"></param>
+    public static void EditListingDescription(Init db, int listingId)
+    {
+        if (!db.IsSeller(listingId))
+        {
+            Console.WriteLine("You cannot edit this listing.");
+        }
+
+        string newDescription = ValidEntryChecker.GetValidString(1, 200);
+        SQLiteConnection myConn = db.GetConnection();
+        string sql = $"UPDATE listings SET description = '{newDescription}' WHERE listingID = '{listingId}'";
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
         myConn.Close();

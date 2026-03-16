@@ -4,7 +4,7 @@ namespace SecondHandMarket;
 
 public class ListingGenerator
 {
-    public static Listings GenerateListing(Init db) //TODO: Clean up?
+    public static Listings GenerateListing(Init db, ListingCollection lc)
     {
         string seller = db.GetActiveUser();
         
@@ -14,9 +14,9 @@ public class ListingGenerator
         Console.Write("Description of listing: ");
         string description = ValidEntryChecker.GetValidString(0, 200);
         
-        string condition = ListingCollection.ChooseItemCondition();
+        string condition = lc.ChooseItemCondition();
 
-        Listings.Categories category = ListingCollection.ChooseCategory();
+        Listings.Categories category = lc.ChooseCategory();
         
         Console.Write("Price: ");
         int price = ValidEntryChecker.GetValidInt(1, 100000);
