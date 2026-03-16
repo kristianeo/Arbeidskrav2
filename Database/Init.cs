@@ -236,11 +236,11 @@ public class Init
     }
     public void ShowUserListings()
     {
-        int sellerID = GetUserId();
+        int sellerId = GetUserId();
         SQLiteConnection myConn = GetConnection();
         string sql = "SELECT * FROM listings " +
                      "JOIN users on listings.sellerID = users.userID " +
-                     $"WHERE sellerID = '{sellerID}'";
+                     $"WHERE sellerID = '{sellerId}'";
 
         using SQLiteCommand readThis = new SQLiteCommand(sql, myConn);
         using (SQLiteDataReader dataReader = readThis.ExecuteReader())

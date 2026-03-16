@@ -11,6 +11,8 @@ class Program
         ListingCollection listingCollection = new ListingCollection();
         UserCollection userCollection = new UserCollection();
         
+        listingCollection.EditListing(db);
+        
         // db.CreateDatabase();
         // db.CreateUserTable();
         // db.CreateListingsTable();
@@ -19,7 +21,7 @@ class Program
         // Login.UserLogout(db);
         // UserCreator.CreateUser(userCollection, db);
         // Login.UserLogout(db);
-        db.ShowUserListings();
+        //db.ShowUserListings();
 
     }
 }

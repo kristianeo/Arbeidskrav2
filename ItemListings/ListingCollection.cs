@@ -30,7 +30,7 @@ public class ListingCollection
         int choice = ValidEntryChecker.GetValidInt(1, 4);
         return Listings._conditions.Keys.ElementAt(choice - 1);
     }
-    public (string, string) EditListing(Init db)
+    public (string, string, int) ChooseListingToEdit(Init db)
     {
         db.ShowUserListings();
         Console.Write("Please enter the ID of the listing you wish to edit: ");
@@ -52,24 +52,27 @@ public class ListingCollection
         string newData;
         switch (choice2)
         {
-            case '1':
+            case 1:
                 update = "title";
+                Console.Write("New title: ");
                 newData = ValidEntryChecker.GetValidString(1, 20);
                 break;
-            case '2':
+            case 2:
                 update = "description";
+                Console.Write("New description: ");
                 newData = ValidEntryChecker.GetValidString(1, 200);
                 break;
-            case '3':
+            case 3:
                 update = "category";
                 newData = ChooseCategory().ToString();
                 break;
-            case '4':
+            case 4:
                 update = "itemCondition";
                 newData = ChooseItemCondition();
                 break;
-            case '5':
+            case 5:
                 update = "price";
+                Console.Write("New price: ");
                 newData = ValidEntryChecker.GetValidInt(1, 10000).ToString();
                 break;
             default:
@@ -77,20 +80,19 @@ public class ListingCollection
                 newData = "";
                 break;
         }
-        return (update, newData);
+        return (update, newData, choice);
     }
-    public void EditListingGeneric(Init db, int listingId)
+    public void EditListing(Init db)
     {
-        if (!db.IsSeller(listingId))
+        var (edit, newData, listing) = ChooseListingToEdit(db);
+        
+        if (!db.IsSeller(listing))
         {
             Console.WriteLine("You cannot edit this listing.");
         }
 
-        string edit = EditListing(db).Item1;
-        string newData = EditListing(db).Item2;
-
         SQLiteConnection myConn = db.GetConnection();
-        string sql = $"UPDATE listings SET '{edit}' = '{newData}' WHERE listingID = '{listingId}'";
+        string sql = $"UPDATE listings SET '{edit}' = '{newData}' WHERE listingID = '{listing}'";
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
         myConn.Close();
@@ -98,6 +100,7 @@ public class ListingCollection
 
     public void BuyListing(Init db, int listingId)//TODO: Add thingy to save that this user bought this listing
     {
+        db.ShowListings();
         //int buyer = db.GetUserId();
         if (db.IsSeller(listingId))
         {
