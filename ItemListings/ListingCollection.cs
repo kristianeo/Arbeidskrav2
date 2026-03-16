@@ -152,4 +152,18 @@ public class ListingCollection
         myConn.Close();
     }
 
+    private void RemoveListing(Init db, int listingId)
+    {
+        if (!db.IsSeller(listingId))
+        {
+            Console.WriteLine("You cannot remove this listing.");
+        }
+        SQLiteConnection myConn = db.GetConnection();
+        string sql = $"DELETE FROM listings WHERE listingID = '{listingId}'" +
+                     $"LIMIT 1;";
+        SQLiteCommand command = new SQLiteCommand(sql, myConn);
+        command.ExecuteNonQuery();
+        myConn.Close();
+    }
+
 }
