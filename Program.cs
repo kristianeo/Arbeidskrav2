@@ -10,9 +10,15 @@ class Program
         Init db = new Init();
         ListingCollection listingCollection = new ListingCollection();
         UserCollection userCollection = new UserCollection();
-        
-        listingCollection.EditListing(db);
-        
+
+        while (true)
+        {
+            Login.UserLogout(db);
+            Login.UserLogin(db);
+            
+            listingCollection.BuyListing(db);
+        }
+
         // db.CreateDatabase();
         // db.CreateUserTable();
         // db.CreateListingsTable();

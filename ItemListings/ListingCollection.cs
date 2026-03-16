@@ -98,16 +98,26 @@ public class ListingCollection
         myConn.Close();
     }
 
-    public void BuyListing(Init db, int listingId)//TODO: Add thingy to save that this user bought this listing
+    public void BuyListing(Init db)
     {
         db.ShowListings();
-        //int buyer = db.GetUserId();
+        int buyerId = db.GetUserId();
+        Console.Write("Please chose listing you wish to buy: ");
+        int listingId = ValidEntryChecker.GetValidInt(1, 200);
+
+        if (!db.ShowListingById(listingId))
+        {
+            Console.WriteLine("The listing does not exist.");
+        }
+        
         if (db.IsSeller(listingId))
         {
             Console.WriteLine("You cannot buy your own listing.");
         }
+        
         SQLiteConnection myConn = db.GetConnection();
-        string sql = $"UPDATE listings SET status = 'Sold' WHERE listingID = '{listingId}'";
+        string sql = $"UPDATE listings SET status = 'Sold', buyer = '{buyerId}' " +
+                     $"WHERE listingID = '{listingId}'";
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
         myConn.Close();

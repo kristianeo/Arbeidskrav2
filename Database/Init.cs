@@ -31,6 +31,7 @@ public class Init
                      "itemCondition TEXT NOT NULL," +
                      "price INT NOT NULL," +
                      "status TEXT NOT NULL," +
+                     "buyer INTEGER," +
                      "FOREIGN KEY(sellerID) REFERENCES users(userID))";
 
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
@@ -48,7 +49,6 @@ public class Init
 
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
 
-        Console.WriteLine("User id acquired.");
         int result = Convert.ToInt32(command.ExecuteScalar());
         myConn.Close();
         return result;
@@ -287,7 +287,6 @@ public class Init
                 exists = true;
             }
         }
-
         myConn.Close();
         return exists;
     }
