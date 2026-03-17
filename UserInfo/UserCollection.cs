@@ -52,7 +52,7 @@ public class UserCollection
         return sellerId;
     }
 
-    public void LeaveReview(Init db, int listingsId)
+    public void LeaveReview(Init db, int listingId)
     {
         Console.WriteLine("1. Very poor" +
                           "\n2. Poor" +
@@ -62,11 +62,16 @@ public class UserCollection
                           "\n6. Excellent");
         Console.Write("Please select review score: ");
         int score = ValidEntryChecker.GetValidInt(1, 6);
+        Console.Write("Would you like to leave a comment(enter to skip)? ");
+        string comment = ValidEntryChecker.GetValidString(0, 100);
         
         SQLiteConnection myConn = db.GetConnection();
-        string sql =  $"UPDATE users SET reviewScore = '{score}'," +
-                      $"reviewsNumber = reviewsNumber + 1 " +
-                      $"WHERE userID = '{GetSellerId(db, listingsId)}'"; 
+        string sql =  $"INSERT INTO reviews(userID, listingID, score, comment, dateOfPurchase) VALUES (" +
+                      $"'{GetSellerId(db, listingId)}'," +
+                      $"'{listingId}'," +
+                      $"'{score}'," +
+                      $"'{comment}'," +
+                      $"'{DateTime.Now:yyyy-MM-dd}')"; 
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteScalar();
 

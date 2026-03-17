@@ -103,9 +103,28 @@ public class Init
                      "userID INTEGER PRIMARY KEY NOT NULL," +
                      "username TEXT NOT NULL," +
                      "password TEXT NOT NULL," +
-                     "activeStatus BOOL NOT NULL," +
-                     "reviewScore INTEGER NOT NULL," +
-                     "reviewsNumber INTEGER NOT NULL)";
+                     "activeStatus BOOL NOT NULL)";
+
+        SQLiteCommand command = new SQLiteCommand(sql, myConn);
+        command.ExecuteNonQuery();
+
+        myConn.Close();
+    }
+    
+    public void CreateReviewTable()
+    {
+        SQLiteConnection myConn = GetConnection();
+
+        string sql = "DROP TABLE IF EXISTS reviews;" +
+                     "CREATE TABLE IF NOT EXISTS reviews (" +
+                     "reviewID INTEGER PRIMARY KEY," +
+                     "userID INTEGER NOT NULL," +
+                     "listingID INTEGER NOT NULL," +
+                     "score INTEGER NOT NULL," +
+                     "comment TEXT," +
+                     "dateOfPurchase DATE," +
+                     "FOREIGN KEY(userID) REFERENCES users(userID)," +
+                     "FOREIGN KEY (listingID) REFERENCES listings(listingID))";
 
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
@@ -113,16 +132,15 @@ public class Init
         myConn.Close();
     }
 
+
     public void AddUserToTable(User user)
     {
         SQLiteConnection myConn = GetConnection();
 
-        string sql = "INSERT INTO users(username, password, activeStatus, reviewScore, reviewsNumber) VALUES (" +
+        string sql = "INSERT INTO users(username, password, activeStatus) VALUES (" +
                      $"'{user.Username}'," +
                      $"'{user.Password}'," +
-                     "'1'," +
-                     "'0'," +
-                     "'0')";
+                     "'1')";
 
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
