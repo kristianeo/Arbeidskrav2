@@ -100,9 +100,9 @@ public class ListingCollection
         myConn.Close();
     }
 
-    public void BuyListing(Init db)
+    public int BuyListing(Init db)
     {
-        db.ShowAllListings();
+        db.ShowListing(db.ShowOtherListings());
         int buyerId = db.GetActiveUserId();
         Console.Write("Please chose listing you wish to buy: ");
         int listingId = ValidEntryChecker.GetValidInt(1, 200);
@@ -118,14 +118,15 @@ public class ListingCollection
         }
         
         SQLiteConnection myConn = db.GetConnection();
-        string sql = $"UPDATE listings SET status = 'Sold', buyer = '{buyerId}' " +
+        string sql = $"UPDATE listings SET status = 'Sold', buyerID = '{buyerId}' " +
                      $"WHERE listingID = '{listingId}'";
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
         myConn.Close();
+        return listingId;
     }
 
-    private void RemoveListing(Init db, int listingId)
+    private void RemoveListing(Init db, int listingId) //TODO: make method to show listings and return listingID
     {
         if (!db.IsSeller(listingId))
         {
