@@ -37,7 +37,7 @@ public class ListingCollection
     {
         interactor.ShowListing(interactor.OthersListings());
         int buyerId = interactor.GetActiveUserId();
-        Console.Write("Please chose listing you wish to buy: ");
+        Console.Write("Select a listing to view: ");
         int listingId = ValidEntryChecker.GetValidInt(1, 200);
 
         if (!interactor.ShowListing(interactor.ShowListingById(listingId)))

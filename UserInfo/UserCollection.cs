@@ -94,16 +94,18 @@ public class UserCollection
         {
             while (dataReader.Read())
             {
-                string? title = dataReader["title"].ToString();
+                string title = dataReader["title"].ToString();
                 int score = Convert.ToInt32(dataReader["score"]);
                 string? comment = dataReader["comment"].ToString();
-                string? date = dataReader["dateOfPurchase"].ToString();
+                DateTime date = Convert.ToDateTime(dataReader["dateOfPurchase"]);
+                
 
                 Console.WriteLine(
-                    $"Title: {title} " +
-                    $"\nScore: {score} " +
-                    $"\nComment: {comment} " +
-                    $"\nDate of purchase: {date}");
+                    $"Title: {title.PadLeft(18)} " +
+                    $"\nScore: {score.ToString(),18} " +
+                    $"\nComment: {comment,16} " +
+                    $"\nDate: {date,19:yyyy-MM-dd}" +
+                    $"\n");
             }
         }
         myConn.Close();

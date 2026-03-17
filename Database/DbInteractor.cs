@@ -85,6 +85,7 @@ public class DbInteractor
 
     public bool ShowListing(string sql)
     {
+        Console.WriteLine("  #  Title                 Category     Condition  Price");
         bool exists = false;
         SQLiteConnection myConn = GetConnection();
 
@@ -94,19 +95,20 @@ public class DbInteractor
             while (dataReader.Read())
             {
                 int id = Convert.ToInt32(dataReader["listingID"]);
-                string? name = dataReader["username"].ToString();
+                //string? name = dataReader["username"].ToString();
                 string? title = dataReader["title"].ToString();
-                string? description = dataReader["description"].ToString();
+                //string? description = dataReader["description"].ToString();
                 string? category = dataReader["category"].ToString();
                 string? itemCondition = dataReader["itemCondition"].ToString();
-                string? availableStatus = dataReader["status"].ToString();
+                //string? availableStatus = dataReader["status"].ToString();
                 decimal price = Convert.ToDecimal(dataReader["price"]);
 
                 Console.WriteLine(
-                    $"{id} {name} {title} {description} {category} {itemCondition} {availableStatus} {price}");
+                    $"  {id.ToString(),-2} {title,-21} {category,-12} {itemCondition,-10} {price,-5}");
                 exists = true;
             }
         }
+        //TODO:Make choose input readkey, no need for enter 
         myConn.Close();
         return exists;
     }

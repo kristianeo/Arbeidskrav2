@@ -56,7 +56,8 @@ class Program
                 case 2:
                     Console.Clear();
                     Console.WriteLine("=== Available listings ===");
-                    interactor.ShowListing(interactor.OthersListings());
+                    interactor.ShowListing(interactor.AllListings());
+                    Console.ReadKey();
                     break;
                 case 3:
                     Console.Clear();
@@ -77,6 +78,7 @@ class Program
                     Console.Clear();
                     Console.WriteLine("=== My Reviews ===");
                     userCollection.ShowReviewHistory(interactor);
+                    Console.ReadKey();
                     break;
                 case 7:
                     Console.Clear();
