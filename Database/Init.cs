@@ -206,107 +206,18 @@ public class Init
         myConn.Close();
     }
 
-    public void ShowAllListings() //TODO: change so it only shows other listings
-    {
-        SQLiteConnection myConn = GetConnection();
-        string sql = "SELECT * FROM listings " +
-                     "JOIN users on listings.sellerID = users.userID";
-
-        using SQLiteCommand readThis = new SQLiteCommand(sql, myConn);
-        using (SQLiteDataReader dataReader = readThis.ExecuteReader())
-        {
-            while (dataReader.Read())
-            {
-                int id = Convert.ToInt32(dataReader["listingID"]);
-                string? name = dataReader["username"].ToString();
-                string? title = dataReader["title"].ToString();
-                string? description = dataReader["description"].ToString();
-                string? category = dataReader["category"].ToString();
-                string? itemCondition = dataReader["itemCondition"].ToString();
-                string? availableStatus = dataReader["status"].ToString();
-                decimal price = Convert.ToDecimal(dataReader["price"]);
-
-                Console.WriteLine(
-                    $"{id} {name} {title} {description} {category} {itemCondition} {availableStatus} {price}");
-            }
-        }
-
-        myConn.Close();
-    }
-    
-    public void ShowUserListings()
-    {
-        int sellerId = GetUserId();
-        SQLiteConnection myConn = GetConnection();
-        string sql = "SELECT * FROM listings " +
-                     "JOIN users on listings.sellerID = users.userID " +
-                     $"WHERE sellerID = '{sellerId}'";
-
-        using SQLiteCommand readThis = new SQLiteCommand(sql, myConn);
-        using (SQLiteDataReader dataReader = readThis.ExecuteReader())
-        {
-            while (dataReader.Read())
-            {
-                int id = Convert.ToInt32(dataReader["listingID"]);
-                string? name = dataReader["username"].ToString();
-                string? title = dataReader["title"].ToString();
-                string? description = dataReader["description"].ToString();
-                string? category = dataReader["category"].ToString();
-                string? itemCondition = dataReader["itemCondition"].ToString();
-                string? availableStatus = dataReader["status"].ToString();
-                decimal price = Convert.ToDecimal(dataReader["price"]);
-
-                Console.WriteLine(
-                    $"{id} {name} {title} {description} {category} {itemCondition} {availableStatus} {price}");
-            }
-        }
-
-        myConn.Close();
-    }
-    /// <summary>
-    /// shows all listings except current user 
-    /// </summary>
-    public void ShowOtherListings() //TODO: change so it only shows other listings
-    {
-        int userId = GetUserId();
-        SQLiteConnection myConn = GetConnection();
-        string sql = "SELECT * FROM listings " +
-                     "JOIN users on listings.sellerID = users.userID " +
-                     $"WHERE listings.sellerID != '{userId}'";
-
-        using SQLiteCommand readThis = new SQLiteCommand(sql, myConn);
-        using (SQLiteDataReader dataReader = readThis.ExecuteReader())
-        {
-            while (dataReader.Read())
-            {
-                int id = Convert.ToInt32(dataReader["listingID"]);
-                string? name = dataReader["username"].ToString();
-                string? title = dataReader["title"].ToString();
-                string? description = dataReader["description"].ToString();
-                string? category = dataReader["category"].ToString();
-                string? itemCondition = dataReader["itemCondition"].ToString();
-                string? availableStatus = dataReader["status"].ToString();
-                decimal price = Convert.ToDecimal(dataReader["price"]);
-
-                Console.WriteLine(
-                    $"{id} {name} {title} {description} {category} {itemCondition} {availableStatus} {price}");
-            }
-        }
-
-        myConn.Close();
-    }
-    public bool ShowListingById(int listingId)
+    public bool ShowListing(string sql)
     {
         bool exists = false;
         SQLiteConnection myConn = GetConnection();
-        string sql = "SELECT * FROM listings " +
-                     $"WHERE listingID = '{listingId}'";
 
         using SQLiteCommand readThis = new SQLiteCommand(sql, myConn);
         using (SQLiteDataReader dataReader = readThis.ExecuteReader())
         {
             while (dataReader.Read())
             {
+                int id = Convert.ToInt32(dataReader["listingID"]);
+                string? name = dataReader["username"].ToString();
                 string? title = dataReader["title"].ToString();
                 string? description = dataReader["description"].ToString();
                 string? category = dataReader["category"].ToString();
@@ -315,7 +226,7 @@ public class Init
                 decimal price = Convert.ToDecimal(dataReader["price"]);
 
                 Console.WriteLine(
-                    $"{title} {description} {category} {itemCondition} {availableStatus} {price}");
+                    $"{id} {name} {title} {description} {category} {itemCondition} {availableStatus} {price}");
                 exists = true;
             }
         }
@@ -323,7 +234,37 @@ public class Init
         return exists;
     }
 
-    public bool IsSeller(int listingId) //TODO: Double check this 
+    public string ShowAllListings()
+    {
+        return "SELECT * FROM listings " +
+               "JOIN users on listings.sellerID = users.userID";
+    }
+
+    public string ShowUserListings()
+    {
+        int sellerId = GetUserId();
+        SQLiteConnection myConn = GetConnection();
+        return "SELECT * FROM listings " +
+               "JOIN users on listings.sellerID = users.userID " +
+               $"WHERE sellerID = '{sellerId}'";
+    }
+    /// <summary>
+    /// shows all listings except current user 
+    /// </summary>
+    public string ShowOtherListings()
+    {
+        int userId = GetUserId();
+        return "SELECT * FROM listings " +
+                     "JOIN users on listings.sellerID = users.userID " +
+                     $"WHERE listings.sellerID != '{userId}'";
+    }
+    public string ShowListingById(int listingId)
+    {
+        return "SELECT * FROM listings " +
+                     $"WHERE listingID = '{listingId}'";
+    }
+
+    public bool IsSeller(int listingId)//TODO: fix this with interface 
     {
         int userId =  GetUserId();
         SQLiteConnection myConn = GetConnection();

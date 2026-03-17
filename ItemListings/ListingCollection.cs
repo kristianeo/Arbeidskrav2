@@ -1,5 +1,7 @@
 using System.Data.SQLite;
 using SecondHandMarket.Database;
+using SecondHandMarket.ItemListings;
+using SecondHandMarket.MainMenu;
 
 namespace SecondHandMarket;
 
@@ -35,7 +37,7 @@ public class ListingCollection
         db.ShowUserListings();
         Console.Write("Please enter the ID of the listing you wish to edit: ");
         int choice = ValidEntryChecker.GetValidInt(1, 200);
-        if (!db.ShowListingById(choice))
+        if (db.ShowListing(db.ShowListingById(choice)))
         {
             Console.WriteLine("There is not a listing with ID: " + choice);
         }
@@ -105,7 +107,7 @@ public class ListingCollection
         Console.Write("Please chose listing you wish to buy: ");
         int listingId = ValidEntryChecker.GetValidInt(1, 200);
 
-        if (!db.ShowListingById(listingId))
+        if (!db.ShowListing(db.ShowListingById(listingId)))
         {
             Console.WriteLine("The listing does not exist.");
         }
@@ -169,5 +171,6 @@ public class ListingCollection
         command.ExecuteNonQuery();
         myConn.Close();
     }
+
 
 }

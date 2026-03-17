@@ -11,18 +11,15 @@ class Program
         ListingCollection listingCollection = new ListingCollection();
         UserCollection userCollection = new UserCollection();
 
-        while (true)
-        {
-            Login.UserLogout(db);
-            Login.UserLogin(db);
-            
-            db.ShowOtherListings();
-        }
+        
+        Login.UserLogin(db);
+        db.ShowListing(ListingFilters.CategoryFilter(listingCollection));
+
 
         // db.CreateDatabase();
         // db.CreateUserTable();
         // db.CreateListingsTable();
-        
+
         // UserCreator.CreateUser(userCollection, db);
         // Login.UserLogout(db);
         // UserCreator.CreateUser(userCollection, db);
