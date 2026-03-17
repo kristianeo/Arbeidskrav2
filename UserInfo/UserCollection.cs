@@ -14,7 +14,12 @@ public class UserCollection
     /// <returns>New instance of User</returns>
     public User CreateUserInstance(DbInteractor interactor)
     {
+        Start:
         string username = ValidEntryChecker.GetValidUsername(interactor);
+        if (!interactor.CheckIfAvailableUsername(username))
+        {
+            goto Start;
+        }
         string password = ValidEntryChecker.GetConsoleSecurePassword();
         User user = new User(username, password);
         _usersList.Add(user);
@@ -75,6 +80,32 @@ public class UserCollection
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteScalar();
 
+        myConn.Close();
+    }
+    public void ShowReviewHistory(DbInteractor interactor)
+    {
+        SQLiteConnection myConn = interactor.GetConnection();
+        string sql = $"SELECT * FROM reviews " +
+                     $"JOIN listings ON reviews.listingID = listings.listingID " +
+                     $"WHERE userID = '{interactor.GetActiveUserId()}'";
+
+        using SQLiteCommand readThis = new SQLiteCommand(sql, myConn);
+        using (SQLiteDataReader dataReader = readThis.ExecuteReader())
+        {
+            while (dataReader.Read())
+            {
+                string? title = dataReader["title"].ToString();
+                int score = Convert.ToInt32(dataReader["score"]);
+                string? comment = dataReader["comment"].ToString();
+                string? date = dataReader["dateOfPurchase"].ToString();
+
+                Console.WriteLine(
+                    $"Title: {title} " +
+                    $"\nScore: {score} " +
+                    $"\nComment: {comment} " +
+                    $"\nDate of purchase: {date}");
+            }
+        }
         myConn.Close();
     }
     public void RegisterUser(UserCollection uc, DbInteractor interactor)

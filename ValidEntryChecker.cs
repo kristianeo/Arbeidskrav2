@@ -25,15 +25,9 @@ public abstract class ValidEntryChecker
     {
         while (true)
         {
-            Start:
             Console.Write("Username: ");
             string username = GetValidString(4, 20);
             
-            if (!interactor.CheckIfAvailableUsername(username))
-            {
-                goto Start;
-            }
-
             if (username.Any(char.IsAsciiLetter) && username is { Length: >= 2 and <= 30 })
             {
                 return username;

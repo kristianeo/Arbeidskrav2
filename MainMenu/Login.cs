@@ -7,13 +7,15 @@ public class Login
 {
     public static void UserLogin(DbInteractor interactor)
     {
+        Start:
         string username = ValidEntryChecker.GetValidUsername(interactor);
         string password = ValidEntryChecker.GetConsoleSecurePassword();
 
-        if (interactor.CheckUserCredentials(username, password))
+        if (!interactor.CheckUserCredentials(username, password))
         {
-            interactor.SetUserAsActive(username);
+            goto Start;
         }
+        interactor.SetUserAsActive(username);
     }
 
     public static void UserLogout(DbInteractor interactor)

@@ -33,19 +33,13 @@ public class DbInteractor
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         var check = command.ExecuteScalar();
 
-        if (check == null)
-        {
-            Console.WriteLine("Invalid username");
-            return false;
-        }
-
         sql = $"SELECT password FROM users WHERE password = '{password}'";
         SQLiteCommand command2 = new SQLiteCommand(sql, myConn);
         var check2 = command2.ExecuteScalar();
 
-        if (check2 == null)
+        if (check == null || check2 == null)
         {
-            Console.WriteLine("Invalid password");
+            Console.WriteLine("Invalid username or password");
             return false;
         }
 
@@ -211,5 +205,26 @@ public class DbInteractor
         int result = Convert.ToInt32(command.ExecuteScalar());
         myConn.Close();
         return result;
+    }
+    public void AddListingToTable(Listings listing)
+    {
+        int userId = GetActiveUserId();
+        SQLiteConnection myConn = GetConnection();
+
+        string sql =
+            "INSERT INTO listings(sellerID, title, description, category, itemCondition, price, status, dateOfPurchase) VALUES (" +
+            $"'{userId}'," +
+            $"'{listing.Title}'," +
+            $"'{listing.Description}'," +
+            $"'{listing.Category}'," +
+            $"'{listing.Condition}'," +
+            $"'{listing.Price}'," +
+            $"'{listing.CurrentStatus}'," +
+            $"{DateTime.Now:yyyy-MM-dd})";
+
+        SQLiteCommand command = new SQLiteCommand(sql, myConn);
+        command.ExecuteNonQuery();
+
+        myConn.Close();
     }
 }

@@ -42,29 +42,6 @@ public class Init
         myConn.Close();
     }
 
-    public void AddListingToTable(Listings listing, DbInteractor interactor)
-    {
-        int userId = interactor.GetActiveUserId();
-        SQLiteConnection myConn = GetConnection();
-
-        string sql =
-            "INSERT INTO listings(sellerID, title, description, category, itemCondition, price, status, dateOfPurchase) VALUES (" +
-            $"'{userId}'," +
-            $"'{listing.Title}'," +
-            $"'{listing.Description}'," +
-            $"'{listing.Category}'," +
-            $"'{listing.Condition}'," +
-            $"'{listing.Price}'," +
-            $"'{listing.CurrentStatus}'," +
-            $"{DateTime.Now:yyyy-MM-dd})";
-
-        SQLiteCommand command = new SQLiteCommand(sql, myConn);
-        command.ExecuteNonQuery();
-
-        myConn.Close();
-        Console.WriteLine("Listing added to database");
-    }
-
     public void CreateUserTable()
     {
         SQLiteConnection myConn = GetConnection();
