@@ -27,7 +27,7 @@ public class UserCollection
         int userId = db.GetActiveUserId();
         return "SELECT * FROM listings " +
                "JOIN users on listings.sellerID = users.userID " +
-               $"WHERE buyer = '{userId}' ";
+               $"WHERE buyerID = '{userId}' ";
     }
     public string ShowSellerHistory(Init db)
     {

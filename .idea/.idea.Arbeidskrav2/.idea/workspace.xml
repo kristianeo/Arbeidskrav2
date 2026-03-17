@@ -8,10 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="07610259-9931-4b90-af39-8761e3acf184" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Arbeidskrav2/.idea/data_source_mapping.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Arbeidskrav2/.idea/data_source_mapping.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Arbeidskrav2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Arbeidskrav2/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database/Init.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Init.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SecondHandMarketDB.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/SecondHandMarketDB.sqlite" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserInfo/UserCollection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UserInfo/UserCollection.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -78,7 +75,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "git-widget-placeholder": "ReviewSystem",
+    "git-widget-placeholder": "master",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
