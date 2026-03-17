@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Security;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using SecondHandMarket.Database;
 
 namespace SecondHandMarket;
 
@@ -20,12 +21,18 @@ public abstract class ValidEntryChecker
         }
     }
     
-    public static string GetValidUsername()
+    public static string GetValidUsername(DbInteractor interactor)
     {
-        Console.Write("Username: ");
         while (true)
         {
-            string username = Console.ReadLine();
+            Start:
+            Console.Write("Username: ");
+            string username = GetValidString(4, 20);
+            
+            if (!interactor.CheckIfAvailableUsername(username))
+            {
+                goto Start;
+            }
 
             if (username.Any(char.IsAsciiLetter) && username is { Length: >= 2 and <= 30 })
             {

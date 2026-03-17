@@ -11,6 +11,21 @@ public class DbInteractor
         return myConn;
     }
     
+    public void AddUserToTable(User user)
+    {
+        SQLiteConnection myConn = GetConnection();
+
+        string sql = "INSERT INTO users(username, password, activeStatus) VALUES (" +
+                     $"'{user.Username}'," +
+                     $"'{user.Password}'," +
+                     "'1')";
+
+        SQLiteCommand command = new SQLiteCommand(sql, myConn);
+        command.ExecuteNonQuery();
+
+        myConn.Close();
+    }
+    
     public bool CheckUserCredentials(string username, string password)
     {
         SQLiteConnection myConn = GetConnection();
@@ -38,16 +53,17 @@ public class DbInteractor
         return true;
     }
 
-    public bool CheckIfAvailableUsername(string username) //TODO: implement this!
+    public bool CheckIfAvailableUsername(string username)
     {
         SQLiteConnection myConn = GetConnection();
-        string sql = "SELECT username FROM users WHERE username = @username";
+        string sql = $"SELECT username FROM users WHERE username = '{username}'";
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         var check = command.ExecuteScalar();
 
         if (check != null)
         {
             Console.WriteLine("The username is already taken.");
+            myConn.Close();
             return false;
         }
 

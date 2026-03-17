@@ -8,14 +8,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="07610259-9931-4b90-af39-8761e3acf184" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Database/DbInteractor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Arbeidskrav2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Arbeidskrav2/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Arbeidskrav2.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Arbeidskrav2.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/DbInteractor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Database/DbInteractor.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Database/Init.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Init.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ItemListings/DepricatedListingCollection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ItemListings/DepricatedListingCollection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ItemListings/ListingCollection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ItemListings/ListingCollection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ItemListings/ListingGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ItemListings/ListingGenerator.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainMenu/Login.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MainMenu/Login.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainMenu/UserHandler.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainMenu/UserInterface.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MainMenu/UserInterface.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserInfo/UserCollection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UserInfo/UserCollection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ValidEntryChecker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ValidEntryChecker.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +48,7 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a1ab6afcd084aacaa7d329f9e65c57f61000/3b/89506962/SQLiteCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/31617a8f8b74486c92d30fb5d57b315a6bfe1ec3d33779e4131492fdcfc37/DefaultInterpolatedStringHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8f6fb8c1a8d554b4614d5defca2cdcdc09788531cd083519dacf975386d28f/StaticsHelpers.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ItemListings/DepricatedListingCollection.cs" root0="FORCE_HIGHLIGHTING" />
@@ -74,7 +77,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    ".NET Project.SecondHandMarket.executor": "Run",
+    ".NET Project.SecondHandMarket.executor": "Debug",
     "Docker.Docker Image.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -216,6 +219,19 @@
           <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
           <option name="timeStamp" value="3" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Database/DbInteractor.cs</url>
+          <line>57</line>
+          <properties documentPath="C:\Users\olsen\OneDrive\Dokumenter\GitHub\Arbeidskrav2\Database\DbInteractor.cs" containingFunctionPresentation="Method 'CheckIfAvailableUsername'">
+            <startOffsets>
+              <option value="1632" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1674" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

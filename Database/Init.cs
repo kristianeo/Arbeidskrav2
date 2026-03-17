@@ -83,20 +83,7 @@ public class Init
     }
     
 
-    public void AddUserToTable(User user)
-    {
-        SQLiteConnection myConn = GetConnection();
 
-        string sql = "INSERT INTO users(username, password, activeStatus) VALUES (" +
-                     $"'{user.Username}'," +
-                     $"'{user.Password}'," +
-                     "'1')";
-
-        SQLiteCommand command = new SQLiteCommand(sql, myConn);
-        command.ExecuteNonQuery();
-
-        myConn.Close();
-    }
     
     public void CreateReviewTable()
     {

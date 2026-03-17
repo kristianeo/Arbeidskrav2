@@ -12,9 +12,9 @@ public class UserCollection
     /// 
     /// </summary>
     /// <returns>New instance of User</returns>
-    public User RegisterUser()
+    public User CreateUserInstance(DbInteractor interactor)
     {
-        string username = ValidEntryChecker.GetValidUsername();
+        string username = ValidEntryChecker.GetValidUsername(interactor);
         string password = ValidEntryChecker.GetConsoleSecurePassword();
         User user = new User(username, password);
         _usersList.Add(user);
@@ -76,6 +76,11 @@ public class UserCollection
         command.ExecuteScalar();
 
         myConn.Close();
+    }
+    public void RegisterUser(UserCollection uc, DbInteractor interactor)
+    {
+        User user = uc.CreateUserInstance(interactor);
+        interactor.AddUserToTable(user);
     }
 
 
