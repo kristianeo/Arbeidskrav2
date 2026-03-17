@@ -31,7 +31,7 @@ public class Init
                      "itemCondition TEXT NOT NULL," +
                      "price INT NOT NULL," +
                      "status TEXT NOT NULL," +
-                     "buyer INTEGER," +
+                     "buyerID INTEGER," +
                      "FOREIGN KEY(sellerID) REFERENCES users(userID))";
 
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
@@ -100,7 +100,9 @@ public class Init
                      "userID INTEGER PRIMARY KEY NOT NULL," +
                      "username TEXT NOT NULL," +
                      "password TEXT NOT NULL," +
-                     "activeStatus BOOL NOT NULL)";
+                     "activeStatus BOOL NOT NULL," +
+                     "reviewScore INTEGER NOT NULL," +
+                     "reviewNumber INTEGER NOT NULL)";
 
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
@@ -112,10 +114,12 @@ public class Init
     {
         SQLiteConnection myConn = GetConnection();
 
-        string sql = "INSERT INTO users(username, password, activeStatus) VALUES (" +
+        string sql = "INSERT INTO users(username, password, activeStatus, reviewScore, reviewsNumber) VALUES (" +
                      $"'{user.Username}'," +
                      $"'{user.Password}'," +
-                     "'1')";
+                     "'0'," +
+                     "'0'," +
+                     "'0')";
 
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
