@@ -12,9 +12,13 @@ class Program
         ListingCollection listingCollection = new ListingCollection();
         UserCollection userCollection = new UserCollection();
 
-        db.CreateDatabase();
-        db.CreateUserTable();
-        db.CreateListingsTable();
+        while (true)
+        {
+            Login.UserLogout(db);
+            Login.UserLogin(db);
 
+            int listingId = listingCollection.BuyListing(db);
+            userCollection.LeaveReview(db, listingId);
+        }
     }
 }

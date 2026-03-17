@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.JavaScript;
 using System.Security;
 
 namespace SecondHandMarket.Database;
@@ -32,6 +33,7 @@ public class Init
                      "price INT NOT NULL," +
                      "status TEXT NOT NULL," +
                      "buyerID INTEGER," +
+                     "dateOfPurchase DATE," +
                      "FOREIGN KEY(sellerID) REFERENCES users(userID))";
 
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
@@ -75,14 +77,15 @@ public class Init
         SQLiteConnection myConn = GetConnection();
 
         string sql =
-            "INSERT INTO listings(sellerID, title, description, category, itemCondition, price, status) VALUES (" +
+            "INSERT INTO listings(sellerID, title, description, category, itemCondition, price, status, dateOfPurchase) VALUES (" +
             $"'{userId}'," +
             $"'{listing.Title}'," +
             $"'{listing.Description}'," +
             $"'{listing.Category}'," +
             $"'{listing.Condition}'," +
             $"'{listing.Price}'," +
-            $"'{listing.CurrentStatus}')";
+            $"'{listing.CurrentStatus}'," +
+            $"{DateTime.Now:yyyy-MM-dd})";
 
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
@@ -102,7 +105,7 @@ public class Init
                      "password TEXT NOT NULL," +
                      "activeStatus BOOL NOT NULL," +
                      "reviewScore INTEGER NOT NULL," +
-                     "reviewNumber INTEGER NOT NULL)";
+                     "reviewsNumber INTEGER NOT NULL)";
 
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
@@ -117,7 +120,7 @@ public class Init
         string sql = "INSERT INTO users(username, password, activeStatus, reviewScore, reviewsNumber) VALUES (" +
                      $"'{user.Username}'," +
                      $"'{user.Password}'," +
-                     "'0'," +
+                     "'1'," +
                      "'0'," +
                      "'0')";
 
@@ -125,7 +128,6 @@ public class Init
         command.ExecuteNonQuery();
 
         myConn.Close();
-        Console.WriteLine($"{user.Username} added to table.");
     }
 
     public string GetActiveUser() //TODO: make failsafe so there is only one active user 
@@ -265,7 +267,8 @@ public class Init
     public string ShowListingById(int listingId)
     {
         return "SELECT * FROM listings " +
-                     $"WHERE listingID = '{listingId}'";
+               "JOIN users on listings.sellerID = users.userID " +
+               $"WHERE listingID = '{listingId}'";
     }
 
     public bool IsSeller(int listingId)//TODO: fix this with interface 
