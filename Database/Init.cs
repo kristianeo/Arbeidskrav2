@@ -237,13 +237,13 @@ public class Init
     public string ShowAllListings()
     {
         return "SELECT * FROM listings " +
-               "JOIN users on listings.sellerID = users.userID";
+               "JOIN users on listings.sellerID = users.userID " +
+               "WHERE status = 'Available'";
     }
 
     public string ShowUserListings()
     {
         int sellerId = GetUserId();
-        SQLiteConnection myConn = GetConnection();
         return "SELECT * FROM listings " +
                "JOIN users on listings.sellerID = users.userID " +
                $"WHERE sellerID = '{sellerId}'";
@@ -256,7 +256,8 @@ public class Init
         int userId = GetUserId();
         return "SELECT * FROM listings " +
                      "JOIN users on listings.sellerID = users.userID " +
-                     $"WHERE listings.sellerID != '{userId}'";
+                     $"WHERE listings.sellerID != '{userId}' " +
+                     $"AND status = 'Available'";
     }
     public string ShowListingById(int listingId)
     {
