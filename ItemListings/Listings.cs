@@ -22,11 +22,11 @@ public class Listings
     [Flags]
     public enum Categories
     {
-        BooksAndMedia,
-        ClothingAndAccessories,
+        Media,
+        Clothing,
         Electronics,
-        FurnitureAndHome,
-        SportsAndOutdoors,
+        Furniture,
+        Sports,
         Other
     }
 
@@ -56,7 +56,11 @@ public class Listings
         set => _price = value;
     }
 
-    public Categories Category => _category;
+    public Categories Category
+    {
+        get => _category;
+        set => _category = value;
+    }
 
     public string Seller => _seller;
 
@@ -93,12 +97,8 @@ public class Listings
         _price = listing._price;
         _status = listing._status;
     }
-    
 
-
-
-
-    public override string ToString() //TODO: seller shows up as system.string etc.....
+    public override string ToString()
     {
         return $"{_seller} - {_title} - {_description} - {_category} - {_condition} -  {_price}";
     }

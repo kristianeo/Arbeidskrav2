@@ -111,8 +111,6 @@ public abstract class ValidEntryChecker
             }
         }
 
-        Console.WriteLine(pwd);
-        Console.WriteLine(GetHashedPwd(pwd));
         Console.WriteLine();
         return GetHashedPwd(pwd);
     }

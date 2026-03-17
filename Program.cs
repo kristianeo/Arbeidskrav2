@@ -11,10 +11,20 @@ class Program
         ListingCollection listingCollection = new ListingCollection();
         UserCollection userCollection = new UserCollection();
 
-        // string username = db.GetActiveUser();
-        // Listings listing = listingCollection.CreateListing(username);
-        // int userId = db.GetUserId(userCollection);
-        // db.AddListingToDb(listing, userId);
+        
+        Login.UserLogin(db);
+        db.ShowListing(ListingFilters.CategoryFilter(listingCollection));
+
+
+        // db.CreateDatabase();
+        // db.CreateUserTable();
+        // db.CreateListingsTable();
+
+        // UserCreator.CreateUser(userCollection, db);
+        // Login.UserLogout(db);
+        // UserCreator.CreateUser(userCollection, db);
+        // Login.UserLogout(db);
+        //db.ShowUserListings();
 
     }
 }
