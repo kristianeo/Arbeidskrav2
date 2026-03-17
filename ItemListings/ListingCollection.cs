@@ -103,7 +103,7 @@ public class ListingCollection
     public void BuyListing(Init db)
     {
         db.ShowAllListings();
-        int buyerId = db.GetUserId();
+        int buyerId = db.GetActiveUserId();
         Console.Write("Please chose listing you wish to buy: ");
         int listingId = ValidEntryChecker.GetValidInt(1, 200);
 

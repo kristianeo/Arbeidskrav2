@@ -40,12 +40,11 @@ public class Init
         myConn.Close();
     }
 
-    public int GetUserId()
+    public int GetActiveUserId()
     {
         SQLiteConnection myConn = GetConnection();
-        string seller = GetActiveUser();
 
-        string sql = $"SELECT userID FROM users WHERE username = '{seller}'";
+        string sql = "SELECT userID FROM users WHERE activeStatus = 1";
 
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
 
@@ -57,7 +56,7 @@ public class Init
     public int GetSellerId() //TODO: Where to use this?
     {
         SQLiteConnection myConn = GetConnection();
-        int user = GetUserId();
+        int user = GetActiveUserId();
 
         string sql = "SELECT sellerID FROM listings " +
                      "JOIN users on listings.sellerID = users.userID " +
@@ -72,7 +71,7 @@ public class Init
 
     public void AddListingToDb(Listings listing)
     {
-        int userId = GetUserId();
+        int userId = GetActiveUserId();
         SQLiteConnection myConn = GetConnection();
 
         string sql =
@@ -243,7 +242,7 @@ public class Init
 
     public string ShowUserListings()
     {
-        int sellerId = GetUserId();
+        int sellerId = GetActiveUserId();
         return "SELECT * FROM listings " +
                "JOIN users on listings.sellerID = users.userID " +
                $"WHERE sellerID = '{sellerId}'";
@@ -253,7 +252,7 @@ public class Init
     /// </summary>
     public string ShowOtherListings()
     {
-        int userId = GetUserId();
+        int userId = GetActiveUserId();
         return "SELECT * FROM listings " +
                      "JOIN users on listings.sellerID = users.userID " +
                      $"WHERE listings.sellerID != '{userId}' " +
@@ -267,7 +266,7 @@ public class Init
 
     public bool IsSeller(int listingId)//TODO: fix this with interface 
     {
-        int userId =  GetUserId();
+        int userId =  GetActiveUserId();
         SQLiteConnection myConn = GetConnection();
         string sql = $"SELECT sellerID FROM listings " +
                      $"WHERE listingID = '{listingId}'";
