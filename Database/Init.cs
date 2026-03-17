@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.JavaScript;
 using System.Security;
 
 namespace SecondHandMarket.Database;
@@ -31,7 +32,8 @@ public class Init
                      "itemCondition TEXT NOT NULL," +
                      "price INT NOT NULL," +
                      "status TEXT NOT NULL," +
-                     "buyer INTEGER," +
+                     "buyerID INTEGER," +
+                     "dateOfPurchase DATE," +
                      "FOREIGN KEY(sellerID) REFERENCES users(userID))";
 
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
@@ -75,14 +77,15 @@ public class Init
         SQLiteConnection myConn = GetConnection();
 
         string sql =
-            "INSERT INTO listings(sellerID, title, description, category, itemCondition, price, status) VALUES (" +
+            "INSERT INTO listings(sellerID, title, description, category, itemCondition, price, status, dateOfPurchase) VALUES (" +
             $"'{userId}'," +
             $"'{listing.Title}'," +
             $"'{listing.Description}'," +
             $"'{listing.Category}'," +
             $"'{listing.Condition}'," +
             $"'{listing.Price}'," +
-            $"'{listing.CurrentStatus}')";
+            $"'{listing.CurrentStatus}'," +
+            $"{DateTime.Now:yyyy-MM-dd})";
 
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
@@ -107,6 +110,28 @@ public class Init
 
         myConn.Close();
     }
+    
+    public void CreateReviewTable()
+    {
+        SQLiteConnection myConn = GetConnection();
+
+        string sql = "DROP TABLE IF EXISTS reviews;" +
+                     "CREATE TABLE IF NOT EXISTS reviews (" +
+                     "reviewID INTEGER PRIMARY KEY," +
+                     "userID INTEGER NOT NULL," +
+                     "listingID INTEGER NOT NULL," +
+                     "score INTEGER NOT NULL," +
+                     "comment TEXT," +
+                     "dateOfPurchase DATE," +
+                     "FOREIGN KEY(userID) REFERENCES users(userID)," +
+                     "FOREIGN KEY (listingID) REFERENCES listings(listingID))";
+
+        SQLiteCommand command = new SQLiteCommand(sql, myConn);
+        command.ExecuteNonQuery();
+
+        myConn.Close();
+    }
+
 
     public void AddUserToTable(User user)
     {
@@ -121,7 +146,6 @@ public class Init
         command.ExecuteNonQuery();
 
         myConn.Close();
-        Console.WriteLine($"{user.Username} added to table.");
     }
 
     public string GetActiveUser() //TODO: make failsafe so there is only one active user 
@@ -261,7 +285,8 @@ public class Init
     public string ShowListingById(int listingId)
     {
         return "SELECT * FROM listings " +
-                     $"WHERE listingID = '{listingId}'";
+               "JOIN users on listings.sellerID = users.userID " +
+               $"WHERE listingID = '{listingId}'";
     }
 
     public bool IsSeller(int listingId)//TODO: fix this with interface 

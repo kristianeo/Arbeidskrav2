@@ -1,4 +1,5 @@
-﻿using SecondHandMarket.Database;
+﻿using System.Data.SQLite;
+using SecondHandMarket.Database;
 using SecondHandMarket.MainMenu;
 
 namespace SecondHandMarket;
@@ -11,20 +12,13 @@ class Program
         ListingCollection listingCollection = new ListingCollection();
         UserCollection userCollection = new UserCollection();
 
-        
-        Login.UserLogin(db);
-        db.ShowListing(ListingFilters.CategoryFilter(listingCollection));
+        while (true)
+        {
+            Login.UserLogout(db);
+            Login.UserLogin(db);
 
-
-        // db.CreateDatabase();
-        // db.CreateUserTable();
-        // db.CreateListingsTable();
-
-        // UserCreator.CreateUser(userCollection, db);
-        // Login.UserLogout(db);
-        // UserCreator.CreateUser(userCollection, db);
-        // Login.UserLogout(db);
-        //db.ShowUserListings();
-
+            int listingId = listingCollection.BuyListing(db);
+            userCollection.LeaveReview(db, listingId);
+        }
     }
 }
