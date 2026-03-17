@@ -16,7 +16,7 @@ class Program
             Login.UserLogout(db);
             Login.UserLogin(db);
             
-            listingCollection.BuyListing(db);
+            db.ShowOtherListings();
         }
 
         // db.CreateDatabase();

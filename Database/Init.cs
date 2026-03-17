@@ -54,7 +54,7 @@ public class Init
         return result;
 
     }
-    public int GetSellerId() //TODO: Implement this 
+    public int GetSellerId() //TODO: Where to use this?
     {
         SQLiteConnection myConn = GetConnection();
         int user = GetUserId();
@@ -65,15 +65,14 @@ public class Init
 
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
 
-        Console.WriteLine("User id acquired.");
         int result = Convert.ToInt32(command.ExecuteScalar());
         myConn.Close();
         return result;
-
     }
 
-    public void AddListingToDb(Listings listing, int userId)
+    public void AddListingToDb(Listings listing)
     {
+        int userId = GetUserId();
         SQLiteConnection myConn = GetConnection();
 
         string sql =
@@ -126,7 +125,7 @@ public class Init
         Console.WriteLine($"{user.Username} added to table.");
     }
 
-    public string GetActiveUser()
+    public string GetActiveUser() //TODO: make failsafe so there is only one active user 
     {
         SQLiteConnection myConn = GetConnection();
 
@@ -207,7 +206,7 @@ public class Init
         myConn.Close();
     }
 
-    public void ShowListings() //TODO: change so it only shows other listings
+    public void ShowAllListings() //TODO: change so it only shows other listings
     {
         SQLiteConnection myConn = GetConnection();
         string sql = "SELECT * FROM listings " +
@@ -234,6 +233,7 @@ public class Init
 
         myConn.Close();
     }
+    
     public void ShowUserListings()
     {
         int sellerId = GetUserId();
@@ -241,6 +241,38 @@ public class Init
         string sql = "SELECT * FROM listings " +
                      "JOIN users on listings.sellerID = users.userID " +
                      $"WHERE sellerID = '{sellerId}'";
+
+        using SQLiteCommand readThis = new SQLiteCommand(sql, myConn);
+        using (SQLiteDataReader dataReader = readThis.ExecuteReader())
+        {
+            while (dataReader.Read())
+            {
+                int id = Convert.ToInt32(dataReader["listingID"]);
+                string? name = dataReader["username"].ToString();
+                string? title = dataReader["title"].ToString();
+                string? description = dataReader["description"].ToString();
+                string? category = dataReader["category"].ToString();
+                string? itemCondition = dataReader["itemCondition"].ToString();
+                string? availableStatus = dataReader["status"].ToString();
+                decimal price = Convert.ToDecimal(dataReader["price"]);
+
+                Console.WriteLine(
+                    $"{id} {name} {title} {description} {category} {itemCondition} {availableStatus} {price}");
+            }
+        }
+
+        myConn.Close();
+    }
+    /// <summary>
+    /// shows all listings except current user 
+    /// </summary>
+    public void ShowOtherListings() //TODO: change so it only shows other listings
+    {
+        int userId = GetUserId();
+        SQLiteConnection myConn = GetConnection();
+        string sql = "SELECT * FROM listings " +
+                     "JOIN users on listings.sellerID = users.userID " +
+                     $"WHERE listings.sellerID != '{userId}'";
 
         using SQLiteCommand readThis = new SQLiteCommand(sql, myConn);
         using (SQLiteDataReader dataReader = readThis.ExecuteReader())
