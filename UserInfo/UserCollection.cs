@@ -20,6 +20,22 @@ public class UserCollection
         
         return user;
     }
+
+    public string ShowPurchaseHistory(Init db)
+    {
+        int userId = db.GetActiveUserId();
+        return "SELECT * FROM listings " +
+               "JOIN users on listings.sellerID = users.userID " +
+               $"WHERE buyer = '{userId}' ";
+    }
+    public string ShowSellerHistory(Init db)
+    {
+        int userId = db.GetActiveUserId();
+        return "SELECT * FROM listings " +
+               $"WHERE sellerID = '{userId}' " +
+               "AND status = 'Sold'";    
+    }
+    
     /// <summary>
     /// Deprecated
     /// </summary>
