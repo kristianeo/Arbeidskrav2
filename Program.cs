@@ -11,14 +11,8 @@ class Program
         Init db = new Init();
         ListingCollection listingCollection = new ListingCollection();
         UserCollection userCollection = new UserCollection();
+        
+        
 
-        while (true)
-        {
-            Login.UserLogout(db);
-            Login.UserLogin(db);
-
-            int listingId = listingCollection.BuyListing(db);
-            userCollection.LeaveReview(db, listingId);
-        }
     }
 }

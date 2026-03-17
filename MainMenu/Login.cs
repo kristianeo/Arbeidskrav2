@@ -5,20 +5,20 @@ namespace SecondHandMarket.MainMenu;
 
 public class Login
 {
-    public static void UserLogin(Init db)
+    public static void UserLogin(DbInteractor interactor)
     {
         string username = ValidEntryChecker.GetValidUsername();
         string password = ValidEntryChecker.GetConsoleSecurePassword();
 
-        if (db.CheckUserCredentials(username, password))
+        if (interactor.CheckUserCredentials(username, password))
         {
-            db.SetUserAsActive(username);
+            interactor.SetUserAsActive(username);
         }
     }
 
-    public static void UserLogout(Init db)
+    public static void UserLogout(DbInteractor interactor)
     {
-        db.SetUserAsInactive();
+        interactor.SetUserAsInactive();
     }
 
 }

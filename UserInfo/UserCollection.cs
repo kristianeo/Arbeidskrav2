@@ -22,16 +22,16 @@ public class UserCollection
         return user;
     }
 
-    public string ShowPurchaseHistory(Init db)
+    public string ShowPurchaseHistory(DbInteractor interactor)
     {
-        int userId = db.GetActiveUserId();
+        int userId = interactor.GetActiveUserId();
         return "SELECT * FROM listings " +
                "JOIN users on listings.sellerID = users.userID " +
                $"WHERE buyerID = '{userId}' ";
     }
-    public string ShowSellerHistory(Init db)
+    public string ShowSellerHistory(DbInteractor interactor)
     {
-        int userId = db.GetActiveUserId();
+        int userId = interactor.GetActiveUserId();
         return "SELECT * FROM listings " +
                $"WHERE sellerID = '{userId}' " +
                "AND status = 'Sold'";    
