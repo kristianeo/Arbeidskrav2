@@ -33,13 +33,9 @@ public class ListingCollection
         return Listings._conditions.Keys.ElementAt(choice - 1);
     }
 
-    public int BuyListing(DbInteractor interactor)
+    public int Purchase(DbInteractor interactor, int listingId)
     {
-        interactor.ShowListing(interactor.OthersListings());
-        int buyerId = interactor.GetActiveUserId();
-        Console.Write("Select a listing to view: ");
-        int listingId = ValidEntryChecker.GetValidInt(1, 200);
-
+        int buyerId = interactor.GetActiveUserId();   
         if (!interactor.ShowListing(interactor.ShowListingById(listingId)))
         {
             Console.WriteLine("The listing does not exist.");
@@ -59,7 +55,7 @@ public class ListingCollection
         return listingId;
     }
 
-    private void RemoveListing(DbInteractor interactor, int listingId)
+    private void RemoveListing(DbInteractor interactor, int listingId)//TODO: Add to view your listings 
     {
         if (!interactor.IsSeller(listingId))
         {

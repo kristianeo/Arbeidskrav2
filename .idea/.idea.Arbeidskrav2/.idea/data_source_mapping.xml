@@ -2,6 +2,7 @@
 <project version="4">
   <component name="DataSourcePerFileMappings">
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/baa9b697-f8fe-4dde-a8c5-eec8d0dc55ba/console.sql" value="baa9b697-f8fe-4dde-a8c5-eec8d0dc55ba" />
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/baa9b697-f8fe-4dde-a8c5-eec8d0dc55ba/console_1.sql" value="baa9b697-f8fe-4dde-a8c5-eec8d0dc55ba" />
     <file url="file://$PROJECT_DIR$/Database/DbInteractor.cs" value="baa9b697-f8fe-4dde-a8c5-eec8d0dc55ba" />
     <file url="file://$PROJECT_DIR$/Database/Init.cs" value="baa9b697-f8fe-4dde-a8c5-eec8d0dc55ba" />
     <file url="file://$PROJECT_DIR$/ItemListings/ListingCollection.cs" value="baa9b697-f8fe-4dde-a8c5-eec8d0dc55ba" />

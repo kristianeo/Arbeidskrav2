@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Data.SQLite;
 using System.Security;
 using SecondHandMarket.Database;
@@ -42,9 +43,9 @@ public class UserCollection
                "AND status = 'Sold'";    
     }
 
-    public int GetSellerId(Init db, int listingId)
+    public int GetSellerId(DbInteractor interactor, int listingId)
     {
-        SQLiteConnection myConn = db.GetConnection();
+        SQLiteConnection myConn = interactor.GetConnection();
 
         string sql = "SELECT sellerID FROM listings " +
                      $"WHERE listingID = '{listingId}'";
@@ -57,8 +58,14 @@ public class UserCollection
         return sellerId;
     }
 
-    public void LeaveReview(Init db, int listingId)
+    public void LeaveReview(DbInteractor interactor, int listingId)
     {
+        Console.Write("Do you wish to leave a review? " +
+                      "\n1. Yes" +
+                      "\n2. No" +
+                      "\nSelect an option: ");
+        if (ValidEntryChecker.GetValidInt(1, 2) == 2) return;
+        
         Console.WriteLine("1. Very poor" +
                           "\n2. Poor" +
                           "\n3. Fair" +
@@ -70,9 +77,9 @@ public class UserCollection
         Console.Write("Would you like to leave a comment(enter to skip)? ");
         string comment = ValidEntryChecker.GetValidString(0, 100);
         
-        SQLiteConnection myConn = db.GetConnection();
+        SQLiteConnection myConn = interactor.GetConnection();
         string sql =  $"INSERT INTO reviews(userID, listingID, score, comment, dateOfPurchase) VALUES (" +
-                      $"'{GetSellerId(db, listingId)}'," +
+                      $"'{GetSellerId(interactor, listingId)}'," +
                       $"'{listingId}'," +
                       $"'{score}'," +
                       $"'{comment}'," +

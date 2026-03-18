@@ -13,6 +13,8 @@ class Program
         UserCollection userCollection = new UserCollection();
         UserInterface ui = new UserInterface();
 
+        Login.UserLogout(interactor);
+
         Console.WriteLine("===Second Hand Market ===");
         Console.Write("\n1. Register" +
                           "\n2. Login" +
@@ -45,46 +47,53 @@ class Program
                               "\n4. My Listings" +
                               "\n5. My Purchases" +
                               "\n6. My Reviews" +
-                              "\n7. Log Out");
+                              "\n7. Log Out" +
+                              "\nSelect an option: ");
             switch (ValidEntryChecker.GetValidInt(1, 7))
             {
                 case 1:
                     Console.Clear();
                     Console.WriteLine("=== Create Listing ===");
                     ui.CreateListing(interactor, listingCollection);
+                    ui.GoBackToMainMenu();
                     break;
                 case 2:
                     Console.Clear();
                     Console.WriteLine("=== Available listings ===");
-                    interactor.ShowListing(interactor.AllListings());
-                    Console.ReadKey();
+                    ui.BuyListing(interactor, listingCollection, userCollection);
+                    ui.GoBackToMainMenu();
                     break;
                 case 3:
                     Console.Clear();
-                    Console.WriteLine("=== Search available listings ===");
-                    ListingFilters.SearchFilter(listingCollection);
+                    Console.WriteLine("=== Search available listings by title or description ===");
+                    ui.SearchListings(listingCollection);
+                    ui.GoBackToMainMenu();
                     break;
                 case 4:
                     Console.Clear();
                     Console.WriteLine("=== My Listings ===");
                     interactor.ShowListing(interactor.ActiveUserListings());
+                    ui.GoBackToMainMenu();
                     break;
                 case 5:
                     Console.Clear();
                     Console.WriteLine("=== Purchase history ===");
                     userCollection.ShowPurchaseHistory(interactor);
+                    ui.GoBackToMainMenu();
                     break;
                 case 6:
                     Console.Clear();
                     Console.WriteLine("=== My Reviews ===");
                     userCollection.ShowReviewHistory(interactor);
-                    Console.ReadKey();
+                    ui.GoBackToMainMenu();
                     break;
                 case 7:
                     Console.Clear();
+                    Login.UserLogout(interactor);
                     Environment.Exit(0);
                     break;
             }
+            
         }
 
     }

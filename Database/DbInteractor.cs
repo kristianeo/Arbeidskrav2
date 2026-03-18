@@ -104,7 +104,7 @@ public class DbInteractor
                 decimal price = Convert.ToDecimal(dataReader["price"]);
 
                 Console.WriteLine(
-                    $"  {id.ToString(),-2} {title,-21} {category,-12} {itemCondition,-10} {price,-5}");
+                    $"  {id.ToString(),-2} {title,-21} {category,-12} {itemCondition,-10} {price} kr");
                 exists = true;
             }
         }
