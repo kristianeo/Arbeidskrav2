@@ -8,14 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="07610259-9931-4b90-af39-8761e3acf184" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Arbeidskrav2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Arbeidskrav2/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Database/DbInteractor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Database/DbInteractor.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ItemListings/ListingCollection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ItemListings/ListingCollection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ItemListings/ListingEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ItemListings/ListingEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainMenu/Login.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MainMenu/Login.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainMenu/UserInterface.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MainMenu/UserInterface.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SecondHandMarketDB.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/SecondHandMarketDB.sqlite" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -217,19 +212,6 @@
           <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
           <option name="timeStamp" value="3" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Database/DbInteractor.cs</url>
-          <line>212</line>
-          <properties documentPath="C:\Users\olsen\OneDrive\Dokumenter\GitHub\Arbeidskrav2\Database\DbInteractor.cs" containingFunctionPresentation="Method 'AddListingToTable'">
-            <startOffsets>
-              <option value="6955" />
-            </startOffsets>
-            <endOffsets>
-              <option value="6986" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
