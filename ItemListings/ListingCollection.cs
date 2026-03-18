@@ -47,7 +47,7 @@ public class ListingCollection
         }
         
         SQLiteConnection myConn = interactor.GetConnection();
-        string sql = $"UPDATE listings SET status = 'Sold', buyerID = '{buyerId}' " +
+        string sql = $"UPDATE listings SET status = 'Sold', buyerID = '{buyerId}', dateOfPurchase = '{DateTime.Now:yyyy-MM-dd}' " +
                      $"WHERE listingID = '{listingId}'";
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();

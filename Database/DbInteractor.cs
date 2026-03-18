@@ -214,15 +214,14 @@ public class DbInteractor
         SQLiteConnection myConn = GetConnection();
 
         string sql =
-            "INSERT INTO listings(sellerID, title, description, category, itemCondition, price, status, dateOfPurchase) VALUES (" +
+            "INSERT INTO listings(sellerID, title, description, category, itemCondition, price, status) VALUES (" +
             $"'{userId}'," +
             $"'{listing.Title}'," +
             $"'{listing.Description}'," +
             $"'{listing.Category}'," +
             $"'{listing.Condition}'," +
             $"'{listing.Price}'," +
-            $"'{listing.CurrentStatus}'," +
-            $"'{DateTime.Now:yyyy-MM-dd}')";
+            $"'{listing.CurrentStatus}')";
 
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();

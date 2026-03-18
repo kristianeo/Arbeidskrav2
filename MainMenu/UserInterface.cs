@@ -97,8 +97,7 @@ public class UserInterface
         switch (ValidEntryChecker.GetValidInt(1, 3))
         {
             case 1:
-                ListingEditor le = new ListingEditor(); //TODO: Move to lc 
-                le.EditListing(interactor, lc, listingId);
+                lc.EditListing(interactor, lc, listingId);
                 break;
             case 2:
                 lc.RemoveListing(interactor, listingId);
