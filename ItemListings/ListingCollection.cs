@@ -55,15 +55,10 @@ public class ListingCollection
         return listingId;
     }
 
-    private void RemoveListing(DbInteractor interactor, int listingId)//TODO: Add to view your listings 
+    public void RemoveListing(DbInteractor interactor, int listingId) 
     {
-        if (!interactor.IsSeller(listingId))
-        {
-            Console.WriteLine("You cannot remove this listing.");
-        }
         SQLiteConnection myConn = interactor.GetConnection();
-        string sql = $"DELETE FROM listings WHERE listingID = '{listingId}'" +
-                     $"LIMIT 1;";
+        string sql = $"DELETE FROM listings WHERE listingID = '{listingId}'";
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
         myConn.Close();

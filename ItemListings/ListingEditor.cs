@@ -50,71 +50,55 @@ public class ListingEditor
     }
     
     
-    private (string, string, int) ChooseListingToEdit(DbInteractor interactor, ListingCollection lc)
+    private (string, string) ChooseListingToEdit(ListingCollection lc)
     {
-        interactor.ShowListing(interactor.ActiveUserListings());
-        Console.Write("Please enter the ID of the listing you wish to edit: ");
-        int choice = ValidEntryChecker.GetValidInt(1, 200);
-        if (!interactor.ShowListing(interactor.ShowListingById(choice)))
-        {
-            Console.WriteLine("There is not a listing with ID: " + choice);
-        }
-
-        Console.WriteLine("What would you like to edit? " +
+        Console.Write("What would you like to edit? " +
                           "\n1. Title" +
                           "\n2. Description" +
                           "\n3. Category" +
                           "\n4. Item condition" +
-                          "\n5. Price");
-        choice = ValidEntryChecker.GetValidInt(1, 6);
+                          "\n5. Price" +
+                          "\n\nSelect an option: ");
 
-        string update;
-        string newData;
-        switch (choice)
+        string edit = "";
+        string newData = "";
+        switch (ValidEntryChecker.GetValidInt(1, 5))
         {
             case 1:
-                update = "title";
+                edit = "title";
                 Console.Write("New title: ");
                 newData = ValidEntryChecker.GetValidString(1, 20);
                 break;
             case 2:
-                update = "description";
+                edit = "description";
                 Console.Write("New description: ");
-                newData = ValidEntryChecker.GetValidString(1, 200);
+                newData = ValidEntryChecker.GetValidString(0, 200);
                 break;
             case 3:
-                update = "category";
+                edit = "category";
                 newData = lc.ChooseCategory().ToString();
                 break;
             case 4:
-                update = "itemCondition";
+                edit = "itemCondition";
                 newData = lc.ChooseItemCondition();
                 break;
             case 5:
-                update = "price";
+                edit = "price";
                 Console.Write("New price: ");
                 newData = ValidEntryChecker.GetValidInt(1, 10000).ToString();
                 break;
-            default:
-                update = "";
-                newData = "";
-                break;
         }
-        return (update, newData, choice);
+        return (edit, newData);
     }
-    public void EditListing(DbInteractor interactor, ListingCollection lc)
+    public void EditListing(DbInteractor interactor, ListingCollection lc, int listingId)
     {
-        var (edit, newData, listing) = ChooseListingToEdit(interactor, lc);
-        
-        if (!interactor.IsSeller(listing))
-        {
-            Console.WriteLine("You cannot edit this listing.");
-        }
+        var (edit, newData) = ChooseListingToEdit(lc);
 
         SQLiteConnection myConn = interactor.GetConnection();
-        string sql = $"UPDATE listings SET '{edit}' = '{newData}' WHERE listingID = '{listing}'";
+        string sql = $"UPDATE listings SET '{edit}' = '{newData}' WHERE listingID = '{listingId}'";
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
         myConn.Close();
+        Console.WriteLine($"{edit} has been edited to '{newData}'");
     }
 }

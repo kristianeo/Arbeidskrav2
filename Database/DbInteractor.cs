@@ -138,7 +138,7 @@ public class DbInteractor
                      $"WHERE listings.sellerID != '{userId}' " +
                      $"AND status = 'Available'";
     }
-    public string ShowListingById(int listingId)
+    public string ShowListingById(int listingId) // TODO: Change to look different 
     {
         return "SELECT * FROM listings " +
                "JOIN users on listings.sellerID = users.userID " +
@@ -222,7 +222,7 @@ public class DbInteractor
             $"'{listing.Condition}'," +
             $"'{listing.Price}'," +
             $"'{listing.CurrentStatus}'," +
-            $"{DateTime.Now:yyyy-MM-dd})";
+            $"'{DateTime.Now:yyyy-MM-dd}')";
 
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();

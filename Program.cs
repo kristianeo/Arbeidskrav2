@@ -40,7 +40,7 @@ class Program
         while (true)
         {
             Console.Clear();
-            Console.WriteLine("=== Main Menu ===" +
+            Console.Write("=== Main Menu ===" +
                               "\n1. Create Listing" +
                               "\n2. Browse Listings" +
                               "\n3. Search Listings" +
@@ -48,7 +48,7 @@ class Program
                               "\n5. My Purchases" +
                               "\n6. My Reviews" +
                               "\n7. Log Out" +
-                              "\nSelect an option: ");
+                              "\n\nSelect an option: ");
             switch (ValidEntryChecker.GetValidInt(1, 7))
             {
                 case 1:
@@ -72,7 +72,7 @@ class Program
                 case 4:
                     Console.Clear();
                     Console.WriteLine("=== My Listings ===");
-                    interactor.ShowListing(interactor.ActiveUserListings());
+                    ui.ViewOwnListings(interactor, listingCollection);
                     ui.GoBackToMainMenu();
                     break;
                 case 5:
@@ -90,6 +90,8 @@ class Program
                 case 7:
                     Console.Clear();
                     Login.UserLogout(interactor);
+                    Console.WriteLine("Thank you for shopping with us. Welcome back.");
+                    Thread.Sleep(3000);
                     Environment.Exit(0);
                     break;
             }

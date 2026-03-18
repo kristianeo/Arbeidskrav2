@@ -42,7 +42,7 @@ public class UserInterface
     {
         Start:
         interactor.ShowListing(interactor.OthersListings());
-        Console.Write("Select a listing: ");
+        Console.Write("\nSelect a listingID: ");
         int listingId = ValidEntryChecker.GetValidInt(1, 200);
         if (!interactor.ShowListing(interactor.ShowListingById(listingId)))
         {
@@ -50,11 +50,71 @@ public class UserInterface
             goto Start;
         }
 
+        Console.Clear();
         Console.Write("Purchase this listing?" +
                       "\n1. Yes" +
-                      "\n2. No");
+                      "\n2. No" +
+                      "\nSelect an option: ");
         if (ValidEntryChecker.GetValidInt(1, 2) != 1) return;
         lc.Purchase(interactor, listingId);
+        Console.WriteLine("Purchase complete!");
         uc.LeaveReview(interactor, listingId);
+    }
+
+    private bool EditListingChecker(DbInteractor interactor, int listingId)
+    {
+        if (!interactor.ShowListing(interactor.ShowListingById(listingId)))
+        {
+            Console.WriteLine("There is not a listing with ID: " + listingId);
+            return false;
+        }
+
+        if (!interactor.IsSeller(listingId))
+        {
+            Console.WriteLine("You cannot edit this listing.");
+            return false;
+        }
+
+        return true;
+    }
+
+    public void ViewOwnListings(DbInteractor interactor, ListingCollection lc)
+    {
+        interactor.ShowListing(interactor.ActiveUserListings());
+        Console.Write("\n0. Go back to main menu" +
+                      "\n1. Select listing to view (listing #): " +
+                      "\n\nSelect an option: ");
+        int listingId = ValidEntryChecker.GetValidInt(1, 200);
+        
+        if (listingId == 0) return;
+
+        if (!EditListingChecker(interactor, listingId)) return;
+        
+        Console.Write("\n1. Edit" +
+                      "\n2. Remove" +
+                      "\n3. Go back to main menu" +
+                      "\n\nSelect an option: ");
+        switch (ValidEntryChecker.GetValidInt(1, 3))
+        {
+            case 1:
+                ListingEditor le = new ListingEditor(); //TODO: Move to lc 
+                le.EditListing(interactor, lc, listingId);
+                break;
+            case 2:
+                lc.RemoveListing(interactor, listingId);
+                break;
+            case 3:
+                break;
+        }
+        
+        
+
+
+        
+        
+        
+        
+
+
     }
 }

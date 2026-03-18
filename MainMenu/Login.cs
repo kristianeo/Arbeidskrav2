@@ -8,6 +8,7 @@ public class Login
     public static void UserLogin(DbInteractor interactor)
     {
         Start:
+        Console.WriteLine();
         string username = ValidEntryChecker.GetValidUsername(interactor);
         string password = ValidEntryChecker.GetConsoleSecurePassword();
 
