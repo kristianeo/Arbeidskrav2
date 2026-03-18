@@ -13,24 +13,27 @@ public class UserInterface
 
     public void GoBackToMainMenu()
     {
-        Console.Write("Press any key to go back to main menu: ");
+        Console.Write("\nPress any key to go back to main menu: ");
         Console.ReadKey();
     }
 
-    public void SearchListings(ListingCollection lc)
+    public void SearchListings(ListingCollection lc, DbInteractor interactor)
     {
-        Console.Write("Search by: " +
-                      "\n1. Category" +
+        Console.Write("\n1. Category" +
                       "\n2. Title or description" +
                       "\n3. Go back to main menu" +
-                      "\nPick an option: ");
-        switch (ValidEntryChecker.GetValidInt(0, 2))
+                      "\n\nSelect an option: ");
+        switch (ValidEntryChecker.GetValidInt(1, 3))
         {
             case 1:
-                ListingFilters.CategoryFilter(lc);
+                Console.Clear();
+                Console.WriteLine("=== Search by category ===\n");
+                interactor.ShowListing(ListingFilters.CategoryFilter(lc));
                 break;
             case 2:
-                ListingFilters.SearchFilter(lc);
+                Console.Clear();
+                Console.WriteLine("=== Search in title or description ===\n");
+                interactor.ShowListing(ListingFilters.SearchFilter(lc));
                 break;
             case 3:
                 break;
@@ -42,7 +45,6 @@ public class UserInterface
     public void PurchaseListing(DbInteractor interactor, ListingCollection lc, UserCollection uc)
     {
         Start:
-        interactor.ShowListing(interactor.OthersListings());
         Console.Write("\nSelect listing #: ");
         int listingId = ValidEntryChecker.GetValidInt(1, 200);
         if (!interactor.ShowListingById(listingId))
@@ -107,15 +109,17 @@ public class UserInterface
             case 3:
                 break;
         }
+    }
+    
+    public void ShowUserProfile()
+    {
         
-        
-
-
-        
-        
-        
-        
-
-
+            /*
+             * - show average reviews score
+             * - show listings
+             * ---- edit listing 
+             * - show purchases
+             * - show reviews 
+             */
     }
 }

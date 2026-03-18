@@ -40,16 +40,14 @@ class Program
         while (true)
         {
             Console.Clear();
-            Console.Write("\n=== Main Menu ===" +
+            Console.Write("=== Main Menu ===\n" +
                               "\n1. Create Listing" +
                               "\n2. Browse Listings" +
                               "\n3. Search Listings" +
-                              "\n4. My Listings" +
-                              "\n5. My Purchases" +
-                              "\n6. My Reviews" +
-                              "\n7. Log Out" +
+                              "\n4. My Profile" +
+                              "\n5. Log Out" +
                               "\n\nSelect an option: ");
-            switch (ValidEntryChecker.GetValidInt(1, 7))
+            switch (ValidEntryChecker.GetValidInt(1, 5))
             {
                 case 1:
                     Console.Clear();
@@ -60,34 +58,32 @@ class Program
                 case 2:
                     Console.Clear();
                     Console.WriteLine("=== Available listings ===");
+                    interactor.ShowListing(interactor.OthersListings());
                     ui.PurchaseListing(interactor, listingCollection, userCollection);
                     ui.GoBackToMainMenu();
                     break;
                 case 3:
                     Console.Clear();
-                    Console.WriteLine("=== Search available listings by title or description ===");
-                    ui.SearchListings(listingCollection);
+                    Console.WriteLine("=== Search ===");
+                    ui.SearchListings(listingCollection, interactor);
+                    ui.PurchaseListing(interactor, listingCollection, userCollection);
                     ui.GoBackToMainMenu();
                     break;
                 case 4:
                     Console.Clear();
-                    Console.WriteLine("=== My Listings ===");
+                    Console.WriteLine("=== My Profile ===");
                     ui.ViewOwnListings(interactor, listingCollection);
                     ui.GoBackToMainMenu();
-                    break;
-                case 5:
                     Console.Clear();
                     Console.WriteLine("=== Purchase history ===");
-                    userCollection.ShowPurchaseHistory(interactor);
+                    interactor.ShowListing(userCollection.ShowPurchaseHistory(interactor));
                     ui.GoBackToMainMenu();
-                    break;
-                case 6:
                     Console.Clear();
                     Console.WriteLine("=== My Reviews ===");
                     userCollection.ShowReviewHistory(interactor);
                     ui.GoBackToMainMenu();
                     break;
-                case 7:
+                case 5:
                     Console.Clear();
                     Login.UserLogout(interactor);
                     Console.WriteLine("Thank you for shopping with us. Welcome back.");

@@ -63,6 +63,11 @@ public abstract class ValidEntryChecker
             {
                 return str;
             }
+
+            if (str.Length == 0 && min == 0)
+            {
+                return "";
+            }
             
             Console.Write($"Text can only consist of letters A-Z and must be between {min} and {max} characters. Try again: ");
         }

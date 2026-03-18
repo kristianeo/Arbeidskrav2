@@ -43,7 +43,7 @@ public class UserCollection
                "AND status = 'Sold'";    
     }
 
-    public int GetSellerId(DbInteractor interactor, int listingId)
+    private int GetSellerId(DbInteractor interactor, int listingId)
     {
         SQLiteConnection myConn = interactor.GetConnection();
 
@@ -60,22 +60,16 @@ public class UserCollection
 
     public void LeaveReview(DbInteractor interactor, int listingId)
     {
-        Console.Write("Do you wish to leave a review? " +
+        Console.Write("\nDo you wish to leave a review? " +
                       "\n1. Yes" +
                       "\n2. No" +
                       "\nSelect an option: ");
         if (ValidEntryChecker.GetValidInt(1, 2) == 2) return;
         
-        Console.WriteLine("1. Very poor" +
-                          "\n2. Poor" +
-                          "\n3. Fair" +
-                          "\n4. Good" +
-                          "\n5. Very good" +
-                          "\n6. Excellent");
-        Console.Write("Please select review score: ");
+        Console.Write("\nRating (1-6): ");
         int score = ValidEntryChecker.GetValidInt(1, 6);
-        Console.Write("Would you like to leave a comment(enter to skip)? ");
-        string comment = ValidEntryChecker.GetValidString(0, 100);
+        Console.Write("Comment (or press enter to skip): ");
+        string comment = ValidEntryChecker.GetValidString(0, 150);
         
         SQLiteConnection myConn = interactor.GetConnection();
         string sql =  $"INSERT INTO reviews(userID, listingID, score, comment, dateOfPurchase) VALUES (" +
@@ -101,17 +95,17 @@ public class UserCollection
         {
             while (dataReader.Read())
             {
-                string title = dataReader["title"].ToString();
+                string? title = dataReader["title"].ToString();
                 int score = Convert.ToInt32(dataReader["score"]);
                 string? comment = dataReader["comment"].ToString();
                 DateTime date = Convert.ToDateTime(dataReader["dateOfPurchase"]);
                 
 
                 Console.WriteLine(
-                    $"Title: {title.PadLeft(18)} " +
-                    $"\nScore: {score.ToString(),18} " +
-                    $"\nComment: {comment,16} " +
-                    $"\nDate: {date,19:yyyy-MM-dd}" +
+                    $"Title:     {title} " +
+                    $"\nScore:   {score.ToString()} " +
+                    $"\nComment: {comment} " +
+                    $"\nDate:    {date:yyyy-MM-dd}" +
                     $"\n");
             }
         }
