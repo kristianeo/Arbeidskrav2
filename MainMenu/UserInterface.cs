@@ -65,36 +65,32 @@ public class UserInterface
         uc.LeaveReview(interactor, listingId);
     }
 
-    private bool EditListingChecker(DbInteractor interactor, int listingId)
+    private bool OwnListingChecker(DbInteractor interactor, int listingId)
     {
-        if (!interactor.ShowListingById(listingId))
+        if (!interactor.IsSeller(listingId) || !interactor.ShowListingById(listingId))
         {
-            Console.WriteLine("There is not a listing with ID: " + listingId);
             return false;
         }
-
-        if (!interactor.IsSeller(listingId))
-        {
-            Console.WriteLine("You cannot edit this listing.");
-            return false;
-        }
-
         return true;
     }
 
     private void ViewOwnListings(DbInteractor interactor, ListingCollection lc)
     {
         interactor.ShowListings(interactor.ActiveUserListings());
-        Console.Write("\n#. Select listing to view (listing #): " +
-                      "\n\nSelect an option: ");
+        Start:
+        Console.Write("\nSelect listing to view (listing #): ");
         int listingId = ValidEntryChecker.GetValidInt(1, 200);
 
-        if (!EditListingChecker(interactor, listingId)) return;
+        if (!OwnListingChecker(interactor, listingId))
+        {
+            Console.WriteLine("Invalid choice.");
+            goto Start;
+        }
         
         Console.Write("\n1. Edit" +
                       "\n2. Remove" +
                       "\n3. Go back to main menu" +
-                      "\n\nSelect an option: ");
+                      "\nSelect an option: ");
         switch (ValidEntryChecker.GetValidInt(1, 3))
         {
             case 1:
@@ -134,7 +130,7 @@ public class UserInterface
             Console.WriteLine("No review history found.");
         }
 
-        Console.Write("What would you like to do?" +
+        Console.Write("\nWhat would you like to do?" +
                       "\n1. View listing" +
                       "\n2. Go to main menu" +
                       "\nSelect an option: ");
@@ -143,8 +139,9 @@ public class UserInterface
         ViewOwnListings(interactor, lc);
     }
 
-    private int ShowAverageScore(DbInteractor interactor)
+    private double ShowAverageScore(DbInteractor interactor)
     {
+        double result = 0.0;
         SQLiteConnection myConn = interactor.GetConnection();
         int user = interactor.GetActiveUserId();
 
@@ -152,9 +149,12 @@ public class UserInterface
                      $"WHERE sellerID = '{user}'";
 
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
-
-        int result = Convert.ToInt32(command.ExecuteScalar());
+        var check = command.ExecuteScalar();
+        if (check.ToString().Length != 0)
+        {
+            result = Convert.ToDouble(check.ToString());
+        }
         myConn.Close();
-        return result; //TODO: Must be float 
+        return result;
     }
 }
