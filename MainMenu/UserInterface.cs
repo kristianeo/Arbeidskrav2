@@ -38,13 +38,13 @@ public class UserInterface
         
     }
 
-    public void BuyListing(DbInteractor interactor, ListingCollection lc, UserCollection uc) //TODO: Make this return to listing as option if there is time 
+    public void PurchaseListing(DbInteractor interactor, ListingCollection lc, UserCollection uc) //TODO: Make this return to listing as option if there is time 
     {
         Start:
         interactor.ShowListing(interactor.OthersListings());
         Console.Write("\nSelect a listingID: ");
         int listingId = ValidEntryChecker.GetValidInt(1, 200);
-        if (!interactor.ShowListing(interactor.ShowListingById(listingId)))
+        if (!interactor.ShowListingById(listingId))
         {
             Console.WriteLine("Invalid listingID.");
             goto Start;
@@ -63,7 +63,7 @@ public class UserInterface
 
     private bool EditListingChecker(DbInteractor interactor, int listingId)
     {
-        if (!interactor.ShowListing(interactor.ShowListingById(listingId)))
+        if (!interactor.ShowListingById(listingId))
         {
             Console.WriteLine("There is not a listing with ID: " + listingId);
             return false;
@@ -82,9 +82,9 @@ public class UserInterface
     {
         interactor.ShowListing(interactor.ActiveUserListings());
         Console.Write("\n0. Go back to main menu" +
-                      "\n1. Select listing to view (listing #): " +
+                      "\n#. Select listing to view (listing #): " +
                       "\n\nSelect an option: ");
-        int listingId = ValidEntryChecker.GetValidInt(1, 200);
+        int listingId = ValidEntryChecker.GetValidInt(0, 200);
         
         if (listingId == 0) return;
 

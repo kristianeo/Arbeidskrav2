@@ -95,12 +95,9 @@ public class DbInteractor
             while (dataReader.Read())
             {
                 int id = Convert.ToInt32(dataReader["listingID"]);
-                //string? name = dataReader["username"].ToString();
                 string? title = dataReader["title"].ToString();
-                //string? description = dataReader["description"].ToString();
                 string? category = dataReader["category"].ToString();
                 string? itemCondition = dataReader["itemCondition"].ToString();
-                //string? availableStatus = dataReader["status"].ToString();
                 decimal price = Convert.ToDecimal(dataReader["price"]);
 
                 Console.WriteLine(
@@ -108,7 +105,6 @@ public class DbInteractor
                 exists = true;
             }
         }
-        //TODO:Make choose input readkey, no need for enter 
         myConn.Close();
         return exists;
     }
@@ -138,11 +134,39 @@ public class DbInteractor
                      $"WHERE listings.sellerID != '{userId}' " +
                      $"AND status = 'Available'";
     }
-    public string ShowListingById(int listingId) // TODO: Change to look different 
+    public bool ShowListingById(int listingId)
     {
-        return "SELECT * FROM listings " +
-               "JOIN users on listings.sellerID = users.userID " +
-               $"WHERE listingID = '{listingId}'";
+        bool exists = false;
+        string sql = "SELECT * FROM listings " +
+                     "JOIN users on listings.sellerID = users.userID " +
+                     $"WHERE listingID = '{listingId}'";
+
+        SQLiteConnection myConn = GetConnection();
+
+        using SQLiteCommand readThis = new SQLiteCommand(sql, myConn);
+        using (SQLiteDataReader dataReader = readThis.ExecuteReader())
+        {
+            while (dataReader.Read())
+            {
+                string? name = dataReader["username"].ToString();
+                string? title = dataReader["title"].ToString();
+                string? description = dataReader["description"].ToString();
+                string? category = dataReader["category"].ToString();
+                string? itemCondition = dataReader["itemCondition"].ToString();
+                decimal price = Convert.ToDecimal(dataReader["price"]);
+
+                Console.WriteLine(
+                    $"\n=== {title} ===" +
+                    $"\nSeller:      {name}" +
+                    $"\nCategory:    {category} " +
+                    $"\nCondition:   {itemCondition} " +
+                    $"\nPrice:       {price} kr" +
+                    $"\nDescription: {description}");
+                exists = true;
+            }
+        }
+        myConn.Close();
+        return exists;
     }
 
     public bool IsSeller(int listingId)

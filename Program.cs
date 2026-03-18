@@ -60,7 +60,7 @@ class Program
                 case 2:
                     Console.Clear();
                     Console.WriteLine("=== Available listings ===");
-                    ui.BuyListing(interactor, listingCollection, userCollection);
+                    ui.PurchaseListing(interactor, listingCollection, userCollection);
                     ui.GoBackToMainMenu();
                     break;
                 case 3:

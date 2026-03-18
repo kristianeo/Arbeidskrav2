@@ -36,7 +36,7 @@ public class ListingCollection
     public int Purchase(DbInteractor interactor, int listingId)
     {
         int buyerId = interactor.GetActiveUserId();   
-        if (!interactor.ShowListing(interactor.ShowListingById(listingId)))
+        if (!interactor.ShowListingById(listingId))
         {
             Console.WriteLine("The listing does not exist.");
         }
