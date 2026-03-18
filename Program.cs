@@ -58,7 +58,7 @@ class Program
                 case 2:
                     Console.Clear();
                     Console.WriteLine("=== Available listings ===");
-                    interactor.ShowListing(interactor.OthersListings());
+                    interactor.ShowListings(interactor.OthersListings());
                     ui.PurchaseListing(interactor, listingCollection, userCollection);
                     ui.GoBackToMainMenu();
                     break;
@@ -72,16 +72,7 @@ class Program
                 case 4:
                     Console.Clear();
                     Console.WriteLine("=== My Profile ===");
-                    ui.ViewOwnListings(interactor, listingCollection);
-                    ui.GoBackToMainMenu();
-                    Console.Clear();
-                    Console.WriteLine("=== Purchase history ===");
-                    interactor.ShowListing(userCollection.ShowPurchaseHistory(interactor));
-                    ui.GoBackToMainMenu();
-                    Console.Clear();
-                    Console.WriteLine("=== My Reviews ===");
-                    userCollection.ShowReviewHistory(interactor);
-                    ui.GoBackToMainMenu();
+                    ui.ShowUserProfile(interactor, userCollection, listingCollection);
                     break;
                 case 5:
                     Console.Clear();

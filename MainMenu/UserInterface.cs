@@ -1,3 +1,4 @@
+using System.Data.SQLite;
 using SecondHandMarket.Database;
 
 namespace SecondHandMarket.MainMenu;
@@ -28,19 +29,18 @@ public class UserInterface
             case 1:
                 Console.Clear();
                 Console.WriteLine("=== Search by category ===\n");
-                interactor.ShowListing(ListingFilters.CategoryFilter(lc));
+                interactor.ShowListings(ListingFilters.CategoryFilter(lc));
                 break;
             case 2:
                 Console.Clear();
                 Console.WriteLine("=== Search in title or description ===\n");
-                interactor.ShowListing(ListingFilters.SearchFilter(lc));
+                interactor.ShowListings(ListingFilters.SearchFilter(lc));
                 break;
             case 3:
                 break;
         }
         
     }
-    //TODO: How often is usercollection used? move to lc?
 
     public void PurchaseListing(DbInteractor interactor, ListingCollection lc, UserCollection uc)
     {
@@ -82,15 +82,12 @@ public class UserInterface
         return true;
     }
 
-    public void ViewOwnListings(DbInteractor interactor, ListingCollection lc)
+    private void ViewOwnListings(DbInteractor interactor, ListingCollection lc)
     {
-        interactor.ShowListing(interactor.ActiveUserListings());
-        Console.Write("\n0. Go back to main menu" +
-                      "\n#. Select listing to view (listing #): " +
+        interactor.ShowListings(interactor.ActiveUserListings());
+        Console.Write("\n#. Select listing to view (listing #): " +
                       "\n\nSelect an option: ");
-        int listingId = ValidEntryChecker.GetValidInt(0, 200);
-        
-        if (listingId == 0) return;
+        int listingId = ValidEntryChecker.GetValidInt(1, 200);
 
         if (!EditListingChecker(interactor, listingId)) return;
         
@@ -111,15 +108,53 @@ public class UserInterface
         }
     }
     
-    public void ShowUserProfile()
+    public void ShowUserProfile(DbInteractor interactor, UserCollection uc, ListingCollection lc)
     {
+        string user = interactor.GetActiveUsername();
         
-            /*
-             * - show average reviews score
-             * - show listings
-             * ---- edit listing 
-             * - show purchases
-             * - show reviews 
-             */
+        Console.Clear();
+        Console.WriteLine($"=== My Profile: {user} ===\n");
+        Console.WriteLine($"Average review score: {ShowAverageScore(interactor)}");
+
+        Console.WriteLine("\n-Your listings-");
+        if (!interactor.ShowListings(interactor.ActiveUserListings()))
+        {
+            Console.WriteLine("No listings found.");
+        }
+
+        Console.WriteLine("\n-Your purchases-");
+        if (!interactor.ShowListings(uc.ShowPurchaseHistory(interactor)))
+        {
+            Console.WriteLine("No purchase history found.");
+        }
+
+        Console.WriteLine("\n-Your reviews-");
+        if (!uc.ShowReviewHistory(interactor))
+        {
+            Console.WriteLine("No review history found.");
+        }
+
+        Console.Write("What would you like to do?" +
+                      "\n1. View listing" +
+                      "\n2. Go to main menu" +
+                      "\nSelect an option: ");
+        if (ValidEntryChecker.GetValidInt(1, 2)  != 1) return;
+        
+        ViewOwnListings(interactor, lc);
+    }
+
+    private int ShowAverageScore(DbInteractor interactor)
+    {
+        SQLiteConnection myConn = interactor.GetConnection();
+        int user = interactor.GetActiveUserId();
+
+        string sql = "SELECT avg(score) FROM reviews " +
+                     $"WHERE sellerID = '{user}'";
+
+        SQLiteCommand command = new SQLiteCommand(sql, myConn);
+
+        int result = Convert.ToInt32(command.ExecuteScalar());
+        myConn.Close();
+        return result; //TODO: Must be float 
     }
 }

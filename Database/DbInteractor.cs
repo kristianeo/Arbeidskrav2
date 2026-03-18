@@ -83,7 +83,7 @@ public class DbInteractor
         myConn.Close();
     }
 
-    public bool ShowListing(string sql)
+    public bool ShowListings(string sql)
     {
         Console.WriteLine("  #  Title                 Category     Condition  Price");
         bool exists = false;

@@ -72,7 +72,7 @@ public class UserCollection
         string comment = ValidEntryChecker.GetValidString(0, 150);
         
         SQLiteConnection myConn = interactor.GetConnection();
-        string sql =  $"INSERT INTO reviews(userID, listingID, score, comment, dateOfPurchase) VALUES (" +
+        string sql =  $"INSERT INTO reviews(sellerID, listingID, score, comment, dateOfPurchase) VALUES (" +
                       $"'{GetSellerId(interactor, listingId)}'," +
                       $"'{listingId}'," +
                       $"'{score}'," +
@@ -80,15 +80,16 @@ public class UserCollection
                       $"'{DateTime.Now:yyyy-MM-dd}')"; 
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteScalar();
-
+        
         myConn.Close();
     }
-    public void ShowReviewHistory(DbInteractor interactor)
+    public bool ShowReviewHistory(DbInteractor interactor)
     {
+        bool exists = false;
         SQLiteConnection myConn = interactor.GetConnection();
         string sql = $"SELECT * FROM reviews " +
                      $"JOIN listings ON reviews.listingID = listings.listingID " +
-                     $"WHERE userID = '{interactor.GetActiveUserId()}'";
+                     $"WHERE reviews.sellerID = '{interactor.GetActiveUserId()}'";
 
         using SQLiteCommand readThis = new SQLiteCommand(sql, myConn);
         using (SQLiteDataReader dataReader = readThis.ExecuteReader())
@@ -97,19 +98,20 @@ public class UserCollection
             {
                 string? title = dataReader["title"].ToString();
                 int score = Convert.ToInt32(dataReader["score"]);
-                string? comment = dataReader["comment"].ToString();
                 DateTime date = Convert.ToDateTime(dataReader["dateOfPurchase"]);
-                
+                string? comment = dataReader["comment"].ToString();
 
                 Console.WriteLine(
-                    $"Title:     {title} " +
-                    $"\nScore:   {score.ToString()} " +
-                    $"\nComment: {comment} " +
-                    $"\nDate:    {date:yyyy-MM-dd}" +
+                    $"Title: {title,15} " +
+                    $"\nScore: {score.ToString(),15} " +
+                    $"\nComment: {comment,13} " +
+                    $"\nDate: {date,16:yyyy-MM-dd}" +
                     $"\n");
+                exists = true;
             }
         }
         myConn.Close();
+        return exists;
     }
     public void RegisterUser(UserCollection uc, DbInteractor interactor)
     {
