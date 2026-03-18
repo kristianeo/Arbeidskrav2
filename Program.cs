@@ -40,7 +40,7 @@ class Program
         while (true)
         {
             Console.Clear();
-            Console.Write("=== Main Menu ===" +
+            Console.Write("\n=== Main Menu ===" +
                               "\n1. Create Listing" +
                               "\n2. Browse Listings" +
                               "\n3. Search Listings" +

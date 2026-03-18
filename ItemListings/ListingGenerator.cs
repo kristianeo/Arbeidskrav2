@@ -6,7 +6,7 @@ public class ListingGenerator
 {
     public static Listings GenerateListing(DbInteractor interactor, ListingCollection lc)
     {
-        string seller = interactor.GetActiveUser();
+        string seller = interactor.GetActiveUsername();
         
         Console.Write("Title of listing: ");
         string title = ValidEntryChecker.GetValidString(1, 20);

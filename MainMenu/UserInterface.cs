@@ -37,12 +37,13 @@ public class UserInterface
         }
         
     }
+    //TODO: How often is usercollection used? move to lc?
 
-    public void PurchaseListing(DbInteractor interactor, ListingCollection lc, UserCollection uc) //TODO: Make this return to listing as option if there is time 
+    public void PurchaseListing(DbInteractor interactor, ListingCollection lc, UserCollection uc)
     {
         Start:
         interactor.ShowListing(interactor.OthersListings());
-        Console.Write("\nSelect a listingID: ");
+        Console.Write("\nSelect listing #: ");
         int listingId = ValidEntryChecker.GetValidInt(1, 200);
         if (!interactor.ShowListingById(listingId))
         {
@@ -51,7 +52,8 @@ public class UserInterface
         }
 
         Console.Clear();
-        Console.Write("Purchase this listing?" +
+        interactor.ShowListingById(listingId);
+        Console.Write("\nPurchase this listing?" +
                       "\n1. Yes" +
                       "\n2. No" +
                       "\nSelect an option: ");

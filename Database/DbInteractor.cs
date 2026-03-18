@@ -199,7 +199,7 @@ public class DbInteractor
         return result;
 
     }
-    public string GetActiveUser() //TODO: Where is this used?
+    public string GetActiveUsername()
     {
         SQLiteConnection myConn = GetConnection();
 

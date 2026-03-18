@@ -10,7 +10,7 @@ public class DepricatedListingCollection
 
     public Listings CreateListing(DbInteractor interactor, ListingCollection lc)
     {
-        string username = interactor.GetActiveUser();
+        string username = interactor.GetActiveUsername();
         Listings listing = new Listings(ListingGenerator.GenerateListing(interactor, lc));
         _listings.Add(listing);
         Console.WriteLine("Listing created");
