@@ -54,7 +54,6 @@ public class UserInterface
         }
 
         Console.Clear();
-        interactor.ShowListingById(listingId);
         Console.Write("\nPurchase this listing?" +
                       "\n1. Yes" +
                       "\n2. No" +
@@ -76,6 +75,7 @@ public class UserInterface
 
     private void ViewOwnListings(DbInteractor interactor, ListingCollection lc)
     {
+        Console.Clear();
         interactor.ShowListings(interactor.ActiveUserListings());
         Start:
         Console.Write("\nSelect listing to view (listing #): ");
@@ -95,9 +95,11 @@ public class UserInterface
         {
             case 1:
                 lc.EditListing(interactor, lc, listingId);
+                GoBackToMainMenu();
                 break;
             case 2:
                 lc.RemoveListing(interactor, listingId);
+                GoBackToMainMenu();
                 break;
             case 3:
                 break;
@@ -131,7 +133,7 @@ public class UserInterface
         }
 
         Console.Write("\nWhat would you like to do?" +
-                      "\n1. View listing" +
+                      "\n1. View your listings" +
                       "\n2. Go to main menu" +
                       "\nSelect an option: ");
         if (ValidEntryChecker.GetValidInt(1, 2)  != 1) return;

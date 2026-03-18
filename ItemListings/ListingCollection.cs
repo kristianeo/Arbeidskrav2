@@ -62,6 +62,7 @@ public class ListingCollection
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
         myConn.Close();
+        Console.WriteLine("Listing has been removed. ");
     }
     
     private (string, string) ChooseParamToEdit(ListingCollection lc)
@@ -113,7 +114,7 @@ public class ListingCollection
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
         myConn.Close();
-        Console.WriteLine($"{edit} has been edited to '{newData}'");
+        Console.WriteLine("Listing has been updated. ");
     }
     
 }

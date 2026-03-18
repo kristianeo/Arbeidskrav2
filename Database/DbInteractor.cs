@@ -109,13 +109,6 @@ public class DbInteractor
         return exists;
     }
 
-    public string AllListings()
-    {
-        return "SELECT * FROM listings " +
-               "JOIN users on listings.sellerID = users.userID " +
-               "WHERE status = 'Available'";
-    }
-
     public string ActiveUserListings()
     {
         int sellerId = GetActiveUserId();
