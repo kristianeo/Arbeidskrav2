@@ -282,7 +282,7 @@ public class UserInterface
             case 3:
                 break;
         }
-    }//TODO: add checker for sold listing? cannot edit this? And show this status on profile??
+    }
     /// <summary>
     /// Prints user profile. Gives prompt to view a listing(and then edit/remove it) or return to main menu,
     /// </summary>
@@ -290,17 +290,23 @@ public class UserInterface
     /// <param name="uc"></param>
     /// <param name="lc"></param>
     public void ShowUserProfile(DbInteractor interactor, UserCollection uc, ListingCollection lc)
-    {//TODO: Show active + sold listings
+    {
         string user = interactor.GetActiveUsername();
         
         Console.Clear();
         Console.WriteLine($"=== My Profile: {user} ===\n");
         Console.WriteLine($"Average review score: {ShowAverageScore(interactor)}");
 
-        Console.WriteLine("\n-Your listings-");
+        Console.WriteLine("\n-Your active listings-");
         if (!ShowListings(interactor, interactor.ActiveUserListings()))
         {
-            Console.WriteLine("No listings found.");
+            Console.WriteLine("You have no active listings.");
+        }
+        
+        Console.WriteLine("\n-Your sold listings-");
+        if (!ShowListings(interactor, interactor.ActiveUserListings()))
+        {
+            Console.WriteLine("You have no sold listings.");
         }
 
         Console.WriteLine("\n-Your purchases-");

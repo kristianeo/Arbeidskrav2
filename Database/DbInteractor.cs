@@ -103,7 +103,16 @@ public class DbInteractor:Init
         int sellerId = GetActiveUserId();
         return "SELECT * FROM listings " +
                "JOIN users on listings.sellerID = users.userID " +
-               $"WHERE sellerID = '{sellerId}'";
+               $"WHERE sellerID = '{sellerId}' " +
+               $"AND status = 'Available'";
+    }
+    public string SoldUserListings()
+    {
+        int sellerId = GetActiveUserId();
+        return "SELECT * FROM listings " +
+               "JOIN users on listings.sellerID = users.userID " +
+               $"WHERE sellerID = '{sellerId}' " +
+               $"AND status = 'Sold'";
     }
     /// <summary>
     /// Shows all listings except for the active (logged in) user 
