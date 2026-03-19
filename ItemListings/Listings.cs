@@ -1,5 +1,3 @@
-using SecondHandMarket.MainMenu;
-
 namespace SecondHandMarket;
 
 public class Listings

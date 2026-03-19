@@ -1,5 +1,4 @@
-﻿using System.Data.SQLite;
-using SecondHandMarket.Database;
+﻿using SecondHandMarket.Database;
 using SecondHandMarket.MainMenu;
 
 namespace SecondHandMarket;

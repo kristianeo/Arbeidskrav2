@@ -1,6 +1,4 @@
-using System.Collections.Concurrent;
 using System.Data.SQLite;
-using System.Security;
 using SecondHandMarket.Database;
 
 namespace SecondHandMarket;

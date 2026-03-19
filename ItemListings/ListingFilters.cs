@@ -1,6 +1,3 @@
-using System.Runtime.InteropServices.ComTypes;
-using SecondHandMarket.Database;
-
 namespace SecondHandMarket.MainMenu;
 /// <summary>
 /// Deprecated. Used to create filters before the db was implemented.

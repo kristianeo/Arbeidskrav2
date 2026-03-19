@@ -1,6 +1,3 @@
-using System.Runtime.InteropServices.JavaScript;
-using System.Security;
-
 namespace SecondHandMarket.Database;
 using System.Data.SQLite;
 

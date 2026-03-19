@@ -1,8 +1,3 @@
-using System.Globalization;
-using System.Runtime.CompilerServices;
-using System.Security;
-using SecondHandMarket.MainMenu;
-
 namespace SecondHandMarket;
 
 public class User:IActiveUser

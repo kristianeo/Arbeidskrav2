@@ -1,7 +1,5 @@
 using System.Data.SQLite;
 using SecondHandMarket.Database;
-using SecondHandMarket.ItemListings;
-using SecondHandMarket.MainMenu;
 
 namespace SecondHandMarket;
 
@@ -95,7 +93,7 @@ public class ListingCollection
     /// </summary>
     /// <param name="lc"></param>
     /// <returns>Which parameter to edit and what it should contain</returns>
-    private (string, string) ChooseParamToEdit(ListingCollection lc)
+    private (string, string) ChooseParamToEdit()
     {
         Console.Write("What would you like to edit? " +
                       "\n1. Title" +
@@ -121,11 +119,11 @@ public class ListingCollection
                 break;
             case 3:
                 edit = "category";
-                newData = lc.ChooseCategory().ToString();
+                newData = ChooseCategory().ToString();
                 break;
             case 4:
                 edit = "itemCondition";
-                newData = lc.ChooseItemCondition();
+                newData = ChooseItemCondition();
                 break;
             case 5:
                 edit = "price";
@@ -141,9 +139,9 @@ public class ListingCollection
     /// <param name="interactor"></param>
     /// <param name="lc">ListingCollection instance</param>
     /// <param name="listingId"></param>
-    public void EditListing(DbInteractor interactor, ListingCollection lc, int listingId)
+    public void EditListing(DbInteractor interactor, int listingId)
     {
-        var (edit, newData) = ChooseParamToEdit(lc);
+        var (edit, newData) = ChooseParamToEdit();
 
         SQLiteConnection myConn = interactor.GetConnection();
         string sql = $"UPDATE listings SET '{edit}' = '{newData}' WHERE listingID = '{listingId}'";

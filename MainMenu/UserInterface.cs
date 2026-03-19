@@ -272,7 +272,7 @@ public class UserInterface
         switch (ValidEntryChecker.GetValidInt(1, 3))
         {
             case 1:
-                lc.EditListing(interactor, lc, listingId);
+                lc.EditListing(interactor, listingId);
                 GoBackToMainMenu();
                 break;
             case 2:
@@ -290,7 +290,7 @@ public class UserInterface
     /// <param name="uc"></param>
     /// <param name="lc"></param>
     public void ShowUserProfile(DbInteractor interactor, UserCollection uc, ListingCollection lc)
-    {
+    {//TODO: Show active + sold listings
         string user = interactor.GetActiveUsername();
         
         Console.Clear();
