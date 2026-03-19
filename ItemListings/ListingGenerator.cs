@@ -4,9 +4,9 @@ namespace SecondHandMarket;
 
 public class ListingGenerator
 {
-    public static Listings GenerateListing(Init db, ListingCollection lc)
+    public static Listings GenerateListing(DbInteractor interactor, ListingCollection lc)
     {
-        string seller = db.GetActiveUser();
+        string seller = interactor.GetActiveUsername();
         
         Console.Write("Title of listing: ");
         string title = ValidEntryChecker.GetValidString(1, 20);

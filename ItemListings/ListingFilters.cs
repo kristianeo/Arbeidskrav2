@@ -15,12 +15,12 @@ public abstract class ListingFilters
                      $"WHERE category = '{category}'";
     }
     
-    /*
+    
     public static ListingFilter CategoryFilter(Listings.Categories category)
     {
         return listing => listing.Category == category;
     }
-    */
+    
     public static string SearchFilter(ListingCollection lc)
     {
         Console.Write("Search: ");

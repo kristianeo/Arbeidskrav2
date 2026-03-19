@@ -32,93 +32,22 @@ public class ListingCollection
         int choice = ValidEntryChecker.GetValidInt(1, 4);
         return Listings._conditions.Keys.ElementAt(choice - 1);
     }
-    public (string, string, int) ChooseListingToEdit(Init db)
+
+    public int Purchase(DbInteractor interactor, int listingId)
     {
-        db.ShowUserListings();
-        Console.Write("Please enter the ID of the listing you wish to edit: ");
-        int choice = ValidEntryChecker.GetValidInt(1, 200);
-        if (db.ShowListing(db.ShowListingById(choice)))
-        {
-            Console.WriteLine("There is not a listing with ID: " + choice);
-        }
-
-        Console.WriteLine("What would you like to edit? " +
-                          "\n1. Title" +
-                          "\n2. Description" +
-                          "\n3. Category" +
-                          "\n4. Item condition" +
-                          "\n5. Price");
-        int choice2 = ValidEntryChecker.GetValidInt(1, 6);
-
-        string update;
-        string newData;
-        switch (choice2)
-        {
-            case 1:
-                update = "title";
-                Console.Write("New title: ");
-                newData = ValidEntryChecker.GetValidString(1, 20);
-                break;
-            case 2:
-                update = "description";
-                Console.Write("New description: ");
-                newData = ValidEntryChecker.GetValidString(1, 200);
-                break;
-            case 3:
-                update = "category";
-                newData = ChooseCategory().ToString();
-                break;
-            case 4:
-                update = "itemCondition";
-                newData = ChooseItemCondition();
-                break;
-            case 5:
-                update = "price";
-                Console.Write("New price: ");
-                newData = ValidEntryChecker.GetValidInt(1, 10000).ToString();
-                break;
-            default:
-                update = "";
-                newData = "";
-                break;
-        }
-        return (update, newData, choice);
-    }
-    public void EditListing(Init db)
-    {
-        var (edit, newData, listing) = ChooseListingToEdit(db);
-        
-        if (!db.IsSeller(listing))
-        {
-            Console.WriteLine("You cannot edit this listing.");
-        }
-
-        SQLiteConnection myConn = db.GetConnection();
-        string sql = $"UPDATE listings SET '{edit}' = '{newData}' WHERE listingID = '{listing}'";
-        SQLiteCommand command = new SQLiteCommand(sql, myConn);
-        command.ExecuteNonQuery();
-        myConn.Close();
-    }
-
-    public int BuyListing(Init db)
-    {
-        db.ShowListing(db.ShowOtherListings());
-        int buyerId = db.GetActiveUserId();
-        Console.Write("Please chose listing you wish to buy: ");
-        int listingId = ValidEntryChecker.GetValidInt(1, 200);
-
-        if (!db.ShowListing(db.ShowListingById(listingId)))
+        int buyerId = interactor.GetActiveUserId();   
+        if (!interactor.ShowListingById(listingId))
         {
             Console.WriteLine("The listing does not exist.");
         }
         
-        if (db.IsSeller(listingId))
+        if (interactor.IsSeller(listingId))
         {
             Console.WriteLine("You cannot buy your own listing.");
         }
         
-        SQLiteConnection myConn = db.GetConnection();
-        string sql = $"UPDATE listings SET status = 'Sold', buyerID = '{buyerId}' " +
+        SQLiteConnection myConn = interactor.GetConnection();
+        string sql = $"UPDATE listings SET status = 'Sold', buyerID = '{buyerId}', dateOfPurchase = '{DateTime.Now:yyyy-MM-dd}' " +
                      $"WHERE listingID = '{listingId}'";
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
@@ -126,52 +55,66 @@ public class ListingCollection
         return listingId;
     }
 
-    private void RemoveListing(Init db, int listingId) //TODO: make method to show listings and return listingID
+    public void RemoveListing(DbInteractor interactor, int listingId) 
     {
-        if (!db.IsSeller(listingId))
+        SQLiteConnection myConn = interactor.GetConnection();
+        string sql = $"DELETE FROM listings WHERE listingID = '{listingId}'";
+        SQLiteCommand command = new SQLiteCommand(sql, myConn);
+        command.ExecuteNonQuery();
+        myConn.Close();
+        Console.WriteLine("Listing has been removed. ");
+    }
+    
+    private (string, string) ChooseParamToEdit(ListingCollection lc)
+    {
+        Console.Write("What would you like to edit? " +
+                      "\n1. Title" +
+                      "\n2. Description" +
+                      "\n3. Category" +
+                      "\n4. Item condition" +
+                      "\n5. Price" +
+                      "\n\nSelect an option: ");
+
+        string edit = "";
+        string newData = "";
+        switch (ValidEntryChecker.GetValidInt(1, 5))
         {
-            Console.WriteLine("You cannot remove this listing.");
+            case 1:
+                edit = "title";
+                Console.Write("New title: ");
+                newData = ValidEntryChecker.GetValidString(1, 20);
+                break;
+            case 2:
+                edit = "description";
+                Console.Write("New description: ");
+                newData = ValidEntryChecker.GetValidString(0, 200);
+                break;
+            case 3:
+                edit = "category";
+                newData = lc.ChooseCategory().ToString();
+                break;
+            case 4:
+                edit = "itemCondition";
+                newData = lc.ChooseItemCondition();
+                break;
+            case 5:
+                edit = "price";
+                Console.Write("New price: ");
+                newData = ValidEntryChecker.GetValidInt(1, 10000).ToString();
+                break;
         }
-        SQLiteConnection myConn = db.GetConnection();
-        string sql = $"DELETE FROM listings WHERE listingID = '{listingId}'" +
-                     $"LIMIT 1;";
-        SQLiteCommand command = new SQLiteCommand(sql, myConn);
-        command.ExecuteNonQuery();
-        myConn.Close();
+        return (edit, newData);
     }
-    /// <summary>
-    /// Depricated
-    /// </summary>
-    /// <param name="db"></param>
-    /// <param name="listingId"></param>
-    public static void EditListingTitle(Init db, int listingId)
+    public void EditListing(DbInteractor interactor, ListingCollection lc, int listingId)
     {
-        string newTitle = ValidEntryChecker.GetValidString(1, 20);
-        SQLiteConnection myConn = db.GetConnection();
-        string sql = $"UPDATE listings SET title = '{newTitle}' WHERE listingID = '{listingId}'";
+        var (edit, newData) = ChooseParamToEdit(lc);
+
+        SQLiteConnection myConn = interactor.GetConnection();
+        string sql = $"UPDATE listings SET '{edit}' = '{newData}' WHERE listingID = '{listingId}'";
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         command.ExecuteNonQuery();
         myConn.Close();
+        Console.WriteLine("Listing has been updated. ");
     }
-    /// <summary>
-    /// Depricated
-    /// </summary>
-    /// <param name="db"></param>
-    /// <param name="listingId"></param>
-    public static void EditListingDescription(Init db, int listingId)
-    {
-        if (!db.IsSeller(listingId))
-        {
-            Console.WriteLine("You cannot edit this listing.");
-        }
-
-        string newDescription = ValidEntryChecker.GetValidString(1, 200);
-        SQLiteConnection myConn = db.GetConnection();
-        string sql = $"UPDATE listings SET description = '{newDescription}' WHERE listingID = '{listingId}'";
-        SQLiteCommand command = new SQLiteCommand(sql, myConn);
-        command.ExecuteNonQuery();
-        myConn.Close();
-    }
-
-
+    
 }

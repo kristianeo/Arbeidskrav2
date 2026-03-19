@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Security;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using SecondHandMarket.Database;
 
 namespace SecondHandMarket;
 
@@ -20,13 +21,13 @@ public abstract class ValidEntryChecker
         }
     }
     
-    public static string GetValidUsername()
+    public static string GetValidUsername(DbInteractor interactor)
     {
-        Console.Write("Username: ");
         while (true)
         {
-            string username = Console.ReadLine();
-
+            Console.Write("Username: ");
+            string username = GetValidString(4, 20);
+            
             if (username.Any(char.IsAsciiLetter) && username is { Length: >= 2 and <= 30 })
             {
                 return username;
@@ -61,6 +62,11 @@ public abstract class ValidEntryChecker
             if (str.Any(char.IsAsciiLetterOrDigit) && str.Length >= min && str.Length <= max)
             {
                 return str;
+            }
+
+            if (str.Length == 0 && min == 0)
+            {
+                return "";
             }
             
             Console.Write($"Text can only consist of letters A-Z and must be between {min} and {max} characters. Try again: ");
