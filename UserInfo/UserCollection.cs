@@ -117,10 +117,10 @@ public class UserCollection
                 string? comment = dataReader["comment"].ToString();
 
                 Console.WriteLine(
-                    $"Title: {title,15} " +
-                    $"\nScore: {score.ToString(),15} " +
-                    $"\nComment: {comment,13} " +
-                    $"\nDate: {date,16:yyyy-MM-dd}" +
+                    $"Title:     {title} " +
+                    $"\nScore:   {score.ToString()} " +
+                    $"\nComment: {comment} " +
+                    $"\nDate:    {date:yyyy-MM-dd}" +
                     $"\n");
                 exists = true;
             }

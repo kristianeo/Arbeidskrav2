@@ -78,7 +78,7 @@ I have chosen not to use inheritance (except for DbInteractor which inherits sta
 as I have not found a use for it in this assignment. The DbInteractor contains code used to access the database.
 
 The Listings and User classes only contains data, which is accessed through ListingsCollection and UserCollection 
-respectfully. I chose to still use some of the original code, for example creating a Listings instance
+respectfully. LC and UC also contains methods regarding listings/users related to the database. I chose to still use some of the original code, for example creating a Listings instance
 before putting it in the database, even though this is not strictly necessary.
 
 MainMenu.UserInterface uses code from DbInteractor, ListingCollection and UserCollection to bring the

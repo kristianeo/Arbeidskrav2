@@ -83,7 +83,8 @@ public class UserInterface
         bool exists = false;
         string sql = "SELECT * FROM listings " +
                      "JOIN users on listings.sellerID = users.userID " +
-                     $"WHERE listingID = '{listingId}'";
+                     $"WHERE listingID = '{listingId}' " +
+                     $"AND status = 'Available'";
 
         SQLiteConnection myConn = interactor.GetConnection();
 
@@ -304,7 +305,7 @@ public class UserInterface
         }
         
         Console.WriteLine("\n-Your sold listings-");
-        if (!ShowListings(interactor, interactor.ActiveUserListings()))
+        if (!ShowListings(interactor, interactor.SoldUserListings()))
         {
             Console.WriteLine("You have no sold listings.");
         }

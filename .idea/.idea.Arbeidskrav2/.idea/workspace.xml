@@ -8,8 +8,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="07610259-9931-4b90-af39-8761e3acf184" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Arbeidskrav2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Arbeidskrav2/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Database/DbInteractor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Database/DbInteractor.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainMenu/UserInterface.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MainMenu/UserInterface.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SecondHandMarketDB.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/SecondHandMarketDB.sqlite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserInfo/UserCollection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UserInfo/UserCollection.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
