@@ -13,12 +13,12 @@ class Program
         UserInterface ui = new UserInterface();
 
         ui.UserLogout(interactor);
-
+        Console.Clear();
         Console.WriteLine("===Second Hand Market ===");
         Console.Write("\n1. Register" +
-                          "\n2. Login" +
-                          "\n3. Exit" +
-                          "\n\nSelect an option: ");
+                      "\n2. Login" +
+                      "\n3. Exit" +
+                      "\n\nSelect an option: ");
         switch (ValidEntryChecker.GetValidInt(1, 3))
         {
             case 1:

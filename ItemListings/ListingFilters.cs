@@ -38,7 +38,7 @@ public abstract class ListingFilters
         string userSearch = ValidEntryChecker.GetValidString(1, 200);
         return "SELECT * FROM listings " +
                "JOIN users on listings.sellerID = users.userID " +
-               $"WHERE title LIKE '%{userSearch}%' OR description LIKE '%{userSearch}%' " +
+               $"WHERE (title LIKE '%{userSearch}%' OR description LIKE '%{userSearch}%') " +
                $"AND status = 'Available'";
     }
     /// <summary>

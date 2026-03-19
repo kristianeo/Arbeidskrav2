@@ -47,7 +47,7 @@ public class UserInterface
     /// <param name="interactor"></param>
     /// <param name="sql">SQL statement returned from other method</param>
     /// <returns>True if there is one or more listing to view</returns>
-    public bool ShowListings(DbInteractor interactor, string sql)
+    private bool ShowListings(DbInteractor interactor, string sql)
     {
         Console.WriteLine("  #  Title                 Category     Condition  Price");
         bool exists = false;
@@ -275,23 +275,13 @@ public class UserInterface
     {
         while (true)
         {
-            try
+            Console.Write("\nSelect listing #: ");
+            int listingId = ValidEntryChecker.GetValidInt(1, 200);
+            if (interactor.IsSeller(listingId) && ShowListingById(interactor, listingId))
             {
-                Console.Write("\nSelect listing to view (listing #): ");
-                int listingId = ValidEntryChecker.GetValidInt(1, 200);
-                if (interactor.IsSeller(listingId) && ShowListingById(interactor, listingId))
-                {
-                    return listingId;
-                }
+                return listingId;
             }
-            catch (IndexOutOfRangeException ex)
-            {
-                Console.WriteLine("Error: Please enter a valid listing #");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error: Listing # is not valid");
-            }
+            Console.WriteLine("Listing # not valid.");
         }
     }
     /// <summary>
