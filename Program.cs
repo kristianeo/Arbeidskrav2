@@ -23,7 +23,7 @@ class Program
         {
             case 1:
                 Console.Clear();
-                Console.WriteLine("=== Register ===");
+                Console.WriteLine("=== Register ===\n");
                 userCollection.RegisterUser(userCollection, interactor);
                 break;
             case 2:
@@ -50,39 +50,25 @@ class Program
             {
                 case 1:
                     Console.Clear();
-                    Console.WriteLine("=== Create Listing ===");
+                    Console.WriteLine("=== Create Listing ===\n");
                     listingCollection.CreateListing(interactor, listingCollection);
                     ui.GoBackToMainMenu();
                     break;
                 case 2:
-                    Console.Clear();
-                    Console.WriteLine("=== Available listings ===");
-                    ui.ShowListings(interactor, interactor.OthersListings());
-                    if (ui.ViewListing())
-                    {
-                        ui.PurchaseListing(interactor, userCollection);
-                        ui.GoBackToMainMenu();
-                    }
+                    ui.BrowseListings(interactor, userCollection);
                     break;
                 case 3:
-                    Console.Clear();
-                    Console.WriteLine("=== Search ===");
-                    ui.SearchListings(listingCollection, interactor);
-                    if (ui.ViewListing())
-                    {
-                        ui.PurchaseListing(interactor, userCollection);
-                        ui.GoBackToMainMenu();
-                    }
+                    ui.Search(interactor, listingCollection, userCollection);
                     break;
                 case 4:
                     Console.Clear();
-                    Console.WriteLine("=== My Profile ===");
+                    Console.WriteLine("=== My Profile ===\n");
                     ui.ShowUserProfile(interactor, userCollection, listingCollection);
                     break;
                 case 5:
                     Console.Clear();
                     ui.UserLogout(interactor);
-                    Console.WriteLine("Thank you for shopping with us. Welcome back.");
+                    Console.WriteLine("\nThank you for shopping with us. Welcome back.");
                     Thread.Sleep(3000);
                     Environment.Exit(0);
                     break;

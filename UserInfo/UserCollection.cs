@@ -76,6 +76,12 @@ public class UserCollection
     /// <param name="listingId"></param>
     public void LeaveReview(DbInteractor interactor, int listingId)
     {
+        Console.Write("\nDo you wish to leave a review? " +
+                      "\n1. Yes" +
+                      "\n2. No" +
+                      "\nSelect an option: ");
+        if (ValidEntryChecker.GetValidInt(1, 2) == 2) return; 
+        
         Console.Write("\nRating (1-6): ");
         int score = ValidEntryChecker.GetValidInt(1, 6);
         Console.Write("Comment (or press enter to skip): ");

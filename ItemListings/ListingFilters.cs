@@ -16,7 +16,8 @@ public abstract class ListingFilters
         Listings.Categories category = lc.ChooseCategory();
         return "SELECT * FROM listings " +
                      "JOIN users on listings.sellerID = users.userID " +
-                     $"WHERE category = '{category}'";
+                     $"WHERE category = '{category}' " +
+                     $"AND status = 'Available'";
     }
     /// <summary>
     /// Deprecated. Creates a ListingFilter to filter by category.
@@ -37,7 +38,8 @@ public abstract class ListingFilters
         string userSearch = ValidEntryChecker.GetValidString(1, 200);
         return "SELECT * FROM listings " +
                "JOIN users on listings.sellerID = users.userID " +
-               $"WHERE title LIKE '%{userSearch}%' OR description LIKE '%{userSearch}%'";
+               $"WHERE title LIKE '%{userSearch}%' OR description LIKE '%{userSearch}%' " +
+               $"AND status = 'Available'";
     }
     /// <summary>
     /// Deprecated. Creates a ListingFilter to search for a phrase in listing title or description.

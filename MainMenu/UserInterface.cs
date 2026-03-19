@@ -119,13 +119,13 @@ public class UserInterface
     /// </summary>
     /// <param name="lc"></param>
     /// <param name="interactor"></param>
-    public void SearchListings(ListingCollection lc, DbInteractor interactor)
+    /// <returns>True if search result is positive</returns>
+    private bool SearchListings(ListingCollection lc, DbInteractor interactor)
     {
         Console.Write("\n1. Category" +
                       "\n2. Title or description" +
-                      "\n3. Go back to main menu" +
                       "\n\nSelect an option: ");
-        switch (ValidEntryChecker.GetValidInt(1, 3))
+        switch (ValidEntryChecker.GetValidInt(1, 2))
         {
             case 1:
                 Console.Clear();
@@ -133,6 +133,7 @@ public class UserInterface
                 if (!ShowListings(interactor, ListingFilters.CategoryFilter(lc)))
                 {
                     Console.WriteLine("No listings in this category.");
+                    return false;
                 }
                 break;
             case 2:
@@ -141,14 +142,16 @@ public class UserInterface
                 if (!ShowListings(interactor, ListingFilters.SearchFilter()))
                 {
                     Console.WriteLine("No results for your search.");
+                    return false;
                 }
-                break;
-            case 3:
+
                 break;
         }
+
+        return true;
     }
     /// <summary>
-    /// Prompts the user if they want to view a specific listing or go back to main menu.
+    /// Prompts the user if they want to view a listing or go back to main menu.
     /// </summary>
     /// <returns>True if user wants to view listing</returns>
     public bool ViewListing()
@@ -156,8 +159,7 @@ public class UserInterface
         Console.Write("\n1. View listing" +
                           "\n2. Return to main menu" +
                           "\nSelect an option: ");
-        if (ValidEntryChecker.GetValidInt(1, 2) == 1) return true;
-        return false;
+        return ValidEntryChecker.GetValidInt(1, 2) == 1;
     }
     /// <summary>
     /// Edits the status of purchased listing in the database
@@ -201,30 +203,68 @@ public class UserInterface
         }
     }
     /// <summary>
-    /// Promts the user if they want to purchase the listing they're viewing.
+    /// Prompts the user if they want to purchase the listing they're viewing.
     /// If yes, runs Purchase() and prompts if the user wishes to leave a review. 
     /// </summary>
     /// <param name="interactor"></param>
     /// <param name="uc"></param>
-    public void PurchaseListing(DbInteractor interactor, UserCollection uc)
+    /// <returns>True if user purchases the listing</returns>
+    public bool PurchaseListing(DbInteractor interactor, UserCollection uc)
     {
         int listingId = PurchaseListingChecker(interactor); 
-        Console.Write("\nPurchase this listing?" +
-                      "\n1. Yes" +
-                      "\n2. No" +
+        Console.Write("\n1. Purchase this listing" +
+                      "\n2. Back to browsing" +
                       "\nSelect an option: ");
-        if (ValidEntryChecker.GetValidInt(1, 2) != 1) return;
+        if (ValidEntryChecker.GetValidInt(1, 2) == 2) return false;
         Purchase(interactor, listingId);
         Console.WriteLine("Purchase complete!");
         
-        Console.Write("\nDo you wish to leave a review? " +
-                      "\n1. Yes" +
-                      "\n2. No" +
-                      "\nSelect an option: ");
-        if (ValidEntryChecker.GetValidInt(1, 2) == 2) return;
-
         uc.LeaveReview(interactor, listingId);
-    }//TODO: Make it go back to listings theyre viewing 
+        return true;
+    }
+    
+    /// <summary>
+    /// Loops the available listings so user can view listings and go back to
+    /// browsing if they do not wish to buy the listing.
+    /// </summary>
+    /// <param name="interactor"></param>
+    /// <param name="uc"></param>
+    public void BrowseListings(DbInteractor interactor, UserCollection uc)
+    {
+        while (true)
+        {
+            Console.Clear();
+            Console.WriteLine("=== Available Listings ===\n");
+            ShowListings(interactor, interactor.OthersListings());
+            if (!ViewListing()) return;
+
+            if (PurchaseListing(interactor, uc))
+            {
+                GoBackToMainMenu();
+                return;
+            }
+
+        }
+    }
+
+    public void Search(DbInteractor interactor, ListingCollection lc, UserCollection uc)
+    {
+        while (true)
+        {
+            Console.Clear();
+            Console.WriteLine("=== Search ===");
+            if (!SearchListings(lc, interactor))
+            {
+                Console.Write("Press any key to continue...");
+                Console.ReadKey();
+                continue;
+            }
+            if (!ViewListing()) return;
+            if (!PurchaseListing(interactor, uc)) continue;
+            return;
+        }
+    }
+
     /// <summary>
     /// Checks if viewed listing can be edited by logged-in user 
     /// </summary>
@@ -263,7 +303,12 @@ public class UserInterface
     private void ViewOwnListings(DbInteractor interactor, ListingCollection lc)
     {
         Console.Clear();
-        ShowListings(interactor, interactor.ActiveUserListings());
+        if (!ShowListings(interactor, interactor.ActiveUserListings()))
+        {
+            Console.WriteLine("You have no active listings to view");
+            GoBackToMainMenu();
+            return;
+        }
         int listingId = EditListingChecker(interactor);
         
         Console.Write("\n1. Edit" +
