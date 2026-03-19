@@ -10,24 +10,28 @@ public class UserCollection
     private List<User> _usersList = new List<User>();
 
     /// <summary>
-    /// 
+    /// Creates an instance of User by checking for a valid username
+    /// and checks that it's not in the database to avoid duplicate usernames.
     /// </summary>
     /// <returns>New instance of User</returns>
-    public User CreateUserInstance(DbInteractor interactor)
+    private User CreateUserInstance(DbInteractor interactor)
     {
-        Start:
-        string username = ValidEntryChecker.GetValidUsername(interactor);
-        if (!interactor.CheckIfAvailableUsername(username))
+        while (true)
         {
-            goto Start;
-        }
-        string password = ValidEntryChecker.GetConsoleSecurePassword();
-        User user = new User(username, password);
-        _usersList.Add(user);
+            string username = ValidEntryChecker.GetValidUsername(interactor);
+            if (!interactor.CheckIfAvailableUsername(username)) continue;
+            string password = ValidEntryChecker.GetConsoleSecurePassword();
+            User user = new User(username, password);
+            _usersList.Add(user);
         
-        return user;
+            return user;
+        }
     }
-
+    /// <summary>
+    /// Creates SQL query to select all listings from logged-in user.
+    /// </summary>
+    /// <param name="interactor"></param>
+    /// <returns>SQL query</returns>
     public string ShowPurchaseHistory(DbInteractor interactor)
     {
         int userId = interactor.GetActiveUserId();
@@ -35,6 +39,11 @@ public class UserCollection
                "JOIN users on listings.sellerID = users.userID " +
                $"WHERE buyerID = '{userId}' ";
     }
+    /// <summary>
+    /// Returns SQL query to select all sold listings from logged-in user.
+    /// </summary>
+    /// <param name="interactor"></param>
+    /// <returns></returns>
     public string ShowSellerHistory(DbInteractor interactor)
     {
         int userId = interactor.GetActiveUserId();
@@ -42,7 +51,12 @@ public class UserCollection
                $"WHERE sellerID = '{userId}' " +
                "AND status = 'Sold'";    
     }
-
+    /// <summary>
+    /// Selects sellerID from given listing in database
+    /// </summary>
+    /// <param name="interactor"></param>
+    /// <param name="listingId"></param>
+    /// <returns></returns>
     private int GetSellerId(DbInteractor interactor, int listingId)
     {
         SQLiteConnection myConn = interactor.GetConnection();
@@ -57,15 +71,13 @@ public class UserCollection
 
         return sellerId;
     }
-
+    /// <summary>
+    /// Adds review to database with optional comment.
+    /// </summary>
+    /// <param name="interactor"></param>
+    /// <param name="listingId"></param>
     public void LeaveReview(DbInteractor interactor, int listingId)
     {
-        Console.Write("\nDo you wish to leave a review? " +
-                      "\n1. Yes" +
-                      "\n2. No" +
-                      "\nSelect an option: ");
-        if (ValidEntryChecker.GetValidInt(1, 2) == 2) return;
-        
         Console.Write("\nRating (1-6): ");
         int score = ValidEntryChecker.GetValidInt(1, 6);
         Console.Write("Comment (or press enter to skip): ");
@@ -83,6 +95,11 @@ public class UserCollection
         
         myConn.Close();
     }
+    /// <summary>
+    /// Selects and prints all reviews given on logged-in user.
+    /// </summary>
+    /// <param name="interactor"></param>
+    /// <returns></returns>
     public bool ShowReviewHistory(DbInteractor interactor)
     {
         bool exists = false;
@@ -113,12 +130,16 @@ public class UserCollection
         myConn.Close();
         return exists;
     }
+    /// <summary>
+    /// Takes an instance of a created user and adds it to the database.
+    /// </summary>
+    /// <param name="uc"></param>
+    /// <param name="interactor"></param>
     public void RegisterUser(UserCollection uc, DbInteractor interactor)
     {
         User user = uc.CreateUserInstance(interactor);
         interactor.AddUserToTable(user);
     }
-
 
     /// <summary>
     /// Deprecated
@@ -126,12 +147,12 @@ public class UserCollection
     /// <returns></returns>
     public string GetActiveUser()
     {
-        IEnumerable<string> seller =
+        IEnumerable<string> activeUser =
             from users in _usersList
             where users.IsActive()
             select users.Username;
 
-        return seller.ToString();
+        return activeUser.ToString();
     }
 
 

@@ -30,7 +30,7 @@ public class Listings
         Other
     }
 
-    public static Dictionary<string, string> _conditions = new()
+    public static Dictionary<string, string> Conditions = new()
     {
         { "New", "Unused, still in original packaging" },
         { "Like New", "Used briefly, no visible wear" },
@@ -86,7 +86,10 @@ public class Listings
         _price = price;
         _status = Status.Available;
     }
-
+    /// <summary>
+    /// Creates a new instance of an existing listing to interact with it.
+    /// </summary>
+    /// <param name="listing"></param>
     public Listings(Listings listing)
     {
         _seller = listing._seller;

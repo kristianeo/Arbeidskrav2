@@ -13,7 +13,7 @@ class Program
         UserCollection userCollection = new UserCollection();
         UserInterface ui = new UserInterface();
 
-        Login.UserLogout(interactor);
+        ui.UserLogout(interactor);
 
         Console.WriteLine("===Second Hand Market ===");
         Console.Write("\n1. Register" +
@@ -30,7 +30,7 @@ class Program
             case 2:
                 Console.Clear();
                 Console.WriteLine("=== Login ===");
-                Login.UserLogin(interactor);
+                ui.UserLogin(interactor);
                 break;
             case 3:
                 Environment.Exit(0);
@@ -52,22 +52,28 @@ class Program
                 case 1:
                     Console.Clear();
                     Console.WriteLine("=== Create Listing ===");
-                    ui.CreateListing(interactor, listingCollection);
+                    listingCollection.CreateListing(interactor, listingCollection);
                     ui.GoBackToMainMenu();
                     break;
                 case 2:
                     Console.Clear();
                     Console.WriteLine("=== Available listings ===");
-                    interactor.ShowListings(interactor.OthersListings());
-                    ui.PurchaseListing(interactor, listingCollection, userCollection);
-                    ui.GoBackToMainMenu();
+                    ui.ShowListings(interactor, interactor.OthersListings());
+                    if (ui.ViewListing())
+                    {
+                        ui.PurchaseListing(interactor, userCollection);
+                        ui.GoBackToMainMenu();
+                    }
                     break;
                 case 3:
                     Console.Clear();
                     Console.WriteLine("=== Search ===");
                     ui.SearchListings(listingCollection, interactor);
-                    ui.PurchaseListing(interactor, listingCollection, userCollection);
-                    ui.GoBackToMainMenu();
+                    if (ui.ViewListing())
+                    {
+                        ui.PurchaseListing(interactor, userCollection);
+                        ui.GoBackToMainMenu();
+                    }
                     break;
                 case 4:
                     Console.Clear();
@@ -76,14 +82,12 @@ class Program
                     break;
                 case 5:
                     Console.Clear();
-                    Login.UserLogout(interactor);
+                    ui.UserLogout(interactor);
                     Console.WriteLine("Thank you for shopping with us. Welcome back.");
                     Thread.Sleep(3000);
                     Environment.Exit(0);
                     break;
             }
-            
         }
-
     }
 }

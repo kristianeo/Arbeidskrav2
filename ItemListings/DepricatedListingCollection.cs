@@ -4,27 +4,41 @@ using SecondHandMarket.MainMenu;
 
 namespace SecondHandMarket.ItemListings;
 
-public class DepricatedListingCollection
+public class DeprecatedListingCollection
 {
     private List<Listings> _listings = new List<Listings>();
-
-    public Listings CreateListing(DbInteractor interactor, ListingCollection lc)
+    /// <summary>
+    /// Depricated
+    /// Creates an instance of Listings and adds it to the _listings list.
+    /// </summary>
+    /// <param name="interactor"></param>
+    /// <param name="lc"></param>
+    /// <param name="ui"></param>
+    /// <returns>instance of Listings</returns>
+    public Listings CreateListing(DbInteractor interactor, ListingCollection lc, UserInterface ui)
     {
-        string username = interactor.GetActiveUsername();
-        Listings listing = new Listings(ListingGenerator.GenerateListing(interactor, lc));
+        Listings listing = new Listings(lc.GenerateListingInstance(interactor, lc));
         _listings.Add(listing);
-        Console.WriteLine("Listing created");
         return listing;
     }
-    
+    /// <summary>
+    /// Duplicates a listing for use in search results
+    /// </summary>
+    /// <param name="listing"></param>
+    /// <returns></returns>
     private Listings DuplicateListing(Listings listing)
     {
         _listings.Add(new Listings(listing));
         return listing;
     }
-    public DepricatedListingCollection FilterListingsBy(ListingFilter filter)
+    /// <summary>
+    /// Returns a duplicate listing of listings matching the used filter.
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+    public DeprecatedListingCollection FilterListingsBy(ListingFilter filter)
     {
-        DepricatedListingCollection results = new();
+        DeprecatedListingCollection results = new();
         foreach (Listings listing in _listings) 
         {
             if (filter.Invoke(listing))
@@ -34,7 +48,9 @@ public class DepricatedListingCollection
         }
         return results;
     }
-
+    /// <summary>
+    /// Writes a list of all the listings to the console
+    /// </summary>
     public void ShowListings()
     {
         foreach (Listings listings in _listings)
@@ -42,10 +58,19 @@ public class DepricatedListingCollection
             Console.WriteLine(listings.ToString());
         }
     }
+    /// <summary>
+    /// Accesses the private list of listings in (Deprecated)ListingCollection
+    /// </summary>
+    /// <returns>A new list of listings</returns>
     public List<Listings> GetAll()
     {
         return new List<Listings>(_listings);
     }
+    /// <summary>
+    /// Edits the title of listing
+    /// </summary>
+    /// <param name="listing"></param>
+    /// <returns></returns>
     public static Listings EditTitle(Listings listing)
     {
         listing.Title = ValidEntryChecker.GetValidString(1, 20);
@@ -67,13 +92,13 @@ public class DepricatedListingCollection
     public static Listings EditCondition(Listings listing)
     {
         int i = 1;
-        foreach (KeyValuePair<string, string> kvp in Listings._conditions)
+        foreach (KeyValuePair<string, string> kvp in Listings.Conditions)
         {
             Console.WriteLine($"{ i++ }. { kvp.Key }{ kvp.Value }");
         }
         Console.Write("Please choose the condition of the item: ");
         int choice = ValidEntryChecker.GetValidInt(1, 4);
-        listing.Condition = Listings._conditions.Keys.ElementAt(choice - 1);
+        listing.Condition = Listings.Conditions.Keys.ElementAt(choice - 1);
         return listing;
     }
 
@@ -91,7 +116,7 @@ public class DepricatedListingCollection
     }
     
     /// <summary>
-    /// Depricated
+    /// Deprecated
     /// </summary>
     /// <param name="db"></param>
     /// <param name="listingId"></param>
@@ -105,7 +130,7 @@ public class DepricatedListingCollection
         myConn.Close();
     }
     /// <summary>
-    /// Depricated
+    /// Deprecated
     /// </summary>
     /// <param name="db"></param>
     /// <param name="listingId"></param>

@@ -2,30 +2,14 @@ using System.Data.SQLite;
 
 namespace SecondHandMarket.Database;
 
-public class DbInteractor
+public class DbInteractor:Init
 {
-    public SQLiteConnection GetConnection()
-    {
-        SQLiteConnection myConn = new SQLiteConnection("Data Source=SecondHandMarketDB.sqlite;Version=3;");
-        myConn.Open();
-        return myConn;
-    }
-    
-    public void AddUserToTable(User user)
-    {
-        SQLiteConnection myConn = GetConnection();
-
-        string sql = "INSERT INTO users(username, password, activeStatus) VALUES (" +
-                     $"'{user.Username}'," +
-                     $"'{user.Password}'," +
-                     "'1')";
-
-        SQLiteCommand command = new SQLiteCommand(sql, myConn);
-        command.ExecuteNonQuery();
-
-        myConn.Close();
-    }
-    
+    /// <summary>
+    /// Checks the given username and password against the database.
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="password"></param>
+    /// <returns>True if both parameters are correct</returns>
     public bool CheckUserCredentials(string username, string password)
     {
         SQLiteConnection myConn = GetConnection();
@@ -33,7 +17,8 @@ public class DbInteractor
         SQLiteCommand command = new SQLiteCommand(sql, myConn);
         var check = command.ExecuteScalar();
 
-        sql = $"SELECT password FROM users WHERE password = '{password}'";
+        sql = $"SELECT password FROM users " +
+              $"WHERE username = '{username}' AND password = '{password}'";
         SQLiteCommand command2 = new SQLiteCommand(sql, myConn);
         var check2 = command2.ExecuteScalar();
 
@@ -46,7 +31,11 @@ public class DbInteractor
         myConn.Close();
         return true;
     }
-
+    /// <summary>
+    /// When creating a new user, checks whether the username exists in the database to avoid duplicates.
+    /// </summary>
+    /// <param name="username"></param>
+    /// <returns>True if the username is available</returns>
     public bool CheckIfAvailableUsername(string username)
     {
         SQLiteConnection myConn = GetConnection();
@@ -64,7 +53,28 @@ public class DbInteractor
         myConn.Close();
         return true;
     }
+    /// <summary>
+    /// Adds the created instance of a user to the database.
+    /// </summary>
+    /// <param name="user"></param>
+    public void AddUserToTable(User user)
+    {
+        SQLiteConnection myConn = GetConnection();
 
+        string sql = "INSERT INTO users(username, password, activeStatus) VALUES (" +
+                     $"'{user.Username}'," +
+                     $"'{user.Password}'," +
+                     "'1')";
+
+        SQLiteCommand command = new SQLiteCommand(sql, myConn);
+        command.ExecuteNonQuery();
+
+        myConn.Close();
+    }
+    /// <summary>
+    /// Used when logging in to set the user as active.
+    /// </summary>
+    /// <param name="username"></param>
     public void SetUserAsActive(string username)
     {
         SQLiteConnection myConn = GetConnection();
@@ -73,7 +83,9 @@ public class DbInteractor
         command.ExecuteNonQuery();
         myConn.Close();
     }
-
+    /// <summary>
+    /// When logging out, sets all users as inactive as a failsafe.
+    /// </summary>
     public void SetUserAsInactive()
     {
         SQLiteConnection myConn = GetConnection();
@@ -82,33 +94,10 @@ public class DbInteractor
         command.ExecuteNonQuery();
         myConn.Close();
     }
-
-    public bool ShowListings(string sql)
-    {
-        Console.WriteLine("  #  Title                 Category     Condition  Price");
-        bool exists = false;
-        SQLiteConnection myConn = GetConnection();
-
-        using SQLiteCommand readThis = new SQLiteCommand(sql, myConn);
-        using (SQLiteDataReader dataReader = readThis.ExecuteReader())
-        {
-            while (dataReader.Read())
-            {
-                int id = Convert.ToInt32(dataReader["listingID"]);
-                string? title = dataReader["title"].ToString();
-                string? category = dataReader["category"].ToString();
-                string? itemCondition = dataReader["itemCondition"].ToString();
-                decimal price = Convert.ToDecimal(dataReader["price"]);
-
-                Console.WriteLine(
-                    $"  {id.ToString(),-2} {title,-21} {category,-12} {itemCondition,-10} {price} kr");
-                exists = true;
-            }
-        }
-        myConn.Close();
-        return exists;
-    }
-
+    /// <summary>
+    /// Shows all the listings for the active (logged in) user
+    /// </summary>
+    /// <returns></returns>
     public string ActiveUserListings()
     {
         int sellerId = GetActiveUserId();
@@ -117,7 +106,7 @@ public class DbInteractor
                $"WHERE sellerID = '{sellerId}'";
     }
     /// <summary>
-    /// shows all listings except current user 
+    /// Shows all listings except for the active (logged in) user 
     /// </summary>
     public string OthersListings()
     {
@@ -127,41 +116,11 @@ public class DbInteractor
                      $"WHERE listings.sellerID != '{userId}' " +
                      $"AND status = 'Available'";
     }
-    public bool ShowListingById(int listingId)
-    {
-        bool exists = false;
-        string sql = "SELECT * FROM listings " +
-                     "JOIN users on listings.sellerID = users.userID " +
-                     $"WHERE listingID = '{listingId}'";
-
-        SQLiteConnection myConn = GetConnection();
-
-        using SQLiteCommand readThis = new SQLiteCommand(sql, myConn);
-        using (SQLiteDataReader dataReader = readThis.ExecuteReader())
-        {
-            while (dataReader.Read())
-            {
-                string? name = dataReader["username"].ToString();
-                string? title = dataReader["title"].ToString();
-                string? description = dataReader["description"].ToString();
-                string? category = dataReader["category"].ToString();
-                string? itemCondition = dataReader["itemCondition"].ToString();
-                decimal price = Convert.ToDecimal(dataReader["price"]);
-
-                Console.WriteLine(
-                    $"\n=== {title} ===" +
-                    $"\nSeller:      {name}" +
-                    $"\nCategory:    {category} " +
-                    $"\nCondition:   {itemCondition} " +
-                    $"\nPrice:       {price} kr" +
-                    $"\nDescription: {description}");
-                exists = true;
-            }
-        }
-        myConn.Close();
-        return exists;
-    }
-
+    /// <summary>
+    /// Returns true if the active (logged in) user is the seller of chosen listing. 
+    /// </summary>
+    /// <param name="listingId"></param>
+    /// <returns></returns>
     public bool IsSeller(int listingId)
     {
         int userId =  GetActiveUserId();
@@ -178,7 +137,10 @@ public class DbInteractor
         myConn.Close();
         return false;
     }
-    
+    /// <summary>
+    /// Accesses the userID for the logged-in user
+    /// </summary>
+    /// <returns></returns>
     public int GetActiveUserId()
     {
         SQLiteConnection myConn = GetConnection();
@@ -192,6 +154,10 @@ public class DbInteractor
         return result;
 
     }
+    /// <summary>
+    /// Returns the username of the logged-in user
+    /// </summary>
+    /// <returns></returns>
     public string GetActiveUsername()
     {
         SQLiteConnection myConn = GetConnection();
@@ -201,7 +167,7 @@ public class DbInteractor
         var activeUser = command.ExecuteScalar();
 
         myConn.Close();
-        if (activeUser == null)
+        if (activeUser == null)//The program is written so there is always someone logged in
         {
             Console.WriteLine("You are not logged in.");
             return "";
@@ -210,21 +176,10 @@ public class DbInteractor
         return activeUser.ToString();
         
     }
-    public int GetSellerId()
-    {
-        SQLiteConnection myConn = GetConnection();
-        int user = GetActiveUserId();
-
-        string sql = "SELECT sellerID FROM listings " +
-                     "JOIN users on listings.sellerID = users.userID " +
-                     $"WHERE sellerID = '{user}'";
-
-        SQLiteCommand command = new SQLiteCommand(sql, myConn);
-
-        int result = Convert.ToInt32(command.ExecuteScalar());
-        myConn.Close();
-        return result;
-    }
+    /// <summary>
+    /// Adds the created instance of Listings to the database
+    /// </summary>
+    /// <param name="listing"></param>
     public void AddListingToTable(Listings listing)
     {
         int userId = GetActiveUserId();

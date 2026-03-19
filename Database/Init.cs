@@ -6,18 +6,26 @@ using System.Data.SQLite;
 
 public class Init
 {
+    /// <summary>
+    /// Creates an SQLite database named SecondHandMarketDB.
+    /// </summary>
     public void CreateDatabase()
     {
         SQLiteConnection.CreateFile("SecondHandMarketDB.sqlite");
     }
-
+    /// <summary>
+    /// Reusable code for accessing connection to the database.
+    /// </summary>
+    /// <returns>SQLiteConnection</returns>
     public SQLiteConnection GetConnection()
     {
         SQLiteConnection myConn = new SQLiteConnection("Data Source=SecondHandMarketDB.sqlite;Version=3;");
         myConn.Open();
         return myConn;
     }
-
+    /// <summary>
+    /// Creates a listings table for the db.
+    /// </summary>
     public void CreateListingsTable()
     {
         SQLiteConnection myConn = GetConnection();
@@ -41,7 +49,9 @@ public class Init
 
         myConn.Close();
     }
-
+    /// <summary>
+    /// Creates a user table for the db.
+    /// </summary>
     public void CreateUserTable()
     {
         SQLiteConnection myConn = GetConnection();
@@ -58,10 +68,9 @@ public class Init
 
         myConn.Close();
     }
-    
-
-
-    
+    /// <summary>
+    /// Creates a review table for the db.
+    /// </summary>
     public void CreateReviewTable()
     {
         SQLiteConnection myConn = GetConnection();

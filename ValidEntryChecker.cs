@@ -8,6 +8,12 @@ namespace SecondHandMarket;
 
 public abstract class ValidEntryChecker
 {
+    /// <summary>
+    /// Returns valid integer in given min-max range
+    /// </summary>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    /// <returns></returns>
     public static int GetValidInt(int min, int max)
     {
         while (true)
@@ -20,7 +26,11 @@ public abstract class ValidEntryChecker
             Console.Write("Invalid selection. Try again: ");
         }
     }
-    
+    /// <summary>
+    /// Returns valid username with approved characters and within given range.
+    /// </summary>
+    /// <param name="interactor"></param>
+    /// <returns></returns>
     public static string GetValidUsername(DbInteractor interactor)
     {
         while (true)
@@ -33,26 +43,15 @@ public abstract class ValidEntryChecker
                 return username;
             }
             
-            Console.Write("Username can only consist of letters A-Z and be 2-30 characters long. Try again: ");
+            Console.Write("Username can only consist of letters A-Z and be 4-30 characters long. Try again: ");
         }
     }
-    /*
-    public static SecureString GetValidPassword(SecureString password)
-    {
-        Console.Write("Password: ");
-        while (true)
-        {
-
-            if (password.Any(char.IsAsciiLetterOrDigit) && password is { Length: >= 8 and <= 30 })
-            {
-                return password;
-            }
-            
-            Console.Write("Password can only consist of letters A-Z and must be 8-30 characters long. Try again: ");
-        }
-    }
-    */
-    
+    /// <summary>
+    /// Used when needing user input as string within min-max range.
+    /// </summary>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    /// <returns></returns>
     public static string GetValidString(int min, int max)
     {
         while (true)
@@ -73,12 +72,12 @@ public abstract class ValidEntryChecker
         }
     }
 
-/// <summary>
-/// Encrypts password for storage in database. Returns the same encryption when the same password is entered again,
-/// to make it easier to compare to the database.
-/// </summary>
-/// <param name="pwd"></param>
-/// <returns>hashed password</returns>
+    /// <summary>
+    /// Encrypts password for storage in database. Returns the same encryption when the same password is entered again,
+    /// to make it comparable to the database.
+    /// </summary>
+    /// <param name="pwd"></param>
+    /// <returns>hashed password</returns>
     private static string GetHashedPwd(string pwd)
     {
         string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
@@ -90,6 +89,10 @@ public abstract class ValidEntryChecker
 
         return hashed;
     }
+    /// <summary>
+    /// Password entry into the console without showing it. 
+    /// </summary>
+    /// <returns>Hashed password</returns>
     public static string GetConsoleSecurePassword( )
     {
         Console.Write("Password: ");

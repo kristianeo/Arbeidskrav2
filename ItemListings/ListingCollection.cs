@@ -7,7 +7,10 @@ namespace SecondHandMarket;
 
 public class ListingCollection
 {
-    
+    /// <summary>
+    /// Prints the listing categories and lets the user choose one
+    /// </summary>
+    /// <returns></returns>
     public Listings.Categories ChooseCategory()
     {
         int i = 1;
@@ -20,41 +23,63 @@ public class ListingCollection
         int choice = ValidEntryChecker.GetValidInt(1, 6);
         return (Listings.Categories)choice - 1;
     }
-
+    /// <summary>
+    /// Prints item condition and description, lets the user choose one
+    /// </summary>
+    /// <returns>Item condition without the description</returns>
     public string ChooseItemCondition()
     {
         int i = 1;
-        foreach (KeyValuePair<string, string> kvp in Listings._conditions)
+        foreach (KeyValuePair<string, string> kvp in Listings.Conditions)
         {
             Console.WriteLine($"{ i++ }. { kvp.Key }: { kvp.Value }");
         }
         Console.Write("Item condition: ");
         int choice = ValidEntryChecker.GetValidInt(1, 4);
-        return Listings._conditions.Keys.ElementAt(choice - 1);
+        return Listings.Conditions.Keys.ElementAt(choice - 1);
     }
-
-    public int Purchase(DbInteractor interactor, int listingId)
+    /// <summary>
+    /// Lets the user generate a listing with all required parameters.
+    /// </summary>
+    /// <param name="interactor"></param>
+    /// <param name="lc"></param>
+    /// <returns>Instance of Listings</returns>
+    public Listings GenerateListingInstance(DbInteractor interactor, ListingCollection lc)
     {
-        int buyerId = interactor.GetActiveUserId();   
-        if (!interactor.ShowListingById(listingId))
-        {
-            Console.WriteLine("The listing does not exist.");
-        }
+        string seller = interactor.GetActiveUsername();
         
-        if (interactor.IsSeller(listingId))
-        {
-            Console.WriteLine("You cannot buy your own listing.");
-        }
+        Console.Write("Title of listing: ");
+        string title = ValidEntryChecker.GetValidString(1, 20);
         
-        SQLiteConnection myConn = interactor.GetConnection();
-        string sql = $"UPDATE listings SET status = 'Sold', buyerID = '{buyerId}', dateOfPurchase = '{DateTime.Now:yyyy-MM-dd}' " +
-                     $"WHERE listingID = '{listingId}'";
-        SQLiteCommand command = new SQLiteCommand(sql, myConn);
-        command.ExecuteNonQuery();
-        myConn.Close();
-        return listingId;
-    }
+        Console.Write("Description of listing: ");
+        string description = ValidEntryChecker.GetValidString(0, 200);
+        
+        string condition = lc.ChooseItemCondition();
 
+        Listings.Categories category = lc.ChooseCategory();
+        
+        Console.Write("Price: ");
+        int price = ValidEntryChecker.GetValidInt(1, 100000);
+        
+        return new Listings(seller, title, description, category, condition, price);
+    }
+    /// <summary>
+    /// Creates instance of Listings from GenerateListingInstance
+    /// and adds it to the database
+    /// </summary>
+    /// <param name="interactor"></param>
+    /// <param name="lc"></param>
+    public void CreateListing(DbInteractor interactor, ListingCollection lc)
+    {
+        Listings listing = GenerateListingInstance(interactor, lc);
+        interactor.AddListingToTable(listing);
+        Console.WriteLine($"Listing {listing.Title} created!");
+    }
+    /// <summary>
+    /// Removes given listing from database
+    /// </summary>
+    /// <param name="interactor"></param>
+    /// <param name="listingId"></param>
     public void RemoveListing(DbInteractor interactor, int listingId) 
     {
         SQLiteConnection myConn = interactor.GetConnection();
@@ -64,7 +89,12 @@ public class ListingCollection
         myConn.Close();
         Console.WriteLine("Listing has been removed. ");
     }
-    
+    /// <summary>
+    /// Lets user choose which parameter of the listing to edit,
+    /// and input the new data for this parameter.
+    /// </summary>
+    /// <param name="lc"></param>
+    /// <returns>Which parameter to edit and what it should contain</returns>
     private (string, string) ChooseParamToEdit(ListingCollection lc)
     {
         Console.Write("What would you like to edit? " +
@@ -105,6 +135,12 @@ public class ListingCollection
         }
         return (edit, newData);
     }
+    /// <summary>
+    /// Updates the database for given listing with the data from ChooseParamToEdit()
+    /// </summary>
+    /// <param name="interactor"></param>
+    /// <param name="lc">ListingCollection instance</param>
+    /// <param name="listingId"></param>
     public void EditListing(DbInteractor interactor, ListingCollection lc, int listingId)
     {
         var (edit, newData) = ChooseParamToEdit(lc);
