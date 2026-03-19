@@ -154,7 +154,7 @@ public class UserInterface
     /// Prompts the user if they want to view a listing or go back to main menu.
     /// </summary>
     /// <returns>True if user wants to view listing</returns>
-    public bool ViewListing()
+    private bool ViewListing()
     {
         Console.Write("\n1. View listing" +
                           "\n2. Return to main menu" +
@@ -187,20 +187,16 @@ public class UserInterface
     {
         while (true)
         {
-            try
-            {
-                Console.Write("\nSelect listing #: ");
+            Console.Write("\nSelect listing #: ");
                 int listingId = ValidEntryChecker.GetValidInt(1, 200);
                 if (!interactor.IsSeller(listingId) && ShowListingById(interactor, listingId))
                 {
                     return listingId;
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error: Please enter a valid listing #");
-            }
+
+                Console.WriteLine("Invalid listing #.");
         }
+        
     }
     /// <summary>
     /// Prompts the user if they want to purchase the listing they're viewing.
