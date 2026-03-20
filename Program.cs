@@ -12,7 +12,7 @@ class Program
         UserCollection userCollection = new UserCollection();
         UserInterface ui = new UserInterface();
 
-        ui.UserLogout(interactor);
+        ui.Logout(interactor);
         Console.Clear();
         Console.WriteLine("===Second Hand Market ===");
         Console.Write("\n1. Register" +
@@ -29,7 +29,7 @@ class Program
             case 2:
                 Console.Clear();
                 Console.WriteLine("=== Login ===");
-                ui.UserLogin(interactor);
+                ui.Login(interactor);
                 break;
             case 3:
                 Environment.Exit(0);
@@ -55,7 +55,7 @@ class Program
                     ui.GoBackToMainMenu();
                     break;
                 case 2:
-                    ui.BrowseListings(interactor, userCollection);
+                    ui.Browse(interactor, userCollection);
                     break;
                 case 3:
                     ui.Search(interactor, listingCollection, userCollection);
@@ -67,7 +67,7 @@ class Program
                     break;
                 case 5:
                     Console.Clear();
-                    ui.UserLogout(interactor);
+                    ui.Logout(interactor);
                     Console.WriteLine("\nThank you for shopping with us. Welcome back.");
                     Thread.Sleep(3000);
                     Environment.Exit(0);

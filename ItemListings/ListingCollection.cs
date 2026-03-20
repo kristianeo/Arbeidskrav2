@@ -62,7 +62,7 @@ public class ListingCollection
         return new Listings(seller, title, description, category, condition, price);
     }
     /// <summary>
-    /// Creates instance of Listings from GenerateListingInstance
+    /// Creates instance of Listings with GenerateListingInstance
     /// and adds it to the database
     /// </summary>
     /// <param name="interactor"></param>
@@ -139,7 +139,7 @@ public class ListingCollection
     /// <param name="interactor"></param>
     /// <param name="lc">ListingCollection instance</param>
     /// <param name="listingId"></param>
-    public void EditListing(DbInteractor interactor, int listingId)
+    public void Edit(DbInteractor interactor, int listingId)
     {
         var (edit, newData) = ChooseParamToEdit();
 

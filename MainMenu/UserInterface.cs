@@ -10,7 +10,7 @@ public class UserInterface
     /// then sets the user as active
     /// </summary>
     /// <param name="interactor"></param>
-    public void UserLogin(DbInteractor interactor)
+    public void Login(DbInteractor interactor)
     {
         Start:
         Console.WriteLine();
@@ -27,7 +27,7 @@ public class UserInterface
     /// Logs out current user by setting it as inactive.
     /// </summary>
     /// <param name="interactor"></param>
-    public void UserLogout(DbInteractor interactor)
+    public void Logout(DbInteractor interactor)
     {
         interactor.SetUserAsInactive();
     }
@@ -144,17 +144,15 @@ public class UserInterface
                     Console.WriteLine("No results for your search.");
                     return false;
                 }
-
                 break;
         }
-
         return true;
     }
     /// <summary>
     /// Prompts the user if they want to view a listing or go back to main menu.
     /// </summary>
     /// <returns>True if user wants to view listing</returns>
-    private bool ViewListing()
+    private bool ViewOrReturn()
     {
         Console.Write("\n1. View listing" +
                           "\n2. Return to main menu" +
@@ -183,7 +181,7 @@ public class UserInterface
     /// </summary>
     /// <param name="interactor"></param>
     /// <returns>Valid listingID when conditions are met.</returns>
-    private int PurchaseListingChecker(DbInteractor interactor)
+    private int PurchaseChecker(DbInteractor interactor)
     {
         while (true)
         {
@@ -205,9 +203,9 @@ public class UserInterface
     /// <param name="interactor"></param>
     /// <param name="uc"></param>
     /// <returns>True if user purchases the listing</returns>
-    public bool PurchaseListing(DbInteractor interactor, UserCollection uc)
+    private bool PurchaseOrReturn(DbInteractor interactor, UserCollection uc)
     {
-        int listingId = PurchaseListingChecker(interactor); 
+        int listingId = PurchaseChecker(interactor); 
         Console.Write("\n1. Purchase this listing" +
                       "\n2. Back to browsing" +
                       "\nSelect an option: ");
@@ -225,21 +223,18 @@ public class UserInterface
     /// </summary>
     /// <param name="interactor"></param>
     /// <param name="uc"></param>
-    public void BrowseListings(DbInteractor interactor, UserCollection uc)
+    public void Browse(DbInteractor interactor, UserCollection uc)
     {
         while (true)
         {
             Console.Clear();
             Console.WriteLine("=== Available Listings ===\n");
             ShowListings(interactor, interactor.OthersListings());
-            if (!ViewListing()) return;
+            if (!ViewOrReturn()) return;
 
-            if (PurchaseListing(interactor, uc))
-            {
-                GoBackToMainMenu();
-                return;
-            }
-
+            if (!PurchaseOrReturn(interactor, uc)) continue;
+            GoBackToMainMenu();
+            return;
         }
     }
 
@@ -255,8 +250,8 @@ public class UserInterface
                 Console.ReadKey();
                 continue;
             }
-            if (!ViewListing()) return;
-            if (!PurchaseListing(interactor, uc)) continue;
+            if (!ViewOrReturn()) return;
+            if (!PurchaseOrReturn(interactor, uc)) continue;
             return;
         }
     }
@@ -304,7 +299,7 @@ public class UserInterface
         switch (ValidEntryChecker.GetValidInt(1, 3))
         {
             case 1:
-                lc.EditListing(interactor, listingId);
+                lc.Edit(interactor, listingId);
                 GoBackToMainMenu();
                 break;
             case 2:
