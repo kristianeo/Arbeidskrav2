@@ -81,6 +81,11 @@ The Listings and User classes only contains data, which is accessed through List
 respectfully. LC and UC also contains methods regarding listings/users related to the database. I chose to still use some of the original code, for example creating a Listings instance
 before putting it in the database, even though this is not strictly necessary.
 
+If I were to stick to the original setup (without the db), I would have made a separate Review class. 
+However, during this process I did not find it necessary as data going to and from the database is not
+strictly dependent on instances of classes. In retrospect, I should have made a Review class to keep the 
+methods separate and the setup more neat. 
+
 MainMenu.UserInterface uses code from DbInteractor, ListingCollection and UserCollection to bring the
 code together and set up for a smooth user experience in Main().
 
